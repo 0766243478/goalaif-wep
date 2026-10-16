@@ -1,8 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://goalaif-wep.vercel.app/</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://www.gaolaif.org/</loc>
+    <lastmod>2026-10-15</lastmod>
     <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.gaolaif.org/sireen/download</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.gaolaif.org/guide</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.gaolaif.org/docs</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.gaolaif.org/docs/concepts</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.gaolaif.org/docs/cli</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.gaolaif.org/docs/ai-mode</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.gaolaif.org/docs/faq</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.gaolaif.org/docs/limitations</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
   </url>
 </urlset>

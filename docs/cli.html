@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CLI Reference — SIREEN Documentation</title>
+  <meta name="description" content="Complete CLI command reference for SIREEN. Audit, project, show, report, and configuration commands.">
+  <link rel="canonical" href="https://www.gaolaif.org/docs/cli">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CLI Reference — SIREEN Documentation">
+  <meta property="og:description" content="Complete CLI command reference for SIREEN. Audit, project, show, report, and configuration commands.">
+  <meta property="og:url" content="https://www.gaolaif.org/docs/cli">
+  <meta property="og:image" content="https://www.gaolaif.org/og-image.png">
+  <meta property="og:site_name" content="SIREEN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CLI Reference — SIREEN Documentation">
+  <meta name="twitter:description" content="Complete CLI command reference for SIREEN. Audit, project, show, report, and configuration commands.">
+  <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
+  <link rel="icon" href="../icon.png">
+  <style>
+    :root { --ink:#dce7ed; --muted:#92a4ad; --panel:#0e191f; --line:#253941; --cyan:#0ba3f5; --lime:#a9d66c; --amber:#efbb5c; --bg:#071015; }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui, -apple-system, sans-serif; }
+    a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
+    .shell { width:min(1100px, calc(100% - 40px)); margin:auto; }
+    /* Accessibility: prose links must not rely on colour alone */
+    main p a:not(.button), main li a, main td a { text-decoration: underline; text-underline-offset: 2px; }
+    .eyebrow { color:var(--cyan); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; }
+
+    header { position:sticky; top:0; z-index:100; background:rgba(7,16,21,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.08em; text-decoration:none; color:var(--ink); font-size:1.1rem; }
+    .brand img { width:32px; height:32px; object-fit:contain; }
+    .desktop-nav { display:flex; gap:28px; align-items:center; }
+    .desktop-nav a { text-decoration:none; color:var(--muted); font-size:.88rem; transition:color .2s; }
+    .desktop-nav a:hover { color:var(--cyan); }
+    .mobile-menu-btn { display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:8px 12px; cursor:pointer; }
+    .mobile-nav { display:none; padding:16px 0; border-top:1px solid var(--line); }
+    .mobile-nav a { display:block; padding:10px 0; color:var(--muted); text-decoration:none; font-size:.9rem; }
+
+    h1 { margin:40px 0 16px; font-family:Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.05; }
+    h2 { margin:40px 0 14px; font-family:Georgia,serif; font-size:clamp(1.3rem,3.5vw,1.8rem); color:var(--cyan); border-bottom:1px solid var(--line); padding-bottom:8px; }
+    h3 { margin:24px 0 10px; font-size:1.05rem; color:var(--ink); }
+    p { max-width:780px; color:#b9c8ce; }
+    ul, ol { color:var(--muted); max-width:780px; }
+    li { margin-bottom:6px; }
+    pre { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; display:block; overflow:auto; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); background:#050d11; color:#c1dce8; font-size:.85rem; line-height:1.6; margin:14px 0; }
+    code { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; background:#050d11; color:#c1dce8; padding:2px 6px; border:1px solid var(--line); font-size:.88rem; }
+
+    .doc-grid { display:grid; grid-template-columns:280px 1fr; gap:40px; margin-top:30px; }
+    .sidebar { border-right:1px solid var(--line); padding-right:24px; }
+    .sidebar b { display:block; color:var(--ink); font-size:.82rem; margin:20px 0 10px; letter-spacing:.05em; }
+    .sidebar a { display:block; color:var(--muted); text-decoration:none; font-size:.85rem; margin-bottom:8px; transition:color .2s; padding:4px 0; }
+    .sidebar a:hover { color:var(--cyan); }
+    .sidebar a.active { color:var(--cyan); font-weight:600; }
+    .content { min-width:0; }
+
+    table { width:100%; border-collapse:collapse; margin:16px 0; font-size:.9rem; }
+    th, td { padding:10px 14px; border:1px solid var(--line); text-align:left; }
+    th { background:var(--panel); color:var(--cyan); font-weight:700; }
+    td { color:var(--muted); }
+    td:first-child { color:var(--ink); font-family:ui-monospace, monospace; font-size:.85rem; }
+
+    .warning { padding:14px 18px; border-left:3px solid var(--amber); background:#0e191f; margin:16px 0; }
+    .warning b { color:var(--amber); }
+    .warning p { color:var(--muted); font-size:.85rem; margin:6px 0 0; }
+
+    footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:60px; }
+    .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:40px; flex-wrap:wrap; }
+    .footer-brand { max-width:300px; }
+    .footer-brand b { color:var(--ink); font-size:1.1rem; }
+    .footer-brand p { color:var(--muted); font-size:.82rem; margin:8px 0 0; }
+    .footer-links { display:flex; gap:48px; flex-wrap:wrap; }
+    .footer-col b { display:block; color:var(--ink); font-size:.82rem; margin-bottom:12px; letter-spacing:.05em; }
+    .footer-col a { display:block; color:var(--muted); text-decoration:none; font-size:.82rem; margin-bottom:8px; transition:color .2s; }
+    .footer-col a:hover { color:var(--cyan); }
+    .footer-bottom { margin-top:32px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--muted); font-size:.75rem; flex-wrap:wrap; gap:12px; }
+
+    @media (max-width:800px) {
+      .doc-grid { grid-template-columns:1fr; }
+      .sidebar { border-right:none; border-bottom:1px solid var(--line); padding-right:0; padding-bottom:20px; }
+      .desktop-nav { display:none; }
+      .mobile-menu-btn { display:block; }
+      .mobile-nav.open { display:block; }
+      table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="nav-inner">
+        <a class="brand" href="../index.html"><img src="../icon.png" alt="SIREEN logo">SIREEN</a>
+        <nav class="desktop-nav">
+          <a href="../index.html">Home</a>
+          <a href="index.html">Documentation</a>
+          <a href="cli.html" style="color:var(--cyan);">CLI</a>
+          <a href="../sireen/download.html">Download</a>
+        </nav>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="../index.html">Home</a>
+        <a href="index.html">Documentation</a>
+        <a href="cli.html">CLI</a>
+        <a href="../sireen/download.html">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <span class="eyebrow">Documentation</span>
+      <h1>CLI Reference</h1>
+      <p>Complete command reference for the SIREEN command-line interface.</p>
+
+      <div class="doc-grid">
+        <aside class="sidebar">
+          <b>Getting Started</b>
+          <a href="../guide.html">Quick Start Guide</a>
+          <a href="../sireen/download.html">Installation</a>
+          <a href="concepts.html">Core Concepts</a>
+          <b>Reference</b>
+          <a href="cli.html" class="active">CLI Commands</a>
+          <a href="ai-mode.html">AI-Assisted Mode</a>
+          <a href="limitations.html">Known Limitations</a>
+          <b>Help</b>
+          <a href="faq.html">FAQ</a>
+        </aside>
+
+        <div class="content">
+          <h2>sireen audit</h2>
+          <p>Run a security audit on a single Solidity file or a Foundry project directory.</p>
+          <pre>sireen audit &lt;path&gt; [options]
+
+Options:
+  --json              Output full JSON report to stdout
+  --report            Write a Markdown report to the working directory
+  --project           Treat path as a Foundry project directory
+  --output &lt;file&gt;     Write JSON output to a specific file</pre>
+
+          <h3>Examples</h3>
+          <pre># Audit a single file with Markdown report
+sireen audit ./MyContract.sol --report
+
+# Audit with JSON output
+sireen audit ./MyContract.sol --json
+
+# Audit an entire Foundry project
+sireen audit ./my-project --project --json</pre>
+
+          <h2>sireen audits</h2>
+          <p>List all past audits stored in the local SQLite database.</p>
+          <pre>sireen audits</pre>
+
+          <h2>sireen show</h2>
+          <p>Display the full details of a specific audit, including evidence packs.</p>
+          <pre>sireen show &lt;audit-id&gt;</pre>
+
+          <h2>sireen report</h2>
+          <p>Export an existing audit as a Markdown report.</p>
+          <pre>sireen report &lt;audit-id&gt; --output report.md</pre>
+
+          <h2>Exit Codes</h2>
+          <table>
+            <tr><th>Code</th><th>Meaning</th></tr>
+            <tr><td>0</td><td>CONFIRMED or CLEAN_WITH_COVERAGE</td></tr>
+            <tr><td>1</td><td>FAILED or runtime error</td></tr>
+            <tr><td>2</td><td>DEGRADED or UNVERIFIED</td></tr>
+            <tr><td>3</td><td>Audit ID not found</td></tr>
+          </table>
+
+          <h2>Environment Variables</h2>
+          <table>
+            <tr><th>Variable</th><th>Description</th></tr>
+            <tr><td>OPENROUTER_API_KEY</td><td>OpenRouter API key for LLM-assisted mode</td></tr>
+            <tr><td>SIREEN_DB_PATH</td><td>Custom path for the SQLite audit database</td></tr>
+          </table>
+
+          <div class="warning">
+            <b>API Key Security</b>
+            <p>Store your <code>OPENROUTER_API_KEY</code> in <code>.env.local</code> (gitignored). Never commit API keys to version control.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <b>SIREEN</b>
+          <p>Human-AI Security Verification Workspace.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <b>Product</b>
+            <a href="../index.html">Home</a>
+            <a href="../sireen/download.html">Download</a>
+          </div>
+          <div class="footer-col">
+            <b>Docs</b>
+            <a href="index.html">Overview</a>
+            <a href="concepts.html">Concepts</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+          <div class="footer-col">
+            <b>Community</b>
+            <a href="https://github.com/0766243478">Project owner on GitHub</a>
+            <a href="limitations.html">Known Limitations</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>SIREEN CORE v0.1.1</span>
+        <span>Not production-ready</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

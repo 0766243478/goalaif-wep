@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Core Concepts — SIREEN Documentation</title>
+  <meta name="description" content="Learn the core concepts behind SIREEN: attack hypotheses, proof-of-concepts, terminal states, evidence packs, and verification.">
+  <link rel="canonical" href="https://www.gaolaif.org/docs/concepts">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Core Concepts — SIREEN Documentation">
+  <meta property="og:description" content="Learn the core concepts behind SIREEN: attack hypotheses, proof-of-concepts, terminal states, evidence packs, and verification.">
+  <meta property="og:url" content="https://www.gaolaif.org/docs/concepts">
+  <meta property="og:image" content="https://www.gaolaif.org/og-image.png">
+  <meta property="og:site_name" content="SIREEN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Core Concepts — SIREEN Documentation">
+  <meta name="twitter:description" content="Learn the core concepts behind SIREEN: attack hypotheses, proof-of-concepts, terminal states, evidence packs, and verification.">
+  <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
+  <link rel="icon" href="../icon.png">
+  <style>
+    :root { --ink:#dce7ed; --muted:#92a4ad; --panel:#0e191f; --line:#253941; --cyan:#0ba3f5; --lime:#a9d66c; --amber:#efbb5c; --red:#f0786b; --bg:#071015; }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui, -apple-system, sans-serif; }
+    a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
+    .shell { width:min(1100px, calc(100% - 40px)); margin:auto; }
+    /* Accessibility: prose links must not rely on colour alone */
+    main p a:not(.button), main li a, main td a { text-decoration: underline; text-underline-offset: 2px; }
+    .eyebrow { color:var(--cyan); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; }
+
+    header { position:sticky; top:0; z-index:100; background:rgba(7,16,21,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.08em; text-decoration:none; color:var(--ink); font-size:1.1rem; }
+    .brand img { width:32px; height:32px; object-fit:contain; }
+    .desktop-nav { display:flex; gap:28px; align-items:center; }
+    .desktop-nav a { text-decoration:none; color:var(--muted); font-size:.88rem; transition:color .2s; }
+    .desktop-nav a:hover { color:var(--cyan); }
+    .mobile-menu-btn { display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:8px 12px; cursor:pointer; }
+    .mobile-nav { display:none; padding:16px 0; border-top:1px solid var(--line); }
+    .mobile-nav a { display:block; padding:10px 0; color:var(--muted); text-decoration:none; font-size:.9rem; }
+
+    h1 { margin:40px 0 16px; font-family:Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.05; }
+    h2 { margin:40px 0 14px; font-family:Georgia,serif; font-size:clamp(1.3rem,3.5vw,1.8rem); color:var(--cyan); border-bottom:1px solid var(--line); padding-bottom:8px; }
+    h3 { margin:24px 0 10px; font-size:1.05rem; color:var(--ink); }
+    p { max-width:780px; color:#b9c8ce; }
+    ul, ol { color:var(--muted); max-width:780px; }
+    li { margin-bottom:6px; }
+    pre { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; display:block; overflow:auto; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); background:#050d11; color:#c1dce8; font-size:.85rem; line-height:1.6; margin:14px 0; }
+    code { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; background:#050d11; color:#c1dce8; padding:2px 6px; border:1px solid var(--line); font-size:.88rem; }
+
+    .doc-grid { display:grid; grid-template-columns:280px 1fr; gap:40px; margin-top:30px; }
+    .sidebar { border-right:1px solid var(--line); padding-right:24px; }
+    .sidebar b { display:block; color:var(--ink); font-size:.82rem; margin:20px 0 10px; letter-spacing:.05em; }
+    .sidebar a { display:block; color:var(--muted); text-decoration:none; font-size:.85rem; margin-bottom:8px; transition:color .2s; padding:4px 0; }
+    .sidebar a:hover { color:var(--cyan); }
+    .sidebar a.active { color:var(--cyan); font-weight:600; }
+    .content { min-width:0; }
+
+    .concept-box { padding:24px; border-left:3px solid var(--cyan); background:var(--panel); margin:20px 0; }
+    .concept-box b { color:var(--ink); display:block; margin-bottom:8px; font-size:1.05rem; }
+    .concept-box p { color:var(--muted); font-size:.9rem; margin:0; }
+    .concept-box .technical { margin-top:12px; padding-top:12px; border-top:1px solid var(--line); font-size:.82rem; color:var(--muted); }
+
+    .states-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:20px 0; }
+    .state-card { padding:16px 12px; border:1px solid var(--line); background:var(--panel); }
+    .state-card b { display:block; margin-bottom:6px; font-size:.85rem; }
+    .state-card p { color:var(--muted); font-size:.75rem; margin:0; }
+    .state-card.confirmed b { color:var(--lime); }
+    .state-card.degraded b { color:var(--amber); }
+    .state-card.unverified b { color:var(--cyan); }
+    .state-card.failed b { color:var(--red); }
+    .state-card.clean b { color:#7dd3fc; }
+
+    .warning { padding:14px 18px; border-left:3px solid var(--amber); background:#0e191f; margin:16px 0; }
+    .warning b { color:var(--amber); }
+    .warning p { color:var(--muted); font-size:.85rem; margin:6px 0 0; }
+
+    footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:60px; }
+    .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:40px; flex-wrap:wrap; }
+    .footer-brand { max-width:300px; }
+    .footer-brand b { color:var(--ink); font-size:1.1rem; }
+    .footer-brand p { color:var(--muted); font-size:.82rem; margin:8px 0 0; }
+    .footer-links { display:flex; gap:48px; flex-wrap:wrap; }
+    .footer-col b { display:block; color:var(--ink); font-size:.82rem; margin-bottom:12px; letter-spacing:.05em; }
+    .footer-col a { display:block; color:var(--muted); text-decoration:none; font-size:.82rem; margin-bottom:8px; transition:color .2s; }
+    .footer-col a:hover { color:var(--cyan); }
+    .footer-bottom { margin-top:32px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--muted); font-size:.75rem; flex-wrap:wrap; gap:12px; }
+
+    @media (max-width:800px) {
+      .doc-grid { grid-template-columns:1fr; }
+      .sidebar { border-right:none; border-bottom:1px solid var(--line); padding-right:0; padding-bottom:20px; }
+      .desktop-nav { display:none; }
+      .mobile-menu-btn { display:block; }
+      .mobile-nav.open { display:block; }
+      table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="nav-inner">
+        <a class="brand" href="../index.html"><img src="../icon.png" alt="SIREEN logo">SIREEN</a>
+        <nav class="desktop-nav">
+          <a href="../index.html">Home</a>
+          <a href="index.html">Documentation</a>
+          <a href="concepts.html" style="color:var(--cyan);">Concepts</a>
+          <a href="../sireen/download.html">Download</a>
+        </nav>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="../index.html">Home</a>
+        <a href="index.html">Documentation</a>
+        <a href="concepts.html">Concepts</a>
+        <a href="../sireen/download.html">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <span class="eyebrow">Documentation</span>
+      <h1>Core Concepts</h1>
+      <p>Security research has its own vocabulary. Here is what SIREEN's terms mean, in plain English and technical detail.</p>
+
+      <div class="doc-grid">
+        <aside class="sidebar">
+          <b>Getting Started</b>
+          <a href="../guide.html">Quick Start Guide</a>
+          <a href="../sireen/download.html">Installation</a>
+          <a href="concepts.html" class="active">Core Concepts</a>
+          <b>Reference</b>
+          <a href="cli.html">CLI Commands</a>
+          <a href="ai-mode.html">AI-Assisted Mode</a>
+          <a href="limitations.html">Known Limitations</a>
+          <b>Help</b>
+          <a href="faq.html">FAQ</a>
+        </aside>
+
+        <div class="content">
+          <div class="concept-box">
+            <b>Smart Contract</b>
+            <p>A program that runs on a blockchain. It stores data and executes logic automatically when certain conditions are met. Because it handles valuable assets, bugs in smart contracts can lead to direct financial loss.</p>
+            <div class="technical"><strong>Technical:</strong> SIREEN analyzes contracts written in Solidity, the most widely used smart contract language on Ethereum and EVM-compatible blockchains.</div>
+          </div>
+
+          <div class="concept-box">
+            <b>Vulnerability</b>
+            <p>A weakness in a program that an attacker could exploit to cause harm. In smart contracts, common vulnerabilities include reentrancy (stealing funds through recursive calls), missing access control (anyone can call privileged functions), and arithmetic overflow (incorrect calculations).</p>
+            <div class="technical"><strong>Technical:</strong> SIREEN focuses on vulnerabilities that can be demonstrated through executable proof-of-concept tests, not all possible weakness categories.</div>
+          </div>
+
+          <div class="concept-box">
+            <b>Attack Hypothesis</b>
+            <p>An educated guess that a specific part of a smart contract might be exploitable. A hypothesis includes what you suspect, which function is involved, and what preconditions would need to hold for the attack to work.</p>
+            <div class="technical"><strong>Technical:</strong> In SIREEN, hypotheses are generated by heuristic pattern matching (e.g., "external call before state update") or optional AI analysis. Each hypothesis becomes an <code>AttackScenario</code> object with entry points, preconditions, and attack vectors.</div>
+          </div>
+
+          <div class="concept-box">
+            <b>Proof of Concept (PoC)</b>
+            <p>A test designed to demonstrate whether a suspected security weakness can actually produce the described behavior. A PoC is not a complete exploit — it is a focused test that checks one specific claim.</p>
+            <div class="technical"><strong>Technical:</strong> SIREEN generates Foundry test contracts (files ending in <code>.t.sol</code>) that inherit from <code>forge-std/Test.sol</code>. Each PoC contains <code>setUp()</code> and <code>testExploit()</code> functions with security-relevant assertions.</div>
+          </div>
+
+          <div class="concept-box">
+            <b>Foundry</b>
+            <p>A toolkit for building and testing Solidity smart contracts. It includes <code>forge</code> (the compiler and test runner), <code>cast</code> (for interacting with contracts), and <code>anvil</code> (a local blockchain for testing).</p>
+            <div class="technical"><strong>Technical:</strong> SIREEN uses <code>forge test</code> to compile and execute generated PoCs. Foundry must be installed separately. Without it, SIREEN can still generate hypotheses and PoCs, but cannot produce <code>CONFIRMED</code> findings.</div>
+          </div>
+
+          <h2>Terminal States</h2>
+          <p>Every SIREEN audit ends in one of five explicit states. No generic "success."</p>
+          <div class="states-grid">
+            <div class="state-card confirmed">
+              <b>CONFIRMED</b>
+              <p>Forge verified. Evidence complete.</p>
+            </div>
+            <div class="state-card degraded">
+              <b>DEGRADED</b>
+              <p>Incomplete verification. Manual review required.</p>
+            </div>
+            <div class="state-card unverified">
+              <b>UNVERIFIED</b>
+              <p>Hypothesis only. Nothing executed.</p>
+            </div>
+            <div class="state-card failed">
+              <b>FAILED</b>
+              <p>Pipeline error. No claim made.</p>
+            </div>
+            <div class="state-card clean">
+              <b>CLEAN_WITH_COVERAGE</b>
+              <p>No findings. All hypotheses tested. Not a guarantee.</p>
+            </div>
+          </div>
+
+          <div class="concept-box">
+            <b>Confirmed Finding</b>
+            <p>A finding that has been proven by executable evidence. The generated PoC compiled successfully, ran through Foundry, and its security assertion passed. This is the strongest level of confidence SIREEN provides.</p>
+            <div class="technical"><strong>Technical:</strong> A finding is <code>CONFIRMED</code> when <code>verification.compile_status == "passed"</code> AND <code>verification.test_status == "passed"</code> AND the PoC contains meaningful security assertions (not trivial <code>assertTrue(true)</code>).</div>
+          </div>
+
+          <div class="concept-box">
+            <b>Heuristic Analysis</b>
+            <p>Pattern-based detection that looks for known suspicious code structures. For example: "this function makes an external call before updating state" is a heuristic pattern associated with reentrancy.</p>
+            <div class="technical"><strong>Technical:</strong> SIREEN's heuristic engine uses regex patterns and source-code analysis to identify functions with external calls, unguarded privileged operations, and unbounded loops. It does not execute the code — it analyzes the source text.</div>
+          </div>
+
+          <div class="concept-box">
+            <b>AI-Assisted Analysis</b>
+            <p>Optional enhancement where a language model suggests additional attack hypotheses beyond the heuristic patterns. The AI can propose novel angles but its output is not proof — every suggestion still needs Forge verification.</p>
+            <div class="technical"><strong>Technical:</strong> When an OpenRouter API key is configured, SIREEN sends anonymized source code to LLM models (scanner, attacker, verifier, judge roles). The model's output is parsed into <code>AttackScenario</code> objects and processed identically to heuristic hypotheses.</div>
+          </div>
+
+          <div class="warning">
+            <b>Important distinction</b>
+            <p>A passing PoC confirms the behavior exercised by that specific test — not every possible exploit scenario, not the absence of other bugs, and not formal correctness of the entire contract. Always combine tool output with manual review.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <b>SIREEN</b>
+          <p>Human-AI Security Verification Workspace.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <b>Product</b>
+            <a href="../index.html">Home</a>
+            <a href="../sireen/download.html">Download</a>
+            <a href="../guide.html">Guide</a>
+          </div>
+          <div class="footer-col">
+            <b>Docs</b>
+            <a href="index.html">Overview</a>
+            <a href="cli.html">CLI</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+          <div class="footer-col">
+            <b>Community</b>
+            <a href="https://github.com/0766243478">Project owner on GitHub</a>
+            <a href="limitations.html">Known Limitations</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>SIREEN CORE v0.1.1</span>
+        <span>Not production-ready</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Known Limitations — SIREEN Documentation</title>
+  <meta name="description" content="A complete and honest list of SIREEN's current limitations, unsupported features, and known issues.">
+  <link rel="canonical" href="https://www.gaolaif.org/docs/limitations">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Known Limitations — SIREEN Documentation">
+  <meta property="og:description" content="A complete and honest list of SIREEN&#x27;s current limitations, unsupported features, and known issues.">
+  <meta property="og:url" content="https://www.gaolaif.org/docs/limitations">
+  <meta property="og:image" content="https://www.gaolaif.org/og-image.png">
+  <meta property="og:site_name" content="SIREEN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Known Limitations — SIREEN Documentation">
+  <meta name="twitter:description" content="A complete and honest list of SIREEN&#x27;s current limitations, unsupported features, and known issues.">
+  <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
+  <link rel="icon" href="../icon.png">
+  <style>
+    :root { --ink:#dce7ed; --muted:#92a4ad; --panel:#0e191f; --line:#253941; --cyan:#0ba3f5; --lime:#a9d66c; --amber:#efbb5c; --red:#f0786b; --bg:#071015; }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui, -apple-system, sans-serif; }
+    a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
+    .shell { width:min(1100px, calc(100% - 40px)); margin:auto; }
+    /* Accessibility: prose links must not rely on colour alone */
+    main p a:not(.button), main li a, main td a { text-decoration: underline; text-underline-offset: 2px; }
+    .eyebrow { color:var(--cyan); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; }
+
+    header { position:sticky; top:0; z-index:100; background:rgba(7,16,21,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.08em; text-decoration:none; color:var(--ink); font-size:1.1rem; }
+    .brand img { width:32px; height:32px; object-fit:contain; }
+    .desktop-nav { display:flex; gap:28px; align-items:center; }
+    .desktop-nav a { text-decoration:none; color:var(--muted); font-size:.88rem; transition:color .2s; }
+    .desktop-nav a:hover { color:var(--cyan); }
+    .mobile-menu-btn { display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:8px 12px; cursor:pointer; }
+    .mobile-nav { display:none; padding:16px 0; border-top:1px solid var(--line); }
+    .mobile-nav a { display:block; padding:10px 0; color:var(--muted); text-decoration:none; font-size:.9rem; }
+
+    h1 { margin:40px 0 16px; font-family:Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.05; }
+    h2 { margin:40px 0 14px; font-family:Georgia,serif; font-size:clamp(1.3rem,3.5vw,1.8rem); color:var(--cyan); border-bottom:1px solid var(--line); padding-bottom:8px; }
+    h3 { margin:24px 0 10px; font-size:1.05rem; color:var(--ink); }
+    p { max-width:780px; color:#b9c8ce; }
+    ul, ol { color:var(--muted); max-width:780px; }
+    li { margin-bottom:6px; }
+    pre { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; display:block; overflow:auto; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); background:#050d11; color:#c1dce8; font-size:.85rem; line-height:1.6; margin:14px 0; }
+    code { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; background:#050d11; color:#c1dce8; padding:2px 6px; border:1px solid var(--line); font-size:.88rem; }
+
+    .doc-grid { display:grid; grid-template-columns:280px 1fr; gap:40px; margin-top:30px; }
+    .sidebar { border-right:1px solid var(--line); padding-right:24px; }
+    .sidebar b { display:block; color:var(--ink); font-size:.82rem; margin:20px 0 10px; letter-spacing:.05em; }
+    .sidebar a { display:block; color:var(--muted); text-decoration:none; font-size:.85rem; margin-bottom:8px; transition:color .2s; padding:4px 0; }
+    .sidebar a:hover { color:var(--cyan); }
+    .sidebar a.active { color:var(--cyan); font-weight:600; }
+    .content { min-width:0; }
+
+    .limit-block { padding:20px 24px; border-left:3px solid var(--amber); background:var(--panel); margin:16px 0; }
+    .limit-block b { color:var(--amber); display:block; margin-bottom:8px; }
+    .limit-block p { color:var(--muted); font-size:.9rem; margin:0; }
+    .limit-block.ok { border-left-color:var(--lime); }
+    .limit-block.ok b { color:var(--lime); }
+
+    table { width:100%; border-collapse:collapse; margin:16px 0; font-size:.9rem; }
+    th, td { padding:10px 14px; border:1px solid var(--line); text-align:left; }
+    th { background:var(--panel); color:var(--cyan); font-weight:700; }
+    td { color:var(--muted); }
+
+    footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:60px; }
+    .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:40px; flex-wrap:wrap; }
+    .footer-brand { max-width:300px; }
+    .footer-brand b { color:var(--ink); font-size:1.1rem; }
+    .footer-brand p { color:var(--muted); font-size:.82rem; margin:8px 0 0; }
+    .footer-links { display:flex; gap:48px; flex-wrap:wrap; }
+    .footer-col b { display:block; color:var(--ink); font-size:.82rem; margin-bottom:12px; letter-spacing:.05em; }
+    .footer-col a { display:block; color:var(--muted); text-decoration:none; font-size:.82rem; margin-bottom:8px; transition:color .2s; }
+    .footer-col a:hover { color:var(--cyan); }
+    .footer-bottom { margin-top:32px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--muted); font-size:.75rem; flex-wrap:wrap; gap:12px; }
+
+    @media (max-width:800px) {
+      .doc-grid { grid-template-columns:1fr; }
+      .sidebar { border-right:none; border-bottom:1px solid var(--line); padding-right:0; padding-bottom:20px; }
+      .desktop-nav { display:none; }
+      .mobile-menu-btn { display:block; }
+      .mobile-nav.open { display:block; }
+      table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="nav-inner">
+        <a class="brand" href="../index.html"><img src="../icon.png" alt="SIREEN logo">SIREEN</a>
+        <nav class="desktop-nav">
+          <a href="../index.html">Home</a>
+          <a href="index.html">Documentation</a>
+          <a href="limitations.html" style="color:var(--cyan);">Limitations</a>
+          <a href="../sireen/download.html">Download</a>
+        </nav>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="../index.html">Home</a>
+        <a href="index.html">Documentation</a>
+        <a href="limitations.html">Limitations</a>
+        <a href="../sireen/download.html">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <span class="eyebrow">Documentation</span>
+      <h1>Known Limitations</h1>
+      <p>SIREEN is an early-stage tool with real constraints. This page lists every significant limitation we are aware of. We would rather you know the boundaries than discover them through disappointment.</p>
+
+      <div class="doc-grid">
+        <aside class="sidebar">
+          <b>Getting Started</b>
+          <a href="../guide.html">Quick Start Guide</a>
+          <a href="../sireen/download.html">Installation</a>
+          <a href="concepts.html">Core Concepts</a>
+          <b>Reference</b>
+          <a href="cli.html">CLI Commands</a>
+          <a href="ai-mode.html">AI-Assisted Mode</a>
+          <a href="limitations.html" class="active">Known Limitations</a>
+          <b>Help</b>
+          <a href="faq.html">FAQ</a>
+        </aside>
+
+        <div class="content">
+          <h2>Verification Requirements</h2>
+          <div class="limit-block">
+            <b>Forge is required for CONFIRMED findings</b>
+            <p>Without Foundry installed, every finding is labeled <code>needs_review</code>. The PoC is still generated and saved, but it is not compiled or executed. You must install Foundry to get executable verification.</p>
+          </div>
+          <div class="limit-block">
+            <b>Only specific attack vectors are supported</b>
+            <p>SIREEN's coverage is narrow and deliberately so. There are three distinct levels, and mixing them up is easy:</p>
+            <ul style="color:var(--muted); font-size:.9rem; padding-left:20px; margin:10px 0;">
+              <li><b style="color:var(--ink)">Detected by heuristics and fully proven with a generated PoC:</b> reentrancy, missing access control, denial of service (unbounded loop), and business-logic / accounting inconsistency.</li>
+              <li><b style="color:var(--ink)">PoC templates exist but no heuristic currently raises these hypotheses:</b> arithmetic overflow/underflow, flash loans, oracle manipulation. They can only be reached through an AI-assisted hypothesis, and that path has not been evaluated.</li>
+              <li><b style="color:var(--ink)">Hypotheses may be raised but are then explicitly skipped:</b> delegatecall, signature replay, weak randomness. No PoC template exists, so SIREEN skips the test rather than reporting a fake pass.</li>
+            </ul>
+            <p>Governance attacks, MEV, and sandwich attacks are not supported at all — SIREEN does not look for them. Verified against the v0.1.1 source on 2026-10-15.</p>
+          </div>
+
+          <h2>AI-Assisted Mode</h2>
+          <div class="limit-block">
+            <b>AI hypothesis quality is unevaluated</b>
+            <p>The AI pipeline is wired end-to-end and functional, but we have not systematically measured whether AI-generated hypotheses produce better, worse, or different findings than heuristic-only mode. Use it experimentally.</p>
+          </div>
+          <div class="limit-block">
+            <b>AI requires sharing source code externally</b>
+            <p>When AI mode is enabled, contract source is sent to OpenRouter's API. Do not use AI mode on sensitive or proprietary code.</p>
+          </div>
+
+          <h2>Findings and Accuracy</h2>
+          <div class="limit-block">
+            <b>False positives are common</b>
+            <p>Business-logic findings (e.g., "accounting inconsistency") are particularly noisy. Any function that updates multiple state variables may trigger this heuristic. Always review <code>needs_review</code> findings manually.</p>
+          </div>
+          <div class="limit-block">
+            <b>Severity is heuristic, not authoritative</b>
+            <p>Severity labels (CRITICAL, HIGH, MEDIUM, LOW) are estimates based on the attack vector type. They are not CVSS scores and should not be used for formal risk assessment.</p>
+          </div>
+          <div class="limit-block">
+            <b>clean_with_coverage is not a security guarantee</b>
+            <p>A contract that returns <code>clean_with_coverage</code> has no findings within SIREEN's current scope and heuristics. It does not mean the contract is secure, formally correct, or free of out-of-scope vulnerability classes.</p>
+          </div>
+
+          <h2>Platform and Environment</h2>
+          <div class="limit-block">
+            <b>VS Code extension is not runtime-tested</b>
+            <p>The extension builds successfully (125 KB, 11 files) and its code has been inspected for engine parity with the CLI. However, it has not been installed or activated in a real VS Code environment. Runtime behavior is unknown.</p>
+          </div>
+          <div class="limit-block">
+            <b>Windows native support is untested</b>
+            <p>SIREEN is tested on Linux and macOS. WSL should work. Native Windows compatibility is unknown.</p>
+          </div>
+
+          <h2>Summary Table</h2>
+          <table>
+            <tr><th>Capability</th><th>Status</th><th>Notes</th></tr>
+            <tr><td>Reentrancy PoC generation</td><td style="color:var(--lime)">Working</td><td>Verified with Foundry</td></tr>
+            <tr><td>Access control PoC generation</td><td style="color:var(--lime)">Working</td><td>Verified with Foundry</td></tr>
+            <tr><td>DoS PoC generation</td><td style="color:var(--lime)">Working</td><td>Verified with Foundry</td></tr>
+            <tr><td>Business-logic / accounting PoC</td><td style="color:var(--amber)">Working, high false-positive rate</td><td>Manual triage required</td></tr>
+            <tr><td>Arithmetic / flash loan / oracle PoC</td><td style="color:var(--amber)">Template only</td><td>No heuristic raises these vectors; reachable only via AI mode</td></tr>
+            <tr><td>Delegatecall / signature replay / weak randomness</td><td style="color:var(--red)">Skipped</td><td>Hypothesis may be raised, then test is skipped — never a fake pass</td></tr>
+            <tr><td>Forge execution</td><td style="color:var(--lime)">Working</td><td>Requires local Foundry install</td></tr>
+            <tr><td>Heuristic analysis</td><td style="color:var(--lime)">Working</td><td>Fully offline</td></tr>
+            <tr><td>AI-assisted mode</td><td style="color:var(--amber)">Wired, unevaluated</td><td>Requires OpenRouter key</td></tr>
+            <tr><td>VS Code extension</td><td style="color:var(--amber)">Built, untested</td><td>Manual .vsix install only</td></tr>
+            <tr><td>Governance / voting exploits</td><td style="color:var(--red)">Not supported</td><td>SIREEN does not look for these</td></tr>
+            <tr><td>Vyper/Move/Cairo</td><td style="color:var(--red)">Not supported</td><td>Solidity only</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <b>SIREEN</b>
+          <p>Human-AI Security Verification Workspace.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <b>Product</b>
+            <a href="../index.html">Home</a>
+            <a href="../sireen/download.html">Download</a>
+          </div>
+          <div class="footer-col">
+            <b>Docs</b>
+            <a href="index.html">Overview</a>
+            <a href="concepts.html">Concepts</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+          <div class="footer-col">
+            <b>Community</b>
+            <a href="https://github.com/0766243478">Project owner on GitHub</a>
+            <a href="limitations.html">Known Limitations</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>SIREEN CORE v0.1.1</span>
+        <span>Not production-ready</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

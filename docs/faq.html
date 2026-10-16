@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ — SIREEN Documentation</title>
+  <meta name="description" content="Frequently asked questions about SIREEN: installation, findings, PoCs, AI mode, and limitations.">
+  <link rel="canonical" href="https://www.gaolaif.org/docs/faq">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FAQ — SIREEN Documentation">
+  <meta property="og:description" content="Frequently asked questions about SIREEN: installation, findings, PoCs, AI mode, and limitations.">
+  <meta property="og:url" content="https://www.gaolaif.org/docs/faq">
+  <meta property="og:image" content="https://www.gaolaif.org/og-image.png">
+  <meta property="og:site_name" content="SIREEN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FAQ — SIREEN Documentation">
+  <meta name="twitter:description" content="Frequently asked questions about SIREEN: installation, findings, PoCs, AI mode, and limitations.">
+  <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
+  <link rel="icon" href="../icon.png">
+  <style>
+    :root { --ink:#dce7ed; --muted:#92a4ad; --panel:#0e191f; --line:#253941; --cyan:#0ba3f5; --lime:#a9d66c; --amber:#efbb5c; --bg:#071015; }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui, -apple-system, sans-serif; }
+    a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
+    .shell { width:min(1100px, calc(100% - 40px)); margin:auto; }
+    /* Accessibility: prose links must not rely on colour alone */
+    main p a:not(.button), main li a, main td a { text-decoration: underline; text-underline-offset: 2px; }
+    .eyebrow { color:var(--cyan); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; }
+
+    header { position:sticky; top:0; z-index:100; background:rgba(7,16,21,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.08em; text-decoration:none; color:var(--ink); font-size:1.1rem; }
+    .brand img { width:32px; height:32px; object-fit:contain; }
+    .desktop-nav { display:flex; gap:28px; align-items:center; }
+    .desktop-nav a { text-decoration:none; color:var(--muted); font-size:.88rem; transition:color .2s; }
+    .desktop-nav a:hover { color:var(--cyan); }
+    .mobile-menu-btn { display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:8px 12px; cursor:pointer; }
+    .mobile-nav { display:none; padding:16px 0; border-top:1px solid var(--line); }
+    .mobile-nav a { display:block; padding:10px 0; color:var(--muted); text-decoration:none; font-size:.9rem; }
+
+    h1 { margin:40px 0 16px; font-family:Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.05; }
+    h2 { margin:40px 0 14px; font-family:Georgia,serif; font-size:clamp(1.3rem,3.5vw,1.8rem); color:var(--cyan); border-bottom:1px solid var(--line); padding-bottom:8px; }
+    p { max-width:780px; color:#b9c8ce; }
+    ul, ol { color:var(--muted); max-width:780px; }
+    li { margin-bottom:6px; }
+    pre { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; display:block; overflow:auto; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); background:#050d11; color:#c1dce8; font-size:.85rem; line-height:1.6; margin:14px 0; }
+    code { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; background:#050d11; color:#c1dce8; padding:2px 6px; border:1px solid var(--line); font-size:.88rem; }
+
+    .doc-grid { display:grid; grid-template-columns:280px 1fr; gap:40px; margin-top:30px; }
+    .sidebar { border-right:1px solid var(--line); padding-right:24px; }
+    .sidebar b { display:block; color:var(--ink); font-size:.82rem; margin:20px 0 10px; letter-spacing:.05em; }
+    .sidebar a { display:block; color:var(--muted); text-decoration:none; font-size:.85rem; margin-bottom:8px; transition:color .2s; padding:4px 0; }
+    .sidebar a:hover { color:var(--cyan); }
+    .sidebar a.active { color:var(--cyan); font-weight:600; }
+    .content { min-width:0; }
+
+    .faq-item { padding:24px; border:1px solid var(--line); background:var(--panel); margin:16px 0; }
+    .faq-item b { display:block; color:var(--ink); margin-bottom:10px; font-size:1.05rem; }
+    .faq-item p { color:var(--muted); font-size:.9rem; margin:0; }
+
+    footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:60px; }
+    .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:40px; flex-wrap:wrap; }
+    .footer-brand { max-width:300px; }
+    .footer-brand b { color:var(--ink); font-size:1.1rem; }
+    .footer-brand p { color:var(--muted); font-size:.82rem; margin:8px 0 0; }
+    .footer-links { display:flex; gap:48px; flex-wrap:wrap; }
+    .footer-col b { display:block; color:var(--ink); font-size:.82rem; margin-bottom:12px; letter-spacing:.05em; }
+    .footer-col a { display:block; color:var(--muted); text-decoration:none; font-size:.82rem; margin-bottom:8px; transition:color .2s; }
+    .footer-col a:hover { color:var(--cyan); }
+    .footer-bottom { margin-top:32px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--muted); font-size:.75rem; flex-wrap:wrap; gap:12px; }
+
+    @media (max-width:800px) {
+      .doc-grid { grid-template-columns:1fr; }
+      .sidebar { border-right:none; border-bottom:1px solid var(--line); padding-right:0; padding-bottom:20px; }
+      .desktop-nav { display:none; }
+      .mobile-menu-btn { display:block; }
+      .mobile-nav.open { display:block; }
+      table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="nav-inner">
+        <a class="brand" href="../index.html"><img src="../icon.png" alt="SIREEN logo">SIREEN</a>
+        <nav class="desktop-nav">
+          <a href="../index.html">Home</a>
+          <a href="index.html">Documentation</a>
+          <a href="faq.html" style="color:var(--cyan);">FAQ</a>
+          <a href="../sireen/download.html">Download</a>
+        </nav>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="../index.html">Home</a>
+        <a href="index.html">Documentation</a>
+        <a href="faq.html">FAQ</a>
+        <a href="../sireen/download.html">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <span class="eyebrow">Documentation</span>
+      <h1>Frequently Asked Questions</h1>
+
+      <div class="doc-grid">
+        <aside class="sidebar">
+          <b>Getting Started</b>
+          <a href="../guide.html">Quick Start Guide</a>
+          <a href="../sireen/download.html">Installation</a>
+          <a href="concepts.html">Core Concepts</a>
+          <b>Reference</b>
+          <a href="cli.html">CLI Commands</a>
+          <a href="ai-mode.html">AI-Assisted Mode</a>
+          <a href="limitations.html">Known Limitations</a>
+          <b>Help</b>
+          <a href="faq.html" class="active">FAQ</a>
+        </aside>
+
+        <div class="content">
+          <h2>Getting Started</h2>
+          <div class="faq-item">
+            <b>Do I need an API key to use SIREEN?</b>
+            <p>No. SIREEN works fully offline in heuristic mode. An OpenRouter API key is only needed if you want to enable optional AI-assisted hypothesis generation.</p>
+          </div>
+          <div class="faq-item">
+            <b>What are the minimum requirements?</b>
+            <p>Python 3.11+ and pip. Foundry (forge) is optional but strongly recommended if you want <code>CONFIRMED</code> findings. See the <a href="../sireen/download.html">download page</a> for full prerequisites.</p>
+          </div>
+          <div class="faq-item">
+            <b>Does SIREEN work on Windows?</b>
+            <p>SIREEN is tested on Linux and macOS. It should work on Windows Subsystem for Linux (WSL). Native Windows support is untested.</p>
+          </div>
+
+          <h2>Findings and Results</h2>
+          <div class="faq-item">
+            <b>What does "CONFIRMED" mean?</b>
+            <p>A <code>CONFIRMED</code> finding means the generated PoC compiled successfully, ran through Foundry, and its security assertion passed. It proves the specific behavior exercised by the test — not every possible exploit variant.</p>
+          </div>
+          <div class="faq-item">
+            <b>What does "needs_review" mean?</b>
+            <p>The heuristic detected a suspicious pattern and generated a PoC, but Forge was unavailable or the test did not pass. A human must review the evidence and decide whether the finding is real.</p>
+          </div>
+          <div class="faq-item">
+            <b>Does "clean_with_coverage" mean my contract is secure?</b>
+            <p><strong>No.</strong> It means SIREEN's current heuristics found no attack surface and every hypothesis received a Forge attempt. Business logic bugs, oracle manipulation, economic attacks, and novel vulnerability classes may still exist.</p>
+          </div>
+
+          <h2>AI-Assisted Mode</h2>
+          <div class="faq-item">
+            <b>Is the AI mode free?</b>
+            <p>Yes. SIREEN uses OpenRouter's free-tier models by default. No credit card is required.</p>
+          </div>
+          <div class="faq-item">
+            <b>Does AI mode find more bugs?</b>
+            <p>We don't know yet. The AI pipeline is wired and functional, but we have not systematically evaluated whether it produces better findings than heuristic-only mode. Try it and let us know.</p>
+          </div>
+          <div class="faq-item">
+            <b>Is my source code sent to OpenRouter?</b>
+            <p>Yes, when AI mode is enabled. The contract source is sent to OpenRouter's API for analysis. Do not enable AI mode on sensitive or proprietary code you are not authorized to share.</p>
+          </div>
+
+          <h2>Technical</h2>
+          <div class="faq-item">
+            <b>Can I use SIREEN without Foundry?</b>
+            <p>Yes, but findings will be <code>needs_review</code> instead of <code>CONFIRMED</code>. You will still get hypotheses and generated PoCs, but no executable verification.</p>
+          </div>
+          <div class="faq-item">
+            <b>What Solidity versions are supported?</b>
+            <p>SIREEN analyzes Solidity source code directly. The generated PoCs use <code>pragma solidity ^0.8.0</code>. If your project uses a different version, you may need to adjust the PoC.</p>
+          </div>
+          <div class="faq-item">
+            <b>Does SIREEN support Vyper or other languages?</b>
+            <p>No. Only Solidity is supported at this time.</p>
+          </div>
+
+          <h2>Reporting and Feedback</h2>
+          <div class="faq-item">
+            <b>How do I report a false positive?</b>
+            <p>Contact the project owner through their <a href="https://github.com/0766243478">GitHub profile</a> with the contract source, the exact command, and the output. Include whether you were using heuristic or AI-assisted mode.</p>
+          </div>
+          <div class="faq-item">
+            <b>How do I request a feature?</b>
+            <p>Open a GitHub issue describing the feature and why it would help. We prioritize features that improve the core verification workflow.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <b>SIREEN</b>
+          <p>Human-AI Security Verification Workspace.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <b>Product</b>
+            <a href="../index.html">Home</a>
+            <a href="../sireen/download.html">Download</a>
+          </div>
+          <div class="footer-col">
+            <b>Docs</b>
+            <a href="index.html">Overview</a>
+            <a href="concepts.html">Concepts</a>
+            <a href="cli.html">CLI</a>
+          </div>
+          <div class="footer-col">
+            <b>Community</b>
+            <a href="https://github.com/0766243478">Project owner on GitHub</a>
+            <a href="limitations.html">Known Limitations</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>SIREEN CORE v0.1.1</span>
+        <span>Not production-ready</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

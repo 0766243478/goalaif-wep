@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-Assisted Mode — SIREEN Documentation</title>
+  <meta name="description" content="Enable optional AI-assisted hypothesis generation in SIREEN using a free OpenRouter API key.">
+  <link rel="canonical" href="https://www.gaolaif.org/docs/ai-mode">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AI-Assisted Mode — SIREEN Documentation">
+  <meta property="og:description" content="Enable optional AI-assisted hypothesis generation in SIREEN using a free OpenRouter API key.">
+  <meta property="og:url" content="https://www.gaolaif.org/docs/ai-mode">
+  <meta property="og:image" content="https://www.gaolaif.org/og-image.png">
+  <meta property="og:site_name" content="SIREEN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI-Assisted Mode — SIREEN Documentation">
+  <meta name="twitter:description" content="Enable optional AI-assisted hypothesis generation in SIREEN using a free OpenRouter API key.">
+  <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
+  <link rel="icon" href="../icon.png">
+  <style>
+    :root { --ink:#dce7ed; --muted:#92a4ad; --panel:#0e191f; --line:#253941; --cyan:#0ba3f5; --lime:#a9d66c; --amber:#efbb5c; --bg:#071015; }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui, -apple-system, sans-serif; }
+    a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
+    .shell { width:min(1100px, calc(100% - 40px)); margin:auto; }
+    /* Accessibility: prose links must not rely on colour alone */
+    main p a:not(.button), main li a, main td a { text-decoration: underline; text-underline-offset: 2px; }
+    .eyebrow { color:var(--cyan); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; }
+
+    header { position:sticky; top:0; z-index:100; background:rgba(7,16,21,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.08em; text-decoration:none; color:var(--ink); font-size:1.1rem; }
+    .brand img { width:32px; height:32px; object-fit:contain; }
+    .desktop-nav { display:flex; gap:28px; align-items:center; }
+    .desktop-nav a { text-decoration:none; color:var(--muted); font-size:.88rem; transition:color .2s; }
+    .desktop-nav a:hover { color:var(--cyan); }
+    .mobile-menu-btn { display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:8px 12px; cursor:pointer; }
+    .mobile-nav { display:none; padding:16px 0; border-top:1px solid var(--line); }
+    .mobile-nav a { display:block; padding:10px 0; color:var(--muted); text-decoration:none; font-size:.9rem; }
+
+    h1 { margin:40px 0 16px; font-family:Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.05; }
+    h2 { margin:40px 0 14px; font-family:Georgia,serif; font-size:clamp(1.3rem,3.5vw,1.8rem); color:var(--cyan); border-bottom:1px solid var(--line); padding-bottom:8px; }
+    h3 { margin:24px 0 10px; font-size:1.05rem; color:var(--ink); }
+    p { max-width:780px; color:#b9c8ce; }
+    ul, ol { color:var(--muted); max-width:780px; }
+    li { margin-bottom:6px; }
+    pre { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; display:block; overflow:auto; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); background:#050d11; color:#c1dce8; font-size:.85rem; line-height:1.6; margin:14px 0; }
+    code { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; background:#050d11; color:#c1dce8; padding:2px 6px; border:1px solid var(--line); font-size:.88rem; }
+
+    .doc-grid { display:grid; grid-template-columns:280px 1fr; gap:40px; margin-top:30px; }
+    .sidebar { border-right:1px solid var(--line); padding-right:24px; }
+    .sidebar b { display:block; color:var(--ink); font-size:.82rem; margin:20px 0 10px; letter-spacing:.05em; }
+    .sidebar a { display:block; color:var(--muted); text-decoration:none; font-size:.85rem; margin-bottom:8px; transition:color .2s; padding:4px 0; }
+    .sidebar a:hover { color:var(--cyan); }
+    .sidebar a.active { color:var(--cyan); font-weight:600; }
+    .content { min-width:0; }
+
+    .warning { padding:14px 18px; border-left:3px solid var(--amber); background:#0e191f; margin:16px 0; }
+    .warning b { color:var(--amber); }
+    .warning p { color:var(--muted); font-size:.85rem; margin:6px 0 0; }
+    .tip { padding:14px 18px; border-left:3px solid var(--lime); background:#0e191f; margin:16px 0; }
+    .tip b { color:var(--lime); }
+
+    footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:60px; }
+    .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:40px; flex-wrap:wrap; }
+    .footer-brand { max-width:300px; }
+    .footer-brand b { color:var(--ink); font-size:1.1rem; }
+    .footer-brand p { color:var(--muted); font-size:.82rem; margin:8px 0 0; }
+    .footer-links { display:flex; gap:48px; flex-wrap:wrap; }
+    .footer-col b { display:block; color:var(--ink); font-size:.82rem; margin-bottom:12px; letter-spacing:.05em; }
+    .footer-col a { display:block; color:var(--muted); text-decoration:none; font-size:.82rem; margin-bottom:8px; transition:color .2s; }
+    .footer-col a:hover { color:var(--cyan); }
+    .footer-bottom { margin-top:32px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--muted); font-size:.75rem; flex-wrap:wrap; gap:12px; }
+
+    @media (max-width:800px) {
+      .doc-grid { grid-template-columns:1fr; }
+      .sidebar { border-right:none; border-bottom:1px solid var(--line); padding-right:0; padding-bottom:20px; }
+      .desktop-nav { display:none; }
+      .mobile-menu-btn { display:block; }
+      .mobile-nav.open { display:block; }
+      table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="nav-inner">
+        <a class="brand" href="../index.html"><img src="../icon.png" alt="SIREEN logo">SIREEN</a>
+        <nav class="desktop-nav">
+          <a href="../index.html">Home</a>
+          <a href="index.html">Documentation</a>
+          <a href="ai-mode.html" style="color:var(--cyan);">AI Mode</a>
+          <a href="../sireen/download.html">Download</a>
+        </nav>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="../index.html">Home</a>
+        <a href="index.html">Documentation</a>
+        <a href="ai-mode.html">AI Mode</a>
+        <a href="../sireen/download.html">Download</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="shell">
+      <span class="eyebrow">Documentation</span>
+      <h1>AI-Assisted Mode</h1>
+      <p>SIREEN works fully offline with heuristic analysis. Enabling AI-assisted mode adds optional LLM-powered hypothesis exploration — but every AI suggestion still requires Forge verification before a finding is confirmed.</p>
+
+      <div class="doc-grid">
+        <aside class="sidebar">
+          <b>Getting Started</b>
+          <a href="../guide.html">Quick Start Guide</a>
+          <a href="../sireen/download.html">Installation</a>
+          <a href="concepts.html">Core Concepts</a>
+          <b>Reference</b>
+          <a href="cli.html">CLI Commands</a>
+          <a href="ai-mode.html" class="active">AI-Assisted Mode</a>
+          <a href="limitations.html">Known Limitations</a>
+          <b>Help</b>
+          <a href="faq.html">FAQ</a>
+        </aside>
+
+        <div class="content">
+          <h2>What AI-Assisted Mode Does</h2>
+          <ul>
+            <li><b>Scans contract source</b> — The LLM reads the contract to understand its architecture, trust boundaries, and state transitions.</li>
+            <li><b>Suggests hypotheses</b> — Proposes attack angles beyond the built-in heuristic patterns.</li>
+            <li><b>Still requires verification</b> — Every AI-generated hypothesis goes through the same Forge verification pipeline as heuristic ones. No AI output is ever auto-confirmed.</li>
+          </ul>
+
+          <div class="warning">
+            <b>Important</b>
+            <p>AI-assisted mode is <strong>wired but unevaluated</strong> for hypothesis quality. The pipeline has been tested for connectivity, but we have not systematically measured whether AI-generated hypotheses produce better, worse, or different findings than heuristic-only mode. Use it experimentally and report your experience.</p>
+          </div>
+
+          <h2>Setup</h2>
+          <h3>Step 1 — Create a free OpenRouter account</h3>
+          <ol>
+            <li>Go to <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>.</li>
+            <li>Sign up (email or OAuth).</li>
+            <li>Navigate to <b>Keys</b> and create a new API key.</li>
+            <li>Copy the key (starts with <code>sk-or-v1-</code>).</li>
+          </ol>
+          <p>No credit card is required. Free-tier models are used by default.</p>
+
+          <h3>Step 2 — Configure SIREEN</h3>
+          <pre>cd goalaif/gaolaif/backend
+cp .env.example .env.local</pre>
+          <p>Edit <code>.env.local</code> and add your key:</p>
+          <pre>OPENROUTER_API_KEY=sk-or-v1-YOUR-KEY-HERE</pre>
+
+          <h3>Step 3 — Verify it works</h3>
+          <pre>sireen audit ./Contract.sol --json | grep reasoning_mode</pre>
+          <p>Expected output: <code>"reasoning_mode": "LLM_ASSISTED"</code></p>
+
+          <h2>Free-Tier Models</h2>
+          <p>SIREEN uses the following free-tier models from OpenRouter:</p>
+          <ul>
+            <li><b>Scanner:</b> nvidia/nemotron-3-ultra-550b-a55b:free</li>
+            <li><b>Attacker:</b> nvidia/nemotron-3-super-120b-a12b:free</li>
+            <li><b>Verifier:</b> nvidia/nemotron-3.5-content-safety:free</li>
+            <li><b>Judge:</b> nvidia/nemotron-3-super-120b-a12b:free</li>
+            <li><b>Documenter:</b> cohere/north-mini-code:free</li>
+          </ul>
+
+          <div class="tip">
+            <b>Privacy note</b>
+            <p>Source code is sent to OpenRouter's API. Do not enable AI mode on contracts you are not authorized to share externally. For sensitive code, use heuristic-only mode.</p>
+          </div>
+
+          <h2>Troubleshooting</h2>
+          <table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:.9rem;">
+            <tr><th style="padding:10px 14px;border:1px solid var(--line);text-align:left;background:var(--panel);color:var(--cyan);font-weight:700;">Problem</th><th style="padding:10px 14px;border:1px solid var(--line);text-align:left;background:var(--panel);color:var(--cyan);font-weight:700;">Fix</th></tr>
+            <tr><td style="padding:10px 14px;border:1px solid var(--line);color:var(--muted);"><code>reasoning_mode: HEURISTIC</code></td><td style="padding:10px 14px;border:1px solid var(--line);color:var(--muted);">Key not read. Check <code>.env.local</code> exists in <code>goalaif/gaolaif/backend/</code> and contains the correct key.</td></tr>
+            <tr><td style="padding:10px 14px;border:1px solid var(--line);color:var(--muted);">HTTP 401 errors</td><td style="padding:10px 14px;border:1px solid var(--line);color:var(--muted);">Invalid or expired key. Regenerate at openrouter.ai.</td></tr>
+            <tr><td style="padding:10px 14px;border:1px solid var(--line);color:var(--muted);">Slow responses</td><td style="padding:10px 14px;border:1px solid var(--line);color:var(--muted);">Free-tier models have rate limits. Add delays between requests or upgrade.</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <b>SIREEN</b>
+          <p>Human-AI Security Verification Workspace.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <b>Product</b>
+            <a href="../index.html">Home</a>
+            <a href="../sireen/download.html">Download</a>
+          </div>
+          <div class="footer-col">
+            <b>Docs</b>
+            <a href="index.html">Overview</a>
+            <a href="concepts.html">Concepts</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+          <div class="footer-col">
+            <b>Community</b>
+            <a href="https://github.com/0766243478">Project owner on GitHub</a>
+            <a href="limitations.html">Known Limitations</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>SIREEN CORE v0.1.1</span>
+        <span>Not production-ready</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

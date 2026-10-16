@@ -1,0 +1,24 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/docs", "destination": "/docs/index.html" },
+    { "source": "/guide", "destination": "/guide.html" },
+    { "source": "/sireen/download", "destination": "/sireen/download.html" },
+    { "source": "/docs/concepts", "destination": "/docs/concepts.html" },
+    { "source": "/docs/cli", "destination": "/docs/cli.html" },
+    { "source": "/docs/ai-mode", "destination": "/docs/ai-mode.html" },
+    { "source": "/docs/faq", "destination": "/docs/faq.html" },
+    { "source": "/docs/limitations", "destination": "/docs/limitations.html" }
+  ],
+  "headers": [
+    {
+      "source": "/downloads/(.*)",
+      "headers": [
+        { "key": "Content-Disposition", "value": "attachment" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    }
+  ]
+}
