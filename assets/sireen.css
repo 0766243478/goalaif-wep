@@ -5,18 +5,18 @@
 
 /* ── CSS Variables ────────────────────────────────────────── */
 :root {
-  /* Backgrounds — deeper, richer */
-  --bg-primary: #07070a;
-  --bg-secondary: #0c0c12;
-  --bg-tertiary: #11111a;
-  --bg-elevated: #181822;
-  --bg-card: rgba(17, 17, 26, 0.7);
+  /* Backgrounds — deep but not harsh on the eye */
+  --bg-primary: #0c0c16;
+  --bg-secondary: #131320;
+  --bg-tertiary: #1a1a2a;
+  --bg-elevated: #222234;
+  --bg-card: rgba(26, 26, 42, 0.75);
 
-  /* Text */
-  --text-primary: #f0f0f5;
-  --text-secondary: #8a8a9a;
-  --text-muted: #5a5a6a;
-  --text-inverse: #07070a;
+  /* Text — higher contrast for comfort */
+  --text-primary: #f2f2f7;
+  --text-secondary: #a5a5b8;
+  --text-muted: #7a7a90;
+  --text-inverse: #0c0c16;
 
   /* Accents — electric, vibrant */
   --accent: #00e5ff;
@@ -27,11 +27,11 @@
   --accent-red: #ff6b6b;
   --accent-blue: #60a5fa;
 
-  /* Borders — extremely subtle */
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-medium: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.12);
-  --border-accent: rgba(0, 229, 255, 0.18);
+  /* Borders — visible but refined */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.20);
+  --border-accent: rgba(0, 229, 255, 0.30);
 
   /* Spacing — generous */
   --space-xs: 0.25rem;
