@@ -21,90 +21,125 @@
   <meta name="twitter:description" content="SIREEN documentation: quick start, CLI reference, concepts, AI-assisted mode, and known limitations.">
   <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
   <link rel="icon" href="../icon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/sireen.css">
   <style>
-    :root { --ink:#dce7ed; --muted:#92a4ad; --panel:#0e191f; --line:#253941; --cyan:#0ba3f5; --lime:#a9d66c; --amber:#efbb5c; --bg:#071015; }
-    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui, -apple-system, sans-serif; }
-    a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
-    .shell { width:min(1100px, calc(100% - 40px)); margin:auto; }
-    /* Accessibility: prose links must not rely on colour alone */
-    main p a:not(.button), main li a, main td a { text-decoration: underline; text-underline-offset: 2px; }
-    .eyebrow { color:var(--cyan); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; }
+    /* ── Page-specific layout ─────────────────────────────── */
+    .page-header { padding: 60px 0 20px; }
+    .page-header h1 { margin: 20px 0 16px; }
+    .page-header p { max-width: 640px; font-size: 1.1rem; color: var(--text-secondary); }
 
-    header { position:sticky; top:0; z-index:100; background:rgba(7,16,21,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
-    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
-    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.08em; text-decoration:none; color:var(--ink); font-size:1.1rem; }
-    .brand img { width:32px; height:32px; object-fit:contain; }
-    .desktop-nav { display:flex; gap:28px; align-items:center; }
-    .desktop-nav a { text-decoration:none; color:var(--muted); font-size:.88rem; transition:color .2s; }
-    .desktop-nav a:hover { color:var(--cyan); }
-    .mobile-menu-btn { display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:8px 12px; cursor:pointer; }
-    .mobile-nav { display:none; padding:16px 0; border-top:1px solid var(--line); }
-    .mobile-nav a { display:block; padding:10px 0; color:var(--muted); text-decoration:none; font-size:.9rem; }
+    /* ── Doc grid with sidebar ────────────────────────────── */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      margin-top: 30px;
+    }
+    .sidebar {
+      border-right: 1px solid var(--border-subtle);
+      padding-right: 24px;
+    }
+    .sidebar h4 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin: 24px 0 10px;
+    }
+    .sidebar h4:first-child { margin-top: 0; }
+    .sidebar a {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+      transition: color var(--transition-fast);
+      padding: 4px 0;
+      text-decoration: none;
+    }
+    .sidebar a:hover { color: var(--accent-cyan); }
+    .sidebar a.active { color: var(--accent-cyan); font-weight: 600; }
+    .content { min-width: 0; }
 
-    h1 { margin:40px 0 16px; font-family:Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.05; }
-    h2 { margin:40px 0 14px; font-family:Georgia,serif; font-size:clamp(1.3rem,3.5vw,1.8rem); color:var(--cyan); }
-    h3 { margin:24px 0 10px; font-size:1.05rem; color:var(--ink); }
-    p { max-width:780px; color:#b9c8ce; }
-    ul, ol { color:var(--muted); max-width:780px; }
-    li { margin-bottom:6px; }
-    pre { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; display:block; overflow:auto; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); background:#050d11; color:#c1dce8; font-size:.85rem; line-height:1.6; margin:14px 0; }
-    code { font-family:ui-monospace, SFMono-Regular, Consolas, monospace; background:#050d11; color:#c1dce8; padding:2px 6px; border:1px solid var(--line); font-size:.88rem; }
+    /* ── Card grid ────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .card-grid .card {
+      text-decoration: none;
+      padding: 24px;
+    }
+    .card-grid .card b {
+      display: block;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .card-grid .card p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin: 0;
+    }
 
-    .doc-grid { display:grid; grid-template-columns:280px 1fr; gap:40px; margin-top:30px; }
-    .sidebar { border-right:1px solid var(--line); padding-right:24px; }
-    .sidebar b { display:block; color:var(--ink); font-size:.82rem; margin:20px 0 10px; letter-spacing:.05em; }
-    .sidebar a { display:block; color:var(--muted); text-decoration:none; font-size:.85rem; margin-bottom:8px; transition:color .2s; padding:4px 0; }
-    .sidebar a:hover { color:var(--cyan); }
-    .sidebar a.active { color:var(--cyan); font-weight:600; }
-    .content { min-width:0; }
-    .content h2 { border-bottom:1px solid var(--line); padding-bottom:8px; }
+    /* ── Tip ──────────────────────────────────────────────── */
+    .tip {
+      padding: 18px 22px;
+      border-left: 3px solid var(--accent-lime);
+      background: var(--bg-card);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 20px 0;
+    }
+    .tip b { color: var(--accent-lime); font-size: 0.92rem; }
+    .tip p { color: var(--text-muted); font-size: 0.88rem; margin: 8px 0 0; }
 
-    .warning { padding:14px 18px; border-left:3px solid var(--amber); background:#0e191f; margin:16px 0; }
-    .warning b { color:var(--amber); }
-    .warning p { color:var(--muted); font-size:.85rem; margin:6px 0 0; }
-    .tip { padding:14px 18px; border-left:3px solid var(--lime); background:#0e191f; margin:16px 0; }
-    .tip b { color:var(--lime); }
+    /* ── Prose links accessibility ────────────────────────── */
+    main p a:not(.btn), main li a, main td a {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      color: var(--accent-cyan);
+    }
+    main p a:not(.btn):hover, main li a:hover, main td a:hover {
+      color: #33ddff;
+    }
 
-    .card-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin:24px 0; }
-    .card { padding:22px; border:1px solid var(--line); background:var(--panel); }
-    .card b { display:block; color:var(--ink); margin-bottom:6px; }
-    .card p { color:var(--muted); font-size:.88rem; margin:0; }
-
-    footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:60px; }
-    .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:40px; flex-wrap:wrap; }
-    .footer-brand { max-width:300px; }
-    .footer-brand b { color:var(--ink); font-size:1.1rem; }
-    .footer-brand p { color:var(--muted); font-size:.82rem; margin:8px 0 0; }
-    .footer-links { display:flex; gap:48px; flex-wrap:wrap; }
-    .footer-col b { display:block; color:var(--ink); font-size:.82rem; margin-bottom:12px; letter-spacing:.05em; }
-    .footer-col a { display:block; color:var(--muted); text-decoration:none; font-size:.82rem; margin-bottom:8px; transition:color .2s; }
-    .footer-col a:hover { color:var(--cyan); }
-    .footer-bottom { margin-top:32px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--muted); font-size:.75rem; flex-wrap:wrap; gap:12px; }
-
-    @media (max-width:800px) {
-      .doc-grid { grid-template-columns:1fr; }
-      .sidebar { border-right:none; border-bottom:1px solid var(--line); padding-right:0; padding-bottom:20px; }
-      .desktop-nav { display:none; }
-      .mobile-menu-btn { display:block; }
-      .mobile-nav.open { display:block; }
-      table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-      .card-grid { grid-template-columns:1fr; }
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .doc-grid { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border-subtle); padding-right: 0; padding-bottom: 20px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .page-header { padding: 40px 0 16px; }
     }
   </style>
 </head>
 <body>
-  <header>
+
+  <header class="site-header">
     <div class="shell">
       <div class="nav-inner">
-        <a class="brand" href="../index.html"><img src="../icon.png" alt="SIREEN logo">SIREEN</a>
+        <a class="brand" href="https://www.gaolaif.org/">
+          <img src="../icon.png" alt="SIREEN">
+          <span>SIREEN</span>
+        </a>
         <nav class="desktop-nav">
           <a href="../index.html">Home</a>
           <a href="../index.html#how-it-works">How It Works</a>
-          <a href="index.html" style="color:var(--cyan);">Documentation</a>
+          <a href="index.html" class="active">Documentation</a>
           <a href="../sireen/download.html">Download</a>
           <a href="../guide.html">Guide</a>
+          <a class="btn btn-primary" href="../sireen/download.html" style="padding:8px 18px;font-size:0.82rem;">Get Started</a>
         </nav>
-        <button class="mobile-menu-btn" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+        <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
       </div>
       <nav class="mobile-nav">
         <a href="../index.html">Home</a>
@@ -112,29 +147,32 @@
         <a href="index.html">Documentation</a>
         <a href="../sireen/download.html">Download</a>
         <a href="../guide.html">Guide</a>
+        <a href="../sireen/download.html" style="color:var(--accent-cyan);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
 
   <main>
     <div class="shell">
-      <span class="eyebrow">Documentation</span>
-      <h1>SIREEN Docs</h1>
-      <p>Everything you need to install, configure, and use SIREEN effectively.</p>
+      <div class="page-header">
+        <div class="eyebrow">Documentation</div>
+        <h1>SIREEN Docs</h1>
+        <p>Everything you need to install, configure, and use SIREEN effectively.</p>
+      </div>
 
       <div class="doc-grid">
         <aside class="sidebar">
-          <b>Getting Started</b>
+          <h4>Getting Started</h4>
           <a href="../guide.html">Quick Start Guide</a>
           <a href="../sireen/download.html">Installation</a>
           <a href="concepts.html">Core Concepts</a>
 
-          <b>Reference</b>
+          <h4>Reference</h4>
           <a href="cli.html">CLI Commands</a>
           <a href="ai-mode.html">AI-Assisted Mode</a>
           <a href="limitations.html">Known Limitations</a>
 
-          <b>Help</b>
+          <h4>Help</h4>
           <a href="faq.html">FAQ</a>
           <a href="limitations.html">Known Limitations</a>
         </aside>
@@ -143,35 +181,35 @@
           <h2>Documentation Overview</h2>
           <p>Choose a topic below or use the sidebar to navigate.</p>
 
-          <div class="card-grid">
-            <a href="../guide.html" class="card" style="text-decoration:none;">
+          <div class="card-grid stagger-grid">
+            <a href="../guide.html" class="card reveal">
               <b>Quick Start Guide</b>
               <p>Install SIREEN, run your first audit, and interpret the results in under 10 minutes.</p>
             </a>
-            <a href="concepts.html" class="card" style="text-decoration:none;">
+            <a href="concepts.html" class="card reveal">
               <b>Core Concepts</b>
               <p>Learn what attack hypotheses, PoCs, terminal states, and evidence packs mean.</p>
             </a>
-            <a href="cli.html" class="card" style="text-decoration:none;">
+            <a href="cli.html" class="card reveal">
               <b>CLI Reference</b>
               <p>Complete command reference for the SIREEN CLI.</p>
             </a>
-            <a href="ai-mode.html" class="card" style="text-decoration:none;">
+            <a href="ai-mode.html" class="card reveal">
               <b>AI-Assisted Mode</b>
               <p>Enable optional AI exploration with a free OpenRouter key.</p>
             </a>
-            <a href="limitations.html" class="card" style="text-decoration:none;">
+            <a href="limitations.html" class="card reveal">
               <b>Known Limitations</b>
               <p>Understand what SIREEN can and cannot do today.</p>
             </a>
-            <a href="faq.html" class="card" style="text-decoration:none;">
+            <a href="faq.html" class="card reveal">
               <b>FAQ</b>
               <p>Common questions and answers.</p>
             </a>
           </div>
 
           <h2>Quick Command Reference</h2>
-          <pre># Audit a single file
+          <pre class="reveal"># Audit a single file
 sireen audit ./Contract.sol
 sireen audit ./Contract.sol --json
 sireen audit ./Contract.sol --report
@@ -187,7 +225,7 @@ sireen report &lt;audit-id&gt; --output report.md
 # Start backend server (for VS Code)
 python -m uvicorn main:app --host 127.0.0.1 --port 7432</pre>
 
-          <div class="tip">
+          <div class="tip reveal">
             <b>New to SIREEN?</b>
             <p>Start with the <a href="../guide.html">Getting Started Guide</a> for a step-by-step walkthrough of your first audit.</p>
           </div>
@@ -196,38 +234,38 @@ python -m uvicorn main:app --host 127.0.0.1 --port 7432</pre>
     </div>
   </main>
 
-  <footer>
+  <footer class="site-footer">
     <div class="shell">
-      <div class="footer-inner">
+      <div class="footer-grid">
         <div class="footer-brand">
           <b>SIREEN</b>
-          <p>Human-AI Security Verification Workspace.</p>
+          <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
         </div>
-        <div class="footer-links">
-          <div class="footer-col">
-            <b>Product</b>
-            <a href="../index.html">Home</a>
-            <a href="../sireen/download.html">Download</a>
-            <a href="../guide.html">Guide</a>
-          </div>
-          <div class="footer-col">
-            <b>Docs</b>
-            <a href="concepts.html">Concepts</a>
-            <a href="cli.html">CLI</a>
-            <a href="faq.html">FAQ</a>
-          </div>
-          <div class="footer-col">
-            <b>Community</b>
-            <a href="https://github.com/0766243478">Project owner on GitHub</a>
-            <a href="limitations.html">Known Limitations</a>
-          </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="../index.html">Home</a>
+          <a href="../index.html#how-it-works">How It Works</a>
+          <a href="../sireen/download.html">Download</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="index.html">Documentation</a>
+          <a href="faq.html">FAQ</a>
+          <a href="limitations.html">Known Limitations</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/0766243478">Owner on GitHub</a>
+          <a href="../index.html#scope">Scope &amp; Limitations</a>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>SIREEN CORE v0.1.1</span>
-        <span>Not production-ready</span>
+        <span>LOCAL-FIRST - FORGE-BACKED - FREE FOR RESEARCHERS</span>
+        <span>SIREEN CORE v0.1.1 - Not production-ready</span>
       </div>
     </div>
   </footer>
+
+  <script src="../assets/sireen.js"></script>
 </body>
 </html>
