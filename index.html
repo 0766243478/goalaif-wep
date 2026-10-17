@@ -11,7 +11,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Open Graph -->
   <meta property="og:title" content="SIREEN — Security hypotheses are not proof.">
@@ -59,36 +59,30 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 0 80px;
+      padding: 140px 0 100px;
       position: relative;
       overflow: hidden;
     }
 
-    .hero-bg {
+    .hero-canvas-wrap {
       position: absolute;
       inset: 0;
+      z-index: 0;
+      pointer-events: auto;
+    }
+
+    #network-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
       pointer-events: none;
-    }
-
-    .hero-bg::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 50% at 20% 30%, rgba(0, 212, 255, 0.04) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 80% 70%, rgba(96, 165, 250, 0.03) 0%, transparent 50%);
-    }
-
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(37, 57, 65, 0.15) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(37, 57, 65, 0.15) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 60% 50% at 50% 40%, black 20%, transparent 70%);
-      -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 40%, black 20%, transparent 70%);
-      animation: gridPulse 8s ease-in-out infinite;
+      background: radial-gradient(ellipse 70% 50% at 50% 45%, transparent 30%, var(--bg-primary) 75%);
     }
 
     .hero-content {
@@ -97,21 +91,21 @@
     }
 
     .hero h1 {
-      max-width: 780px;
-      margin: 24px 0 28px;
+      max-width: 900px;
+      margin: 24px 0 32px;
     }
 
     .hero h1 em {
       font-style: normal;
-      color: var(--accent-cyan);
+      color: var(--accent);
     }
 
     .hero-subtitle {
-      max-width: 600px;
-      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      max-width: 560px;
+      font-size: clamp(1.05rem, 1.8vw, 1.2rem);
       line-height: 1.7;
       color: var(--text-secondary);
-      margin-bottom: 36px;
+      margin-bottom: 40px;
     }
 
     .hero-actions {
@@ -124,7 +118,8 @@
     .hero-note {
       font-size: 0.82rem;
       color: var(--text-muted);
-      max-width: 520px;
+      max-width: 480px;
+      line-height: 1.6;
     }
 
     .hero-note strong {
@@ -134,7 +129,7 @@
 
     /* ── Workflow Visualization ───────────────────────────── */
     .workflow-viz {
-      margin-top: 60px;
+      margin-top: 80px;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 0;
@@ -142,11 +137,11 @@
     }
 
     .workflow-step {
-      padding: 28px 20px;
+      padding: 32px 24px;
       border: 1px solid var(--border-subtle);
-      background: var(--bg-card);
+      background: rgba(17, 17, 26, 0.5);
       position: relative;
-      transition: all var(--transition-base);
+      transition: all var(--transition-fast);
     }
 
     .workflow-step:not(:last-child) {
@@ -154,28 +149,29 @@
     }
 
     .workflow-step:hover {
-      background: var(--bg-elevated);
+      background: rgba(24, 24, 34, 0.7);
       border-color: var(--border-accent);
     }
 
     .workflow-step .step-num {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--accent-cyan);
-      margin-bottom: 10px;
+      color: var(--accent);
+      margin-bottom: 12px;
     }
 
     .workflow-step b {
       display: block;
-      font-size: 1rem;
-      margin-bottom: 8px;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
       color: var(--text-primary);
+      letter-spacing: -0.02em;
     }
 
     .workflow-step p {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       line-height: 1.55;
       color: var(--text-muted);
       margin: 0;
@@ -183,31 +179,29 @@
 
     .workflow-step .step-tag {
       display: inline-block;
-      margin-top: 12px;
+      margin-top: 14px;
       padding: 3px 10px;
       border: 1px solid var(--border-subtle);
-      border-radius: 4px;
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
 
-    .workflow-step .step-tag.human { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+    .workflow-step .step-tag.human { border-color: var(--accent); color: var(--accent); }
     .workflow-step .step-tag.ai { border-color: var(--accent-amber); color: var(--accent-amber); }
-    .workflow-step .step-tag.forge { border-color: var(--accent-lime); color: var(--accent-lime); }
+    .workflow-step .step-tag.forge { border-color: var(--accent-green); color: var(--accent-green); }
 
     .workflow-connector {
       position: absolute;
       top: 50%;
-      right: -8px;
+      right: -10px;
       transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       background: var(--bg-primary);
       border: 1px solid var(--border-medium);
-      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -217,75 +211,43 @@
     .workflow-connector svg {
       width: 8px;
       height: 8px;
-      stroke: var(--accent-cyan);
+      stroke: var(--accent);
     }
 
     /* ── Problem Section ──────────────────────────────────── */
     .problem-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-top: 48px;
+      gap: 1px;
+      margin-top: 56px;
+      background: var(--border-subtle);
     }
 
-    /* ── Demo Section ─────────────────────────────────────── */
-    .demo-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid var(--border-subtle);
-      margin-top: 40px;
-    }
-
-    .demo-tab {
-      padding: 12px 24px;
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      font-family: inherit;
-    }
-
-    .demo-tab:hover { color: var(--text-secondary); }
-    .demo-tab.active {
-      color: var(--accent-cyan);
-      border-bottom-color: var(--accent-cyan);
-    }
-
-    .demo-panel {
-      display: none;
-      padding: 28px;
-      border: 1px solid var(--border-subtle);
-      border-top: none;
+    .problem-grid .card {
       background: var(--bg-secondary);
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
     }
 
-    .demo-panel.active { display: block; }
+    .problem-grid .card:hover {
+      background: var(--bg-tertiary);
+    }
 
     /* ── States Grid ──────────────────────────────────────── */
     .states-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 14px;
-      margin-top: 36px;
+      gap: 1px;
+      margin-top: 40px;
+      background: var(--border-subtle);
     }
 
     .state-card {
-      padding: 24px 18px;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      background: var(--bg-card);
-      transition: all var(--transition-base);
+      padding: 28px 20px;
+      background: var(--bg-secondary);
+      transition: all var(--transition-fast);
     }
 
     .state-card:hover {
-      border-color: var(--border-accent);
-      transform: translateY(-2px);
+      background: var(--bg-tertiary);
     }
 
     .state-card .state-dot {
@@ -295,22 +257,23 @@
       margin-bottom: 14px;
     }
 
-    .state-card.confirmed .state-dot { background: var(--accent-lime); box-shadow: 0 0 12px rgba(126, 231, 135, 0.4); }
-    .state-card.degraded .state-dot { background: var(--accent-amber); box-shadow: 0 0 12px rgba(251, 191, 36, 0.4); }
-    .state-card.unverified .state-dot { background: var(--accent-cyan); box-shadow: 0 0 12px rgba(0, 212, 255, 0.4); }
-    .state-card.failed .state-dot { background: var(--accent-red); box-shadow: 0 0 12px rgba(248, 113, 113, 0.4); }
-    .state-card.clean .state-dot { background: var(--accent-blue); box-shadow: 0 0 12px rgba(96, 165, 250, 0.4); }
+    .state-card.confirmed .state-dot { background: var(--accent-green); box-shadow: 0 0 14px rgba(61, 220, 132, 0.35); }
+    .state-card.degraded .state-dot { background: var(--accent-amber); box-shadow: 0 0 14px rgba(255, 183, 77, 0.35); }
+    .state-card.unverified .state-dot { background: var(--accent); box-shadow: 0 0 14px rgba(0, 229, 255, 0.35); }
+    .state-card.failed .state-dot { background: var(--accent-red); box-shadow: 0 0 14px rgba(255, 107, 107, 0.35); }
+    .state-card.clean .state-dot { background: var(--accent-blue); box-shadow: 0 0 14px rgba(96, 165, 250, 0.35); }
 
     .state-card b {
       display: block;
       font-size: 0.88rem;
       margin-bottom: 8px;
       color: var(--text-primary);
+      letter-spacing: -0.01em;
     }
 
     .state-card p {
-      font-size: 0.78rem;
-      line-height: 1.55;
+      font-size: 0.76rem;
+      line-height: 1.5;
       color: var(--text-muted);
       margin: 0;
     }
@@ -319,8 +282,8 @@
     .compare-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 32px;
-      font-size: 0.9rem;
+      margin-top: 36px;
+      font-size: 0.88rem;
     }
 
     .compare-table th, .compare-table td {
@@ -331,66 +294,35 @@
 
     .compare-table th {
       background: var(--bg-tertiary);
-      color: var(--accent-cyan);
+      color: var(--accent);
       font-weight: 600;
-      font-size: 0.82rem;
-      letter-spacing: 0.03em;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
     .compare-table td { color: var(--text-secondary); }
     .compare-table td:first-child { color: var(--text-primary); font-weight: 500; }
-    .compare-table .check { color: var(--accent-lime); font-weight: 700; }
+    .compare-table .check { color: var(--accent-green); font-weight: 700; }
     .compare-table .partial { color: var(--accent-amber); }
     .compare-table .cross { color: var(--accent-red); }
-
-    /* ── Concept Box ──────────────────────────────────────── */
-    .concept-box {
-      padding: 28px;
-      border-left: 3px solid var(--accent-cyan);
-      background: var(--bg-card);
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      margin: 24px 0;
-    }
-
-    .concept-box b {
-      display: block;
-      margin-bottom: 10px;
-      color: var(--text-primary);
-      font-size: 1.05rem;
-    }
-
-    .concept-box p {
-      color: var(--text-secondary);
-      font-size: 0.92rem;
-      margin: 0;
-    }
-
-    .concept-box .technical {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border-subtle);
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
 
     /* ── Limitation Banner ────────────────────────────────── */
     .limitation-banner {
       padding: 24px 28px;
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
       background: var(--bg-card);
       margin-top: 40px;
     }
 
     .limitation-banner b {
       color: var(--accent-amber);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
     }
 
     .limitation-banner p {
       color: var(--text-muted);
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       margin: 8px 0 0;
       line-height: 1.6;
     }
@@ -398,7 +330,8 @@
     /* ── CTA Section ──────────────────────────────────────── */
     .cta-section {
       text-align: center;
-      padding: var(--space-4xl) 0;
+      padding: var(--space-5xl) 0;
+      border-top: 1px solid var(--border-subtle);
     }
 
     .cta-section h2 {
@@ -412,21 +345,19 @@
     }
 
     /* ── Responsive ───────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .hero { min-height: auto; padding: 100px 0 60px; }
+    @media (max-width: 1024px) {
+      .hero { min-height: auto; padding: 120px 0 60px; }
       .workflow-viz { grid-template-columns: 1fr; }
       .workflow-step:not(:last-child) { border-right: 1px solid var(--border-subtle); border-bottom: none; }
       .workflow-connector { display: none; }
       .problem-grid { grid-template-columns: 1fr; }
-      .states-grid { grid-template-columns: repeat(2, 1fr); }
-      .compare-table { font-size: 0.82rem; }
-      .compare-table th, .compare-table td { padding: 12px; }
+      .states-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
     @media (max-width: 600px) {
-      .states-grid { grid-template-columns: 1fr; }
-      .demo-tabs { flex-wrap: wrap; }
-      .demo-tab { padding: 10px 16px; font-size: 0.82rem; }
+      .states-grid { grid-template-columns: repeat(2, 1fr); }
+      .compare-table { font-size: 0.78rem; }
+      .compare-table th, .compare-table td { padding: 10px 12px; }
     }
   </style>
 </head>
@@ -446,7 +377,7 @@
           <a href="docs/index.html">Documentation</a>
           <a href="sireen/download.html">Download</a>
           <a href="guide.html">Guide</a>
-          <a class="btn btn-primary" href="sireen/download.html" style="padding:8px 18px;font-size:0.82rem;">Get Started</a>
+          <a class="btn btn-primary" href="sireen/download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
@@ -458,7 +389,7 @@
         <a href="docs/index.html">Documentation</a>
         <a href="sireen/download.html">Download</a>
         <a href="guide.html">Guide</a>
-        <a href="sireen/download.html" style="color:var(--accent-cyan);font-weight:600;">Get Started</a>
+        <a href="sireen/download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
@@ -466,20 +397,21 @@
   <main>
     <!-- Hero -->
     <section class="hero">
-      <div class="hero-bg">
-        <div class="hero-grid"></div>
+      <div class="hero-canvas-wrap">
+        <canvas id="network-canvas"></canvas>
       </div>
+      <div class="hero-vignette"></div>
       <div class="shell hero-content">
         <div class="eyebrow">Human-AI Security Verification Workspace</div>
         <h1>Security hypotheses <em>are not proof.</em></h1>
         <p class="hero-subtitle">SIREEN combines human-led security reasoning with AI-assisted exploration and executable testing to help researchers determine what actually holds up under execution.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="index.html#demo">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Explore the Demo
           </a>
           <a class="btn btn-secondary" href="docs/index.html">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
             Read the Documentation
           </a>
         </div>
@@ -572,7 +504,35 @@
         <h2 class="reveal reveal-delay-1">Five stages. One honest chain of proof.</h2>
         <p class="section-lead reveal reveal-delay-2">SIREEN does not claim to automate security auditing. It is a workspace where human researchers guide the process, supported by heuristic analysis and optional AI exploration, with every testable hypothesis put through executable verification.</p>
 
-        <div class="limitation-banner reveal reveal-delay-3">
+        <div class="states-grid stagger-grid reveal reveal-delay-3">
+          <div class="state-card confirmed">
+            <div class="state-dot"></div>
+            <b>CONFIRMED</b>
+            <p>Forge verified at least one finding. Evidence is complete and reproducible.</p>
+          </div>
+          <div class="state-card clean">
+            <div class="state-dot"></div>
+            <b>CLEAN</b>
+            <p>No findings. Every hypothesis received a real Forge attempt.</p>
+          </div>
+          <div class="state-card degraded">
+            <div class="state-dot"></div>
+            <b>DEGRADED</b>
+            <p>Findings exist but could not be fully verified by execution.</p>
+          </div>
+          <div class="state-card unverified">
+            <div class="state-dot"></div>
+            <b>UNVERIFIED</b>
+            <p>Coverage was insufficient to classify. Needs manual review.</p>
+          </div>
+          <div class="state-card failed">
+            <div class="state-dot"></div>
+            <b>FAILED</b>
+            <p>Pipeline crashed or every PoC failed compilation.</p>
+          </div>
+        </div>
+
+        <div class="limitation-banner reveal reveal-delay-4">
           <b>Stages may be unavailable depending on configuration</b>
           <p>Without Foundry installed, Stage 4 (Execute) is skipped and findings remain "needs_review." Without an OpenRouter API key, Stage 2 uses only heuristic patterns. Unsupported vectors (oracle manipulation, flash loans, governance) are honestly skipped.</p>
         </div>
@@ -720,138 +680,57 @@ Executed: <span class="token-number">1</span>
     <section class="section" id="differentiation">
       <div class="shell">
         <div class="eyebrow reveal">How SIREEN Is Different</div>
-        <h2 class="reveal reveal-delay-1">Hypothesis, test, evidence — not just a report.</h2>
-        <p class="section-lead reveal reveal-delay-2">Traditional tools stop at pattern detection. SIREEN goes further: it generates an executable test, runs it, and records the result. The finding is only as strong as the evidence behind it.</p>
+        <h2 class="reveal reveal-delay-1">Not another scanner. A verification workspace.</h2>
+        <p class="section-lead reveal reveal-delay-2">Most security tools stop at detection. SIREEN is built to help you prove or disprove what you suspect — with executable evidence, not confidence scores.</p>
 
-        <div class="reveal reveal-delay-3">
-          <table class="compare-table">
-            <tr>
-              <th>Approach</th>
-              <th>Static Analyzer</th>
-              <th>Report-Only Tool</th>
-              <th>SIREEN</th>
-            </tr>
-            <tr>
-              <td>Pattern detection</td>
-              <td class="check">Yes</td>
-              <td class="check">Yes</td>
-              <td class="check">Yes</td>
-            </tr>
-            <tr>
-              <td>Generates executable PoC</td>
-              <td class="cross">No</td>
-              <td class="partial">Sometimes</td>
-              <td class="check">Yes</td>
-            </tr>
-            <tr>
-              <td>Runs PoC with Foundry</td>
-              <td class="cross">No</td>
-              <td class="cross">No</td>
-              <td class="check">Yes</td>
-            </tr>
-            <tr>
-              <td>Honest "needs_review" label</td>
-              <td class="cross">No</td>
-              <td class="partial">Sometimes</td>
-              <td class="check">Yes</td>
-            </tr>
-            <tr>
-              <td>AI-assisted hypothesis exploration</td>
-              <td class="cross">No</td>
-              <td class="partial">Sometimes</td>
-              <td class="check">Yes</td>
-            </tr>
-            <tr>
-              <td>Evidence linked to every finding</td>
-              <td class="cross">No</td>
-              <td class="partial">Sometimes</td>
-              <td class="check">Yes</td>
-            </tr>
-          </table>
-        </div>
+        <table class="compare-table reveal reveal-delay-3">
+          <tr>
+            <th>Capability</th>
+            <th>Static Analyzer</th>
+            <th>LLM Chat</th>
+            <th style="color:var(--accent);">SIREEN</th>
+          </tr>
+          <tr>
+            <td>Detects suspicious patterns</td>
+            <td class="check">Yes</td>
+            <td class="check">Sometimes</td>
+            <td class="check">Yes</td>
+          </tr>
+          <tr>
+            <td>Generates executable PoC</td>
+            <td class="cross">No</td>
+            <td class="partial">Sometimes</td>
+            <td class="check">Yes (4 vectors)</td>
+          </tr>
+          <tr>
+            <td>Runs the PoC automatically</td>
+            <td class="cross">No</td>
+            <td class="cross">No</td>
+            <td class="check">Yes (with Forge)</td>
+          </tr>
+          <tr>
+            <td>Produces reproducible evidence</td>
+            <td class="cross">No</td>
+            <td class="cross">No</td>
+            <td class="check">Yes</td>
+          </tr>
+          <tr>
+            <td>Honest about limitations</td>
+            <td class="partial">Sometimes</td>
+            <td class="cross">Rarely</td>
+            <td class="check">By design</td>
+          </tr>
+          <tr>
+            <td>Human remains in control</td>
+            <td class="partial">N/A</td>
+            <td class="partial">Partial</td>
+            <td class="check">Always</td>
+          </tr>
+        </table>
 
-        <div class="concept-box reveal reveal-delay-4">
-          <b>What does "confirmed" actually mean?</b>
-          <p>A finding is marked <code>CONFIRMED</code> only when the generated Foundry test compiled successfully and its security assertion passed. This proves the specific behavior exercised by the PoC — not every possible exploit variant, not the absence of other bugs, and not formal correctness.</p>
-          <div class="technical"><strong>Technical:</strong> The PoC is a Solidity test contract inheriting from <code>forge-std/Test.sol</code>. It runs via <code>forge test</code>. A passing test means the asserted condition held during execution.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Terminal States -->
-    <section class="section" id="states" style="background:var(--bg-secondary);">
-      <div class="shell">
-        <div class="eyebrow reveal">Honest Signals</div>
-        <h2 class="reveal reveal-delay-1">SIREEN never says "looks secure."</h2>
-        <p class="section-lead reveal reveal-delay-2">Five explicit terminal states. No generic "success." Every outcome tells you exactly what happened and what you should do next.</p>
-
-        <div class="states-grid stagger-grid">
-          <div class="state-card confirmed reveal">
-            <div class="state-dot"></div>
-            <b>CONFIRMED</b>
-            <p>Forge verified at least one finding. The PoC compiled and its security assertion passed. Evidence is complete.</p>
-          </div>
-          <div class="state-card degraded reveal">
-            <div class="state-dot"></div>
-            <b>DEGRADED</b>
-            <p>Findings exist but verification is incomplete. Forge was unavailable, or some findings still need manual review.</p>
-          </div>
-          <div class="state-card unverified reveal">
-            <div class="state-dot"></div>
-            <b>UNVERIFIED</b>
-            <p>Hypothesis generated but nothing executed. Coverage was insufficient to classify the run.</p>
-          </div>
-          <div class="state-card failed reveal">
-            <div class="state-dot"></div>
-            <b>FAILED</b>
-            <p>Pipeline error, or every PoC failed compilation. No claim is made about security.</p>
-          </div>
-          <div class="state-card clean reveal">
-            <div class="state-dot"></div>
-            <b>CLEAN_WITH_COVERAGE</b>
-            <p>No findings. Every hypothesis received a real Forge attempt. <strong>Not a security guarantee.</strong></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Scope -->
-    <section class="section" id="scope">
-      <div class="shell">
-        <div class="eyebrow reveal">Current Scope</div>
-        <h2 class="reveal reveal-delay-1">Built narrow on purpose.</h2>
-        <p class="section-lead reveal reveal-delay-2">SIREEN v0.1 focuses on what it can do well today. Out-of-scope vectors are honestly skipped rather than falsely claimed.</p>
-
-        <div class="problem-grid stagger-grid">
-          <div class="card reveal">
-            <b style="color:var(--accent-lime);margin-bottom:16px;display:block;">Supported Today</b>
-            <ul style="color:var(--text-secondary);font-size:0.9rem;padding-left:20px;line-height:1.8;">
-              <li>Single Solidity file or Foundry project directory</li>
-              <li>Offline heuristic hypotheses for reentrancy, access control, unbounded-loop DoS, and accounting inconsistency</li>
-              <li>Optional AI-assisted hypothesis exploration</li>
-              <li>Generated, compiled, executed Forge PoCs for those four vectors</li>
-              <li>Local Forge execution and verification</li>
-              <li>SQLite audit history with Markdown/JSON export</li>
-            </ul>
-          </div>
-          <div class="card reveal">
-            <b style="color:var(--accent-red);margin-bottom:16px;display:block;">Not Yet Supported</b>
-            <ul style="color:var(--text-secondary);font-size:0.9rem;padding-left:20px;line-height:1.8;">
-              <li>Detection of oracle manipulation and flash loan patterns</li>
-              <li>Delegatecall, signature replay, and weak randomness PoCs</li>
-              <li>Governance / voting exploits</li>
-              <li>MEV and sandwich attacks</li>
-              <li>Move, Vyper, or Cairo</li>
-              <li>Formal verification or symbolic execution</li>
-              <li>Autonomous agent discovery</li>
-              <li>Cloud execution or team collaboration</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="limitation-banner reveal reveal-delay-3">
-          <b>Early-stage tester release</b>
-          <p>SIREEN v0.1 is intended for independent security researchers who understand its limitations. It does not replace a professional audit, discover all vulnerabilities, or guarantee security. AI-assisted mode is wired but unevaluated for hypothesis quality. The VS Code extension builds but has not been runtime-tested. Always combine tool output with manual review.</p>
+        <div class="limitation-banner reveal reveal-delay-4">
+          <b>What SIREEN does not do</b>
+          <p>SIREEN is not a substitute for a professional audit. It does not guarantee security, does not find every vulnerability, and does not replace human expertise. It is a research tool — one that helps you turn hypotheses into executable evidence.</p>
         </div>
       </div>
     </section>
@@ -859,12 +738,11 @@ Executed: <span class="token-number">1</span>
     <!-- CTA -->
     <section class="cta-section">
       <div class="shell">
-        <h2 class="reveal">Ready to explore?</h2>
-        <p class="reveal reveal-delay-1">Once installed, your first audit takes seconds. Heuristic mode needs no API key and runs fully offline.</p>
-        <div class="reveal reveal-delay-2" style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;">
+        <h2 class="reveal">Start with evidence.</h2>
+        <p class="reveal reveal-delay-1">Install SIREEN, audit your first contract, and see what executable verification feels like.</p>
+        <div class="reveal reveal-delay-2" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;">
           <a class="btn btn-primary" href="sireen/download.html">Download SIREEN</a>
-          <a class="btn btn-secondary" href="guide.html">Read the Guide</a>
-          <a class="btn btn-secondary" href="docs/index.html">Documentation</a>
+          <a class="btn btn-secondary" href="docs/index.html">Read the Docs</a>
         </div>
       </div>
     </section>
@@ -880,27 +758,25 @@ Executed: <span class="token-number">1</span>
         </div>
         <div class="footer-col">
           <h4>Product</h4>
+          <a href="index.html">Home</a>
           <a href="index.html#how-it-works">How It Works</a>
-          <a href="index.html#demo">Demo</a>
-          <a href="index.html#for-whom">Use Cases</a>
           <a href="sireen/download.html">Download</a>
         </div>
         <div class="footer-col">
           <h4>Resources</h4>
           <a href="docs/index.html">Documentation</a>
-          <a href="guide.html">Getting Started Guide</a>
           <a href="docs/faq.html">FAQ</a>
           <a href="docs/limitations.html">Known Limitations</a>
         </div>
         <div class="footer-col">
           <h4>Project</h4>
-          <a href="https://github.com/0766243478">Owner on GitHub</a>
-          <a href="index.html#scope">Scope &amp; Limitations</a>
+          <a href="https://github.com/0766243478" target="_blank" rel="noopener">Owner on GitHub</a>
+          <a href="index.html#differentiation">Scope &amp; Limitations</a>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>LOCAL-FIRST - FORGE-BACKED - FREE FOR RESEARCHERS</span>
-        <span>SIREEN CORE v0.1.1 - Not production-ready</span>
+        <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
+        <span>SIREEN CORE v0.1.1 &mdash; Not production-ready</span>
       </div>
     </div>
   </footer>

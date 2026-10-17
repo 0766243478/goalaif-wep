@@ -25,19 +25,17 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="../assets/sireen.css">
   <style>
-    /* ── Page-specific layout ─────────────────────────────── */
-    .page-header { padding: 60px 0 20px; }
+    .page-header { padding: 80px 0 20px; }
     .page-header h1 { margin: 20px 0 16px; }
     .page-header p { max-width: 640px; font-size: 1.1rem; color: var(--text-secondary); }
 
-    /* ── Doc grid with sidebar ────────────────────────────── */
     .doc-grid {
       display: grid;
-      grid-template-columns: 260px 1fr;
+      grid-template-columns: 240px 1fr;
       gap: 48px;
       margin-top: 30px;
     }
@@ -57,22 +55,18 @@
     .sidebar a {
       display: block;
       color: var(--text-muted);
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       margin-bottom: 6px;
-      transition: color var(--transition-fast);
       padding: 4px 0;
-      text-decoration: none;
+      transition: color var(--transition-micro);
     }
-    .sidebar a:hover { color: var(--accent-cyan); }
-    .sidebar a.active { color: var(--accent-cyan); font-weight: 600; }
-    .content { min-width: 0; }
+    .sidebar a:hover { color: var(--accent); }
+    .sidebar a.active { color: var(--accent); font-weight: 600; }
 
-    /* ── Concept boxes ────────────────────────────────────── */
     .concept-box {
       padding: 24px 28px;
-      border-left: 3px solid var(--accent-cyan);
+      border-left: 2px solid var(--accent);
       background: var(--bg-card);
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
       margin: 20px 0;
     }
     .concept-box b {
@@ -94,7 +88,6 @@
       color: var(--text-muted);
     }
 
-    /* ── States grid ──────────────────────────────────────── */
     .states-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -105,7 +98,6 @@
       padding: 20px 16px;
       border: 1px solid var(--border-subtle);
       background: var(--bg-card);
-      border-radius: var(--radius-md);
       transition: all var(--transition-base);
     }
     .state-card:hover {
@@ -123,34 +115,33 @@
       margin: 0;
       line-height: 1.5;
     }
-    .state-card.confirmed b { color: var(--accent-lime); }
+    .state-card.confirmed b { color: var(--accent-green); }
     .state-card.degraded b { color: var(--accent-amber); }
-    .state-card.unverified b { color: var(--accent-cyan); }
+    .state-card.unverified b { color: var(--accent); }
     .state-card.failed b { color: var(--accent-red); }
     .state-card.clean b { color: var(--accent-blue); }
 
-    /* ── Warning ──────────────────────────────────────────── */
-    .warning {
-      padding: 18px 22px;
-      border-left: 3px solid var(--accent-amber);
-      background: var(--bg-card);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      margin: 20px 0;
+    .content h2 {
+      margin: 48px 0 16px;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
     }
-    .warning b { color: var(--accent-amber); font-size: 0.92rem; }
-    .warning p { color: var(--text-muted); font-size: 0.88rem; margin: 8px 0 0; }
+    .content h3 {
+      margin: 28px 0 10px;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
 
-    /* ── Prose links accessibility ────────────────────────── */
     main p a:not(.btn), main li a, main td a {
       text-decoration: underline;
       text-underline-offset: 2px;
-      color: var(--accent-cyan);
+      color: var(--accent);
     }
     main p a:not(.btn):hover, main li a:hover, main td a:hover {
       color: #33ddff;
     }
 
-    /* ── Responsive ───────────────────────────────────────── */
     @media (max-width: 900px) {
       .doc-grid { grid-template-columns: 1fr; }
       .sidebar { border-right: none; border-bottom: 1px solid var(--border-subtle); padding-right: 0; padding-bottom: 20px; }
@@ -169,11 +160,11 @@
         </a>
         <nav class="desktop-nav">
           <a href="../index.html">Home</a>
+          <a href="../index.html#how-it-works">How It Works</a>
           <a href="index.html" class="active">Documentation</a>
-          <a href="concepts.html">Concepts</a>
           <a href="../sireen/download.html">Download</a>
           <a href="../guide.html">Guide</a>
-          <a class="btn btn-primary" href="../sireen/download.html" style="padding:8px 18px;font-size:0.82rem;">Get Started</a>
+          <a class="btn btn-primary" href="../sireen/download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
@@ -181,11 +172,11 @@
       </div>
       <nav class="mobile-nav">
         <a href="../index.html">Home</a>
+        <a href="../index.html#how-it-works">How It Works</a>
         <a href="index.html">Documentation</a>
-        <a href="concepts.html">Concepts</a>
         <a href="../sireen/download.html">Download</a>
         <a href="../guide.html">Guide</a>
-        <a href="../sireen/download.html" style="color:var(--accent-cyan);font-weight:600;">Get Started</a>
+        <a href="../sireen/download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
@@ -201,17 +192,14 @@
       <div class="doc-grid">
         <aside class="sidebar">
           <h4>Getting Started</h4>
-          <a href="../guide.html">Quick Start Guide</a>
-          <a href="../sireen/download.html">Installation</a>
-          <a href="concepts.html" class="active">Core Concepts</a>
+          <a href="../guide.html">Quick Start</a>
+          <a href="concepts.html" class="active">Concepts</a>
+          <a href="cli.html">CLI Reference</a>
+          <a href="ai-mode.html">AI Mode</a>
 
           <h4>Reference</h4>
-          <a href="cli.html">CLI Commands</a>
-          <a href="ai-mode.html">AI-Assisted Mode</a>
-          <a href="limitations.html">Known Limitations</a>
-
-          <h4>Help</h4>
           <a href="faq.html">FAQ</a>
+          <a href="limitations.html">Known Limitations</a>
         </aside>
 
         <div class="content">
@@ -288,7 +276,7 @@
             <div class="technical"><strong>Technical:</strong> When an OpenRouter API key is configured, SIREEN sends anonymized source code to LLM models (scanner, attacker, verifier, judge roles). The model's output is parsed into <code>AttackScenario</code> objects and processed identically to heuristic hypotheses.</div>
           </div>
 
-          <div class="warning reveal">
+          <div class="callout callout-warning reveal">
             <b>Important distinction</b>
             <p>A passing PoC confirms the behavior exercised by that specific test — not every possible exploit scenario, not the absence of other bugs, and not formal correctness of the entire contract. Always combine tool output with manual review.</p>
           </div>
@@ -318,13 +306,13 @@
         </div>
         <div class="footer-col">
           <h4>Project</h4>
-          <a href="https://github.com/0766243478">Owner on GitHub</a>
-          <a href="../index.html#scope">Scope &amp; Limitations</a>
+          <a href="https://github.com/0766243478" target="_blank" rel="noopener">Owner on GitHub</a>
+          <a href="../index.html#differentiation">Scope &amp; Limitations</a>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>LOCAL-FIRST - FORGE-BACKED - FREE FOR RESEARCHERS</span>
-        <span>SIREEN CORE v0.1.1 - Not production-ready</span>
+        <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
+        <span>SIREEN CORE v0.1.1 &mdash; Not production-ready</span>
       </div>
     </div>
   </footer>
