@@ -22,112 +22,184 @@
   <meta name="twitter:description" content="Step-by-step guide to running your first SIREEN Solidity security audit.">
   <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/sireen.css">
   <style>
-    :root { --ink:#dce7ed; --muted:#92a4ad; --panel:#0e191f; --line:#253941; --cyan:#0ba3f5; --lime:#a9d66c; --amber:#efbb5c; --red:#f0786b; --bg:#071015; }
-    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui, -apple-system, sans-serif; }
-    a { color:var(--cyan); text-decoration:none; } a:hover { text-decoration:underline; }
-    .shell { width:min(900px, calc(100% - 40px)); margin:auto; }
-    /* Accessibility: prose links must not rely on colour alone */
-    main p a:not(.button), main li a, main td a { text-decoration: underline; text-underline-offset: 2px; }
-    .eyebrow { color:var(--cyan); font-size:.76rem; letter-spacing:.12em; text-transform:uppercase; }
-    header { position:sticky; top:0; z-index:100; background:rgba(7,16,21,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
-    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:16px 0; }
-    .brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.08em; text-decoration:none; color:var(--ink); font-size:1.1rem; }
-    .brand img { width:32px; height:32px; object-fit:contain; }
-    .desktop-nav { display:flex; gap:28px; align-items:center; }
-    .desktop-nav a { text-decoration:none; color:var(--muted); font-size:.88rem; transition:color .2s; }
-    .desktop-nav a:hover { color:var(--cyan); }
-    .mobile-menu-btn { display:none; background:none; border:1px solid var(--line); color:var(--muted); padding:8px 12px; cursor:pointer; }
-    .mobile-nav { display:none; padding:16px 0; border-top:1px solid var(--line); }
-    .mobile-nav a { display:block; padding:10px 0; color:var(--muted); text-decoration:none; font-size:.9rem; }
+    /* ── Page-specific layout ─────────────────────────────── */
+    .page-header { padding: 60px 0 20px; }
+    .page-header h1 { margin: 20px 0 16px; }
+    .page-header p { max-width: 640px; font-size: 1.1rem; color: var(--text-secondary); }
 
-    h1 { margin:40px 0 16px; font-family:Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.05; }
-    h2 { margin:48px 0 16px; font-family:Georgia,serif; font-size:clamp(1.4rem,3.5vw,2rem); color:var(--cyan); border-bottom:1px solid var(--line); padding-bottom:10px; }
-    h3 { margin:28px 0 10px; font-size:1.05rem; color:var(--ink); }
-    p { max-width:780px; color:#b9c8ce; }
-    ul, ol { color:var(--muted); max-width:780px; }
-    li { margin-bottom:8px; }
+    /* ── TOC ──────────────────────────────────────────────── */
+    .toc {
+      padding: 24px 28px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      margin: 24px 0 40px;
+      backdrop-filter: blur(8px);
+    }
+    .toc b {
+      display: block;
+      color: var(--accent-cyan);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .toc ul { margin: 0; padding-left: 20px; color: var(--text-secondary); }
+    .toc li { margin-bottom: 6px; }
+    .toc a {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color var(--transition-fast);
+    }
+    .toc a:hover { color: var(--accent-cyan); }
 
-    pre { display:block; overflow:auto; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); background:#050d11; color:#c1dce8; font-size:.85rem; line-height:1.6; margin:14px 0; }
-    code { background:#050d11; color:#c1dce8; padding:2px 6px; border:1px solid var(--line); font-size:.88rem; }
+    /* ── Section headings ─────────────────────────────────── */
+    .content h2 {
+      margin: 48px 0 16px;
+      color: var(--accent-cyan);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
+    }
+    .content h3 {
+      margin: 28px 0 10px;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+    }
 
-    .warning { padding:14px 18px; border-left:3px solid var(--amber); background:#0e191f; margin:16px 0; }
-    .warning b { color:var(--amber); }
-    .warning p { color:var(--muted); font-size:.85rem; margin:6px 0 0; }
+    /* ── Prose links accessibility ────────────────────────── */
+    main p a:not(.btn), main li a, main td a {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      color: var(--accent-cyan);
+    }
+    main p a:not(.btn):hover, main li a:hover, main td a:hover {
+      color: #33ddff;
+    }
 
-    .tip { padding:14px 18px; border-left:3px solid var(--lime); background:#0e191f; margin:16px 0; }
-    .tip b { color:var(--lime); }
+    /* ── Warning / Tip / Step cards ───────────────────────── */
+    .warning {
+      padding: 18px 22px;
+      border-left: 3px solid var(--accent-amber);
+      background: var(--bg-card);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 20px 0;
+    }
+    .warning b { color: var(--accent-amber); font-size: 0.92rem; }
+    .warning p { color: var(--text-muted); font-size: 0.88rem; margin: 8px 0 0; }
 
-    .step-card { padding:22px; border:1px solid var(--line); background:var(--panel); margin:16px 0; }
-    .step-card b { color:var(--cyan); display:block; margin-bottom:8px; }
+    .tip {
+      padding: 18px 22px;
+      border-left: 3px solid var(--accent-lime);
+      background: var(--bg-card);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 20px 0;
+    }
+    .tip b { color: var(--accent-lime); font-size: 0.92rem; }
+    .tip p { color: var(--text-muted); font-size: 0.88rem; margin: 8px 0 0; }
 
-    table { width:100%; border-collapse:collapse; margin:16px 0; font-size:.9rem; }
-    th, td { padding:10px 14px; border:1px solid var(--line); text-align:left; }
-    th { background:var(--panel); color:var(--cyan); font-weight:700; }
-    td { color:var(--muted); }
+    .step-card {
+      padding: 24px 28px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      margin: 20px 0;
+    }
+    .step-card b {
+      color: var(--accent-cyan);
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
 
-    .toc { padding:18px; border:1px solid var(--line); background:var(--panel); margin:20px 0; }
-    .toc b { color:var(--cyan); display:block; margin-bottom:10px; }
-    .toc ul { margin:0; padding-left:20px; }
-    .toc a { color:var(--muted); }
-    .toc a:hover { color:var(--cyan); }
+    /* ── Tables ───────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 12px 16px;
+      border: 1px solid var(--border-subtle);
+      text-align: left;
+    }
+    th {
+      background: var(--bg-tertiary);
+      color: var(--accent-cyan);
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    td { color: var(--text-secondary); }
+    td:first-child { color: var(--text-primary); font-weight: 500; }
+    td code { font-size: 0.8rem; }
 
-    .button { padding:12px 18px; text-decoration:none; border:1px solid var(--cyan); font-weight:700; transition:all .2s; display:inline-block; color:var(--cyan); margin-top:8px; }
-    .button:hover { background:var(--cyan); color:#031218; text-decoration:none; }
+    /* ── Lists ────────────────────────────────────────────── */
+    ul, ol { color: var(--text-secondary); max-width: 780px; padding-left: 20px; }
+    li { margin-bottom: 8px; }
 
-    footer { padding:40px 0 60px; border-top:1px solid var(--line); margin-top:40px; }
-    .footer-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:40px; flex-wrap:wrap; }
-    .footer-brand { max-width:300px; }
-    .footer-brand b { color:var(--ink); font-size:1.1rem; }
-    .footer-brand p { color:var(--muted); font-size:.82rem; margin:8px 0 0; }
-    .footer-links { display:flex; gap:48px; flex-wrap:wrap; }
-    .footer-col b { display:block; color:var(--ink); font-size:.82rem; margin-bottom:12px; letter-spacing:.05em; }
-    .footer-col a { display:block; color:var(--muted); text-decoration:none; font-size:.82rem; margin-bottom:8px; transition:color .2s; }
-    .footer-col a:hover { color:var(--cyan); }
-    .footer-bottom { margin-top:32px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--muted); font-size:.75rem; flex-wrap:wrap; gap:12px; }
-
-    @media (max-width:700px) {
-      .desktop-nav { display:none; }
-      .mobile-menu-btn { display:block; }
-      .mobile-nav.open { display:block; }
-      .shell { width:min(100% - 24px,900px); }
-      table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-      .footer-inner { flex-direction:column; }
-      pre { font-size:.78rem; padding:12px; }
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .page-header { padding: 40px 0 16px; }
+      table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    }
+    @media (max-width: 600px) {
+      .toc, .step-card, .warning, .tip { padding: 16px 18px; }
+      pre { padding: 12px; font-size: 0.78rem; }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header>
-      <div class="shell">
-        <div class="nav-inner">
-          <a class="brand" href="index.html"><img src="icon.png" alt="SIREEN logo">SIREEN</a>
-          <nav class="desktop-nav">
-            <a href="index.html">Home</a>
-            <a href="index.html#how-it-works">How It Works</a>
-            <a href="docs/index.html">Documentation</a>
-            <a href="sireen/download.html">Download</a>
-            <a href="guide.html" style="color:var(--cyan);">Guide</a>
-          </nav>
-          <button class="mobile-menu-btn" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Toggle menu">☰</button>
-        </div>
-        <nav class="mobile-nav">
+
+  <header class="site-header">
+    <div class="shell">
+      <div class="nav-inner">
+        <a class="brand" href="https://www.gaolaif.org/">
+          <img src="icon.png" alt="SIREEN">
+          <span>SIREEN</span>
+        </a>
+        <nav class="desktop-nav">
           <a href="index.html">Home</a>
           <a href="index.html#how-it-works">How It Works</a>
           <a href="docs/index.html">Documentation</a>
           <a href="sireen/download.html">Download</a>
-          <a href="guide.html">Guide</a>
+          <a href="guide.html" class="active">Guide</a>
+          <a class="btn btn-primary" href="sireen/download.html" style="padding:8px 18px;font-size:0.82rem;">Get Started</a>
         </nav>
+        <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
       </div>
-    </header>
+      <nav class="mobile-nav">
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="docs/index.html">Documentation</a>
+        <a href="sireen/download.html">Download</a>
+        <a href="guide.html">Guide</a>
+        <a href="sireen/download.html" style="color:var(--accent-cyan);font-weight:600;">Get Started</a>
+      </nav>
+    </div>
+  </header>
 
-    <main>
-      <span class="eyebrow">Guide</span>
-      <h1>Your First SIREEN Audit</h1>
-      <p>A step-by-step walkthrough for security researchers who want to audit a Solidity contract with SIREEN, interpret the results, and know what to do next.</p>
+  <main>
+    <div class="shell">
+      <div class="page-header">
+        <div class="eyebrow">Guide</div>
+        <h1>Your First SIREEN Audit</h1>
+        <p>A step-by-step walkthrough for security researchers who want to audit a Solidity contract with SIREEN, interpret the results, and know what to do next.</p>
+      </div>
 
-      <div class="toc">
+      <div class="toc reveal">
         <b>Contents</b>
         <ul>
           <li><a href="#install">1. Install</a></li>
@@ -139,58 +211,59 @@
         </ul>
       </div>
 
-      <h2 id="install">1. Install</h2>
-      <p>You need Python 3.11+ and pip. Foundry is optional but strongly recommended.</p>
-      <div class="warning">
-        <b>Repository access required</b>
-        <p>The SIREEN source repository is not publicly readable today, so <code>git clone</code> below will fail until access is granted. Request access from the project owner at <a href="https://github.com/0766243478" target="_blank" rel="noopener">github.com/0766243478</a>. See the <a href="sireen/download.html">download page</a> for details. Checked 2026-10-15.</p>
-      </div>
-      <pre>git clone https://github.com/0766243478/goalaif.git
+      <div class="content">
+        <h2 id="install">1. Install</h2>
+        <p>You need Python 3.11+ and pip. Foundry is optional but strongly recommended.</p>
+        <div class="warning reveal">
+          <b>Repository access required</b>
+          <p>The SIREEN source repository is not publicly readable today, so <code>git clone</code> below will fail until access is granted. Request access from the project owner at <a href="https://github.com/0766243478" target="_blank" rel="noopener">github.com/0766243478</a>. See the <a href="sireen/download.html">download page</a> for details. Checked 2026-10-15.</p>
+        </div>
+        <pre class="reveal">git clone https://github.com/0766243478/goalaif.git
 cd goalaif/gaolaif/backend
 python -m pip install -r requirements.txt
 python -m pip install -e .</pre>
-      <p>Verify the installation:</p>
-      <pre>sireen --help</pre>
-      <p>Expected output: usage information for the <code>sireen</code> command.</p>
-      <div class="tip">
-        <b>Tip</b>
-        <p>If <code>sireen</code> is not found, your Python Scripts directory may not be on PATH. Use <code>python -m sireen_cli</code> as a fallback.</p>
-      </div>
+        <p>Verify the installation:</p>
+        <pre class="reveal">sireen --help</pre>
+        <p>Expected output: usage information for the <code>sireen</code> command.</p>
+        <div class="tip reveal">
+          <b>Tip</b>
+          <p>If <code>sireen</code> is not found, your Python Scripts directory may not be on PATH. Use <code>python -m sireen_cli</code> as a fallback.</p>
+        </div>
 
-      <h2 id="configure">2. Configure your API key (optional)</h2>
-      <p>SIREEN works fully offline. An OpenRouter key enables AI-assisted hypothesis generation.</p>
-      <ol>
-        <li>Sign up for free at <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>.</li>
-        <li>Create a key (starts with <code>sk-or-v1-</code>).</li>
-        <li>In the backend directory, run: <code>cp .env.example .env.local</code></li>
-        <li>Edit <code>.env.local</code> and add your key.</li>
-      </ol>
-      <div class="warning">
-        <b>Security reminder</b>
-        <p><code>.env.local</code> is gitignored. Never commit it. Never share it. Each researcher must use their own key.</p>
-      </div>
+        <h2 id="configure">2. Configure your API key (optional)</h2>
+        <p>SIREEN works fully offline. An OpenRouter key enables AI-assisted hypothesis generation.</p>
+        <ol>
+          <li>Sign up for free at <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>.</li>
+          <li>Create a key (starts with <code>sk-or-v1-</code>).</li>
+          <li>In the backend directory, run: <code>cp .env.example .env.local</code></li>
+          <li>Edit <code>.env.local</code> and add your key.</li>
+        </ol>
+        <div class="warning reveal">
+          <b>Security reminder</b>
+          <p><code>.env.local</code> is gitignored. Never commit it. Never share it. Each researcher must use their own key.</p>
+        </div>
 
-      <h2 id="first">3. Run your first analysis</h2>
-      <p>We will use the built-in test fixture <code>VulnerableVault.sol</code>, a contract with a known reentrancy bug.</p>
-      <pre>sireen audit ../../test_projects/critical_reentrancy/src/VulnerableVault.sol --report</pre>
-      <p>This command:</p>
-      <ul>
-        <li>Reads the contract source</li>
-        <li>Discovers functions, state variables, and external calls</li>
-        <li>Generates a reentrancy hypothesis</li>
-        <li>Produces a Foundry PoC test file</li>
-        <li>Attempts to compile and run it with Forge (if available)</li>
-        <li>Writes a Markdown report</li>
-      </ul>
-      <p>Without Forge, the audit completes in a few seconds. With Forge, it may take 10–30 seconds depending on compilation time.</p>
-      <div class="tip">
-        <b>Tip</b>
-        <p>Use <code>--json</code> for machine-readable output, or <code>--project</code> to audit an entire Foundry project directory.</p>
-      </div>
+        <h2 id="first">3. Run your first analysis</h2>
+        <p>We will use the built-in test fixture <code>VulnerableVault.sol</code>, a contract with a known reentrancy bug.</p>
+        <pre class="reveal">sireen audit ../../test_projects/critical_reentrancy/src/VulnerableVault.sol --report</pre>
+        <p>This command:</p>
+        <ul>
+          <li>Reads the contract source</li>
+          <li>Discovers functions, state variables, and external calls</li>
+          <li>Generates a reentrancy hypothesis</li>
+          <li>Produces a Foundry PoC test file</li>
+          <li>Attempts to compile and run it with Forge (if available)</li>
+          <li>Writes a Markdown report</li>
+        </ul>
+        <p>Without Forge, the audit completes in a few seconds. With Forge, it may take 10–30 seconds depending on compilation time.</p>
+        <div class="tip reveal">
+          <b>Tip</b>
+          <p>Use <code>--json</code> for machine-readable output, or <code>--project</code> to audit an entire Foundry project directory.</p>
+        </div>
 
-      <h2 id="read">4. Read the output</h2>
-      <p>After the audit finishes, you will see a summary like this:</p>
-      <pre>SIREEN
+        <h2 id="read">4. Read the output</h2>
+        <p>After the audit finishes, you will see a summary like this:</p>
+        <pre class="reveal">SIREEN
 Forge-backed adversarial security workbench
 
 FILE
@@ -213,77 +286,81 @@ Evidence: evd-ce5159fb8f56
 TERMINAL STATE
 DEGRADED</pre>
 
-      <h3>What each field means</h3>
-      <table>
-        <tr><th>Field</th><th>Meaning</th></tr>
-        <tr><td><code>terminal_state</code></td><td>The overall verdict: <code>CONFIRMED</code>, <code>CLEAN_WITH_COVERAGE</code>, <code>DEGRADED</code>, <code>UNVERIFIED</code>, or <code>FAILED</code></td></tr>
-        <tr><td><code>findings[].confirmed</code></td><td><code>true</code> only if Forge executed the PoC and it passed</td></tr>
-        <tr><td><code>findings[].needs_review</code></td><td><code>true</code> when a PoC exists but was not executed (Forge missing) or the test failed</td></tr>
-        <tr><td><code>reasoning_mode</code></td><td><code>HEURISTIC</code> (offline) or <code>LLM_ASSISTED</code> (AI involved)</td></tr>
-        <tr><td><code>execution_status</code></td><td><code>llm_executed</code>, <code>llm_unavailable</code>, <code>heuristic_only</code>, or <code>llm_error</code></td></tr>
-        <tr><td><code>evidence[].poc_source</code></td><td>The complete generated Foundry test file</td></tr>
-      </table>
+        <h3>What each field means</h3>
+        <div class="reveal">
+          <table>
+            <tr><th>Field</th><th>Meaning</th></tr>
+            <tr><td><code>terminal_state</code></td><td>The overall verdict: <code>CONFIRMED</code>, <code>CLEAN_WITH_COVERAGE</code>, <code>DEGRADED</code>, <code>UNVERIFIED</code>, or <code>FAILED</code></td></tr>
+            <tr><td><code>findings[].confirmed</code></td><td><code>true</code> only if Forge executed the PoC and it passed</td></tr>
+            <tr><td><code>findings[].needs_review</code></td><td><code>true</code> when a PoC exists but was not executed (Forge missing) or the test failed</td></tr>
+            <tr><td><code>reasoning_mode</code></td><td><code>HEURISTIC</code> (offline) or <code>LLM_ASSISTED</code> (AI involved)</td></tr>
+            <tr><td><code>execution_status</code></td><td><code>llm_executed</code>, <code>llm_unavailable</code>, <code>heuristic_only</code>, or <code>llm_error</code></td></tr>
+            <tr><td><code>evidence[].poc_source</code></td><td>The complete generated Foundry test file</td></tr>
+          </table>
+        </div>
 
-      <h3>Terminal states explained</h3>
-      <table>
-        <tr><th>State</th><th>What it means</th><th>Your action</th></tr>
-        <tr><td><code>CONFIRMED</code></td><td>Forge verified at least one finding. Evidence is complete.</td><td>Review the evidence pack and consider remediation.</td></tr>
-        <tr><td><code>CLEAN_WITH_COVERAGE</code></td><td>No findings. Every hypothesis received a real Forge attempt.</td><td>Continue with manual review for out-of-scope vectors.</td></tr>
-        <tr><td><code>DEGRADED</code></td><td>Findings exist but could not be fully verified.</td><td>Manually triage each <code>needs_review</code> finding.</td></tr>
-        <tr><td><code>UNVERIFIED</code></td><td>Coverage was insufficient to classify.</td><td>Check if the contract has supported patterns (external calls, state variables).</td></tr>
-        <tr><td><code>FAILED</code></td><td>Pipeline crashed or every PoC failed compilation.</td><td>Check Python/Forge versions and file a bug report.</td></tr>
-      </table>
+        <h3>Terminal states explained</h3>
+        <div class="reveal">
+          <table>
+            <tr><th>State</th><th>What it means</th><th>Your action</th></tr>
+            <tr><td><code>CONFIRMED</code></td><td>Forge verified at least one finding. Evidence is complete.</td><td>Review the evidence pack and consider remediation.</td></tr>
+            <tr><td><code>CLEAN_WITH_COVERAGE</code></td><td>No findings. Every hypothesis received a real Forge attempt.</td><td>Continue with manual review for out-of-scope vectors.</td></tr>
+            <tr><td><code>DEGRADED</code></td><td>Findings exist but could not be fully verified.</td><td>Manually triage each <code>needs_review</code> finding.</td></tr>
+            <tr><td><code>UNVERIFIED</code></td><td>Coverage was insufficient to classify.</td><td>Check if the contract has supported patterns (external calls, state variables).</td></tr>
+            <tr><td><code>FAILED</code></td><td>Pipeline crashed or every PoC failed compilation.</td><td>Check Python/Forge versions and file a bug report.</td></tr>
+          </table>
+        </div>
 
-      <h2 id="review">5. Review findings</h2>
+        <h2 id="review">5. Review findings</h2>
 
-      <h3>If a finding is CONFIRMED</h3>
-      <p>You have machine-verified evidence. The PoC compiled, ran, and its security assertions passed. Treat this as high-confidence evidence of a real vulnerability.</p>
-      <ol>
-        <li>Open the evidence pack via <code>sireen show &lt;audit-id&gt;</code>.</li>
-        <li>Copy the <code>poc_source</code> into a file named <code>PoC.t.sol</code>.</li>
-        <li>Run it yourself: <code>forge test --match-path '*PoC*'</code></li>
-        <li>If it passes, the vulnerability is independently reproducible.</li>
-      </ol>
+        <h3>If a finding is CONFIRMED</h3>
+        <p>You have machine-verified evidence. The PoC compiled, ran, and its security assertions passed. Treat this as high-confidence evidence of a real vulnerability.</p>
+        <ol>
+          <li>Open the evidence pack via <code>sireen show &lt;audit-id&gt;</code>.</li>
+          <li>Copy the <code>poc_source</code> into a file named <code>PoC.t.sol</code>.</li>
+          <li>Run it yourself: <code>forge test --match-path '*PoC*'</code></li>
+          <li>If it passes, the vulnerability is independently reproducible.</li>
+        </ol>
 
-      <h3>If a finding is needs_review</h3>
-      <p>This is the most common outcome when Forge is not installed. The heuristic detected a suspicious pattern and generated a PoC, but the PoC was not executed.</p>
-      <ol>
-        <li>Read the <code>poc_source</code> in the evidence pack.</li>
-        <li>Judge whether the attack path is realistic.</li>
-        <li>If you have Forge, copy the PoC into a test file and run it.</li>
-        <li>If the test passes, the vulnerability is real.</li>
-        <li>If the test fails or the PoC is nonsensical, it is likely a false positive.</li>
-      </ol>
+        <h3>If a finding is needs_review</h3>
+        <p>This is the most common outcome when Forge is not installed. The heuristic detected a suspicious pattern and generated a PoC, but the PoC was not executed.</p>
+        <ol>
+          <li>Read the <code>poc_source</code> in the evidence pack.</li>
+          <li>Judge whether the attack path is realistic.</li>
+          <li>If you have Forge, copy the PoC into a test file and run it.</li>
+          <li>If the test passes, the vulnerability is real.</li>
+          <li>If the test fails or the PoC is nonsensical, it is likely a false positive.</li>
+        </ol>
 
-      <h3>Common false positives</h3>
-      <ul>
-        <li><b>Accounting inconsistency:</b> Any function that updates multiple state variables is flagged. Legitimate accounting code often triggers this.</li>
-        <li><b>Reentrancy on guarded functions:</b> The heuristic may flag an external call even when a <code>nonReentrant</code> modifier is present.</li>
-        <li><b>Access control on view functions:</b> A function that reads privileged state but does not mutate it may be incorrectly flagged.</li>
-      </ul>
+        <h3>Common false positives</h3>
+        <ul>
+          <li><b>Accounting inconsistency:</b> Any function that updates multiple state variables is flagged. Legitimate accounting code often triggers this.</li>
+          <li><b>Reentrancy on guarded functions:</b> The heuristic may flag an external call even when a <code>nonReentrant</code> modifier is present.</li>
+          <li><b>Access control on view functions:</b> A function that reads privileged state but does not mutate it may be incorrectly flagged.</li>
+        </ul>
 
-      <h2 id="report">6. Report bugs and false positives</h2>
-      <p>Your feedback directly improves the engine. Please report:</p>
-      <ul>
-        <li><b>False positive:</b> A safe contract flagged as vulnerable</li>
-        <li><b>False negative:</b> An obviously vulnerable contract returns <code>CLEAN_WITH_COVERAGE</code></li>
-        <li><b>Crash:</b> <code>FAILED</code> terminal state with an error</li>
-        <li><b>CLI/extension mismatch:</b> Same file produces different results</li>
-        <li><b>AI quality issue:</b> LLM output is nonsense or irrelevant</li>
-      </ul>
+        <h2 id="report">6. Report bugs and false positives</h2>
+        <p>Your feedback directly improves the engine. Please report:</p>
+        <ul>
+          <li><b>False positive:</b> A safe contract flagged as vulnerable</li>
+          <li><b>False negative:</b> An obviously vulnerable contract returns <code>CLEAN_WITH_COVERAGE</code></li>
+          <li><b>Crash:</b> <code>FAILED</code> terminal state with an error</li>
+          <li><b>CLI/extension mismatch:</b> Same file produces different results</li>
+          <li><b>AI quality issue:</b> LLM output is nonsense or irrelevant</li>
+        </ul>
 
-      <p>Contact the project owner through their <a href="https://github.com/0766243478">GitHub profile</a> and include:</p>
-      <ol>
-        <li>The exact command you ran</li>
-        <li>The contract source (or a minimal reproduction)</li>
-        <li>The full output (use <code>--json</code>)</li>
-        <li>Your environment: OS, Python version, Forge version</li>
-        <li>Whether you had an OpenRouter key configured</li>
-      </ol>
+        <p>Contact the project owner through their <a href="https://github.com/0766243478">GitHub profile</a> and include:</p>
+        <ol>
+          <li>The exact command you ran</li>
+          <li>The contract source (or a minimal reproduction)</li>
+          <li>The full output (use <code>--json</code>)</li>
+          <li>Your environment: OS, Python version, Forge version</li>
+          <li>Whether you had an OpenRouter key configured</li>
+        </ol>
 
-      <div class="step-card">
-        <b>Quick command reference</b>
-        <pre># Audit one file
+        <div class="step-card reveal">
+          <b>Quick command reference</b>
+          <pre># Audit one file
 sireen audit ./Contract.sol
 sireen audit ./Contract.sol --json
 sireen audit ./Contract.sol --report
@@ -298,47 +375,48 @@ sireen report &lt;audit-id&gt; --output report.md
 
 # Start backend server (for VS Code extension)
 python -m uvicorn main:app --host 127.0.0.1 --port 7432</pre>
-      </div>
-
-      <div style="margin-top:30px;">
-        <a class="button" href="sireen/download.html">Go to Download page</a>
-        <a class="button" href="index.html" style="margin-left:10px;">Back to Home</a>
-      </div>
-    </main>
-
-    <footer>
-      <div class="shell">
-        <div class="footer-inner">
-          <div class="footer-brand">
-            <b>SIREEN</b>
-            <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
-          </div>
-          <div class="footer-links">
-            <div class="footer-col">
-              <b>Product</b>
-              <a href="index.html">Home</a>
-              <a href="index.html#how-it-works">How It Works</a>
-              <a href="sireen/download.html">Download</a>
-            </div>
-            <div class="footer-col">
-              <b>Resources</b>
-              <a href="docs/index.html">Documentation</a>
-              <a href="docs/faq.html">FAQ</a>
-              <a href="docs/limitations.html">Known Limitations</a>
-            </div>
-            <div class="footer-col">
-              <b>Community</b>
-              <a href="https://github.com/0766243478">Project owner on GitHub</a>
-              <a href="docs/limitations.html">Known Limitations</a>
-            </div>
-          </div>
         </div>
-        <div class="footer-bottom">
-          <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
-          <span>SIREEN CORE v0.1.1 &middot; Not production-ready</span>
+
+        <div style="margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;" class="reveal">
+          <a class="btn btn-primary" href="sireen/download.html">Go to Download page</a>
+          <a class="btn btn-secondary" href="index.html">Back to Home</a>
         </div>
       </div>
-    </footer>
-  </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <b>SIREEN</b>
+          <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="index.html">Home</a>
+          <a href="index.html#how-it-works">How It Works</a>
+          <a href="sireen/download.html">Download</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="docs/index.html">Documentation</a>
+          <a href="docs/faq.html">FAQ</a>
+          <a href="docs/limitations.html">Known Limitations</a>
+        </div>
+        <div class="footer-col">
+          <h4>Project</h4>
+          <a href="https://github.com/0766243478">Owner on GitHub</a>
+          <a href="index.html#scope">Scope &amp; Limitations</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>LOCAL-FIRST - FORGE-BACKED - FREE FOR RESEARCHERS</span>
+        <span>SIREEN CORE v0.1.1 - Not production-ready</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/sireen.js"></script>
 </body>
 </html>
