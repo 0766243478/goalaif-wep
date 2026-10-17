@@ -161,39 +161,54 @@
             <p>AI-assisted mode is <strong>wired but unevaluated</strong> for hypothesis quality. The pipeline has been tested for connectivity, but we have not systematically measured whether AI-generated hypotheses produce better, worse, or different findings than heuristic-only mode. Use it experimentally and report your experience.</p>
           </div>
 
-          <h2>Setup</h2>
-          <h3>Step 1 — Create a free OpenRouter account</h3>
-          <ol>
-            <li>Go to <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>.</li>
-            <li>Sign up (email or OAuth).</li>
-            <li>Navigate to <b>Keys</b> and create a new API key.</li>
-            <li>Copy the key (starts with <code>sk-or-v1-</code>).</li>
-          </ol>
-          <p>No credit card is required. Free-tier models are used by default.</p>
+          <h2>Setup — Connect Any LLM API Key</h2>
+          <p>SIREEN connects to LLMs through <a href="https://openrouter.ai" target="_blank" rel="noopener">OpenRouter</a>, which supports <strong>any API key</strong> you already have — free or paid. You are not locked into a single provider.</p>
 
-          <h3>Step 2 — Configure SIREEN</h3>
+          <h3>Step 1 — Get your API key</h3>
+          <p>You have two options:</p>
+
+          <div class="callout callout-info reveal">
+            <b>Option A — Use an existing key (OpenAI, Anthropic, Google, DeepSeek, etc.)</b>
+            <p>OpenRouter accepts keys from major providers. Sign in at <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>, link your existing provider key, and OpenRouter will route requests for you.</p>
+          </div>
+
+          <div class="callout callout-info reveal">
+            <b>Option B — Create a free OpenRouter key</b>
+            <ol>
+              <li>Go to <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>.</li>
+              <li>Sign up (email or OAuth).</li>
+              <li>Navigate to <b>Keys</b> and create a new API key.</li>
+              <li>Copy the key (starts with <code>sk-or-v1-</code>).</li>
+            </ol>
+            <p>No credit card is required. Free-tier models are used by default.</p>
+          </div>
+
+          <h3>Step 2 — Link your key to SIREEN</h3>
           <pre class="reveal">cd goalaif/gaolaif/backend
 cp .env.example .env.local</pre>
-          <p>Edit <code>.env.local</code> and add your key:</p>
+          <p>Edit <code>.env.local</code> and paste your key:</p>
           <pre class="reveal">OPENROUTER_API_KEY=sk-or-v1-YOUR-KEY-HERE</pre>
+          <p>Replace <code>YOUR-KEY-HERE</code> with your actual key. SIREEN reads this variable at runtime.</p>
 
-          <h3>Step 3 — Verify it works</h3>
+          <h3>Step 3 — Verify the connection</h3>
           <pre class="reveal">sireen audit ./Contract.sol --json | grep reasoning_mode</pre>
           <p>Expected output: <code>"reasoning_mode": "LLM_ASSISTED"</code></p>
+          <p>If you see <code>HEURISTIC</code>, the key was not read. Check that <code>.env.local</code> is in the correct directory and the variable name is exactly <code>OPENROUTER_API_KEY</code>.</p>
 
-          <h2>Free-Tier Models</h2>
-          <p>SIREEN uses the following free-tier models from OpenRouter:</p>
+          <h2>Which Models Does SIREEN Use?</h2>
+          <p>By default, SIREEN routes to free-tier models through OpenRouter:</p>
           <ul>
-            <li><b>Scanner:</b> nvidia/nemotron-3-ultra-550b-a55b:free</li>
+            <li><b>Scanner:</b> nvidia/nemotron-3-ultra-550b-a12b:free</li>
             <li><b>Attacker:</b> nvidia/nemotron-3-super-120b-a12b:free</li>
             <li><b>Verifier:</b> nvidia/nemotron-3.5-content-safety:free</li>
             <li><b>Judge:</b> nvidia/nemotron-3-super-120b-a12b:free</li>
             <li><b>Documenter:</b> cohere/north-mini-code:free</li>
           </ul>
+          <p>If you link a paid provider key (OpenAI, Anthropic, etc.), OpenRouter will use your credited balance to route requests. You can also configure specific models in your SIREEN settings.</p>
 
           <div class="callout callout-tip reveal">
             <b>Privacy note</b>
-            <p>Source code is sent to OpenRouter's API. Do not enable AI mode on contracts you are not authorized to share externally. For sensitive code, use heuristic-only mode.</p>
+            <p>Contract source is sent to OpenRouter's API (and then to the underlying LLM provider). Do not enable AI mode on contracts you are not authorized to share externally. For sensitive code, use heuristic-only mode.</p>
           </div>
 
           <h2>Troubleshooting</h2>
@@ -202,7 +217,8 @@ cp .env.example .env.local</pre>
               <tr><th>Problem</th><th>Fix</th></tr>
               <tr><td><code>reasoning_mode: HEURISTIC</code></td><td>Key not read. Check <code>.env.local</code> exists in <code>goalaif/gaolaif/backend/</code> and contains the correct key.</td></tr>
               <tr><td>HTTP 401 errors</td><td>Invalid or expired key. Regenerate at openrouter.ai.</td></tr>
-              <tr><td>Slow responses</td><td>Free-tier models have rate limits. Add delays between requests or upgrade.</td></tr>
+              <tr><td>HTTP 429 errors</td><td>Rate limit hit. Wait a moment, or switch to a paid provider key for higher limits.</td></tr>
+              <tr><td>Slow responses</td><td>Free-tier models have rate limits. Add delays between requests or link a paid provider key.</td></tr>
             </table>
           </div>
         </div>

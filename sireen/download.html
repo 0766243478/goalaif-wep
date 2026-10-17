@@ -247,16 +247,17 @@ python -m pip install -e .</pre>
 
           <h3>Step 2 — Configure your API key (optional)</h3>
           <p>SIREEN works fully offline without an API key. Adding one enables AI-assisted hypothesis generation, which can suggest additional attack angles beyond heuristic patterns.</p>
+          <p><strong>You can use any LLM API key</strong> — OpenRouter accepts keys from OpenAI, Anthropic, Google, DeepSeek, and others. You are not locked into one provider.</p>
           <pre class="reveal">cd goalaif/gaolaif/backend
 cp .env.example .env.local</pre>
-          <p>Edit <code>.env.local</code> and add your own OpenRouter key:</p>
+          <p>Edit <code>.env.local</code> and add your key:</p>
           <pre class="reveal"># In .env.local
 OPENROUTER_API_KEY=sk-or-v1-YOUR-KEY-HERE</pre>
           <div class="callout callout-warning reveal">
             <b>Security</b>
-            <p><code>.env.local</code> is gitignored by default. Never commit real keys. Never share this file. If you suspect a leak, revoke the key on OpenRouter immediately and generate a new one.</p>
+            <p><code>.env.local</code> is gitignored by default. Never commit real keys. Never share this file. If you suspect a leak, revoke the key immediately and generate a new one.</p>
           </div>
-          <p>Get a free key at <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>. Free-tier models are used by default.</p>
+          <p>Get a free key at <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>, or link an existing provider key. Free-tier models are used by default.</p>
 
           <h3>Step 3 — Run your first analysis</h3>
           <pre class="reveal">sireen audit ./MyContract.sol --report</pre>

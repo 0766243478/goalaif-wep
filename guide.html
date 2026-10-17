@@ -177,16 +177,16 @@ python -m pip install -e .</pre>
         </div>
 
         <h2 id="configure">2. Configure your API key (optional)</h2>
-        <p>SIREEN works fully offline. An OpenRouter key enables AI-assisted hypothesis generation.</p>
+        <p>SIREEN works fully offline. An API key enables AI-assisted hypothesis generation. You can use <strong>any LLM provider key</strong> — OpenRouter accepts keys from OpenAI, Anthropic, Google, DeepSeek, and others.</p>
         <ol>
-          <li>Sign up for free at <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a>.</li>
-          <li>Create a key (starts with <code>sk-or-v1-</code>).</li>
+          <li>Go to <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a> and sign up (free).</li>
+          <li>Either create a new OpenRouter key (<code>sk-or-v1-...</code>) or link an existing provider key.</li>
           <li>In the backend directory, run: <code>cp .env.example .env.local</code></li>
-          <li>Edit <code>.env.local</code> and add your key.</li>
+          <li>Edit <code>.env.local</code> and add your key: <code>OPENROUTER_API_KEY=sk-or-v1-YOUR-KEY-HERE</code></li>
         </ol>
         <div class="callout callout-warning reveal">
           <b>Security reminder</b>
-          <p><code>.env.local</code> is gitignored. Never commit it. Never share it. Each researcher must use their own key.</p>
+          <p><code>.env.local</code> is gitignored. Never commit it. Never share it. Each researcher must use their own key. If leaked, revoke it immediately.</p>
         </div>
 
         <h2 id="first">3. Run your first analysis</h2>
