@@ -19,6 +19,12 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://www.gaolaif.org/evaluate</loc>
+    <lastmod>2026-10-15</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://www.gaolaif.org/docs</loc>
     <lastmod>2026-10-15</lastmod>
     <priority>0.7</priority>

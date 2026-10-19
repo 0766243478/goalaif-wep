@@ -377,6 +377,7 @@
           <a href="docs/index.html">Documentation</a>
           <a href="sireen/download.html">Download</a>
           <a href="guide.html">Guide</a>
+          <a href="evaluate.html">Evaluate</a>
           <a class="btn btn-primary" href="sireen/download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
@@ -389,6 +390,7 @@
         <a href="docs/index.html">Documentation</a>
         <a href="sireen/download.html">Download</a>
         <a href="guide.html">Guide</a>
+        <a href="evaluate.html">Evaluate</a>
         <a href="sireen/download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
@@ -544,7 +546,7 @@
       <div class="shell">
         <div class="eyebrow reveal">Verified Walkthrough</div>
         <h2 class="reveal reveal-delay-1">See how a finding becomes confirmed evidence.</h2>
-        <p class="section-lead reveal reveal-delay-2">This is a genuine demonstration: the panels below were copied from a real <code>sireen audit</code> run against the repository's own <code>VulnerableVault.sol</code> fixture (SIREEN v0.1.1, Forge 1.8.5, heuristic mode, no API key).</p>
+        <p class="section-lead reveal reveal-delay-2">This is a <strong>real recorded run</strong>, not an animation: the panels below were copied from an actual <code>sireen audit</code> against the project's own <code>VulnerableVault.sol</code> fixture (SIREEN Core v0.1.1, Forge 1.8.5, heuristic mode, no API key). The reentrancy finding was independently re-verified with a stock Foundry project using the real <code>forge-std</code> — <code>[PASS] testExploit()</code>. Note the run ends in <code>DEGRADED</code>, not "confirmed": SIREEN reports what execution proved and flags the rest for human triage.</p>
 
         <div class="reveal reveal-delay-3">
           <div class="demo-tabs">
@@ -559,27 +561,26 @@
 $ sireen audit VulnerableVault.sol --json
 
 {
-  <span class="token-string">"id"</span>: <span class="token-string">"audit-5d9dbbc017b3"</span>,
-  <span class="token-string">"terminal_state"</span>: <span class="token-string">"confirmed"</span>,
+  <span class="token-string">  "id"</span>: <span class="token-string">"audit-de562868d6a3"</span>,
+  <span class="token-string">"terminal_state"</span>: <span class="token-string">"degraded"</span>,
   <span class="token-string">"reasoning_mode"</span>: <span class="token-string">"HEURISTIC"</span>,
   <span class="token-string">"findings"</span>: [
     {
+      <span class="token-string">"category"</span>: <span class="token-string">"reentrancy"</span>,
       <span class="token-string">"title"</span>: <span class="token-string">"Reentrancy on withdraw"</span>,
-      <span class="token-string">"severity"</span>: <span class="token-string">"CRITICAL"</span>,
       <span class="token-string">"confirmed"</span>: <span class="token-keyword">true</span>,
-      <span class="token-string">"evidence_id"</span>: <span class="token-string">"evd-1c8853573926"</span>
+      <span class="token-string">"evidence_id"</span>: <span class="token-string">"evd-6c7b4abfdcd9"</span>
+    },
+    {
+      <span class="token-string">"category"</span>: <span class="token-string">"access_control"</span>,
+      <span class="token-string">"title"</span>: <span class="token-string">"Access control on withdraw"</span>,
+      <span class="token-string">"confirmed"</span>: <span class="token-keyword">false</span>,
+      <span class="token-string">"needs_review"</span>: <span class="token-keyword">true</span>,
+      <span class="token-string">"evidence_id"</span>: <span class="token-string">"evd-3cb5dda7f2e9"</span>
     }
   ],
-  <span class="token-string">"evidence"</span>: [
-    {
-      <span class="token-string">"id"</span>: <span class="token-string">"evd-1c8853573926"</span>,
-      <span class="token-string">"verification"</span>: {
-        <span class="token-string">"verifier"</span>: <span class="token-string">"forge"</span>,
-        <span class="token-string">"compile_status"</span>: <span class="token-string">"passed"</span>,
-        <span class="token-string">"test_status"</span>: <span class="token-string">"passed"</span>,
-        <span class="token-string">"relevant_test_passed"</span>: <span class="token-keyword">true</span>
-      }
-    }
+  <span class="token-string">"warnings"</span>: [
+    <span class="token-string">"1 finding(s) were NOT confirmed: Forge executed the PoCs but did not reproduce the hypothesis. They are marked 'needs review'."</span>
   ]
 }</pre>
           </div>
@@ -608,37 +609,113 @@ $ sireen audit VulnerableVault.sol --json
 }</pre>
           </div>
           <div class="demo-panel">
-            <pre><span class="token-comment"># SIREEN compiles and runs the PoC with Forge</span>
+            <pre><span class="token-comment"># SIREEN compiles and runs each PoC with Forge — real output, truncated</span>
 
-FORGE
-Version: forge Version: <span class="token-number">1.8</span>.5
-Compile: <span class="token-tag">PASSED</span>
-Test: <span class="token-tag">PASSED</span>
-Executed: <span class="token-number">1</span>
+<span class="token-comment">// Evidence 1 — reentrancy hypothesis</span>
+FORGE      forge Version: 1.8.5
+Compile:   <span class="token-tag">PASSED</span>
+Test:      <span class="token-tag">PASSED</span>
+Executed:  1   <span class="token-comment">testExploit() passed</span>
+<span class="token-comment">// Confirmed: the assertion held under execution.</span>
 
-<span class="token-comment">// The PoC compiled and the assertion passed.</span>
-<span class="token-comment">// The finding is CONFIRMED by executable evidence.</span></pre>
+<span class="token-comment">// Evidence 2 — access-control hypothesis</span>
+FORGE      forge Version: 1.8.5
+Compile:   <span class="token-tag">PASSED</span>
+Test:      RAN (not passed)
+Executed:  2
+[FAIL: No balance] testExploit() (gas: 57290)
+Suite result: FAILED. 0 passed; 1 failed; 0 skipped
+<span class="token-comment">// Not reproduced → reported as NEEDS REVIEW, never as confirmed.</span></pre>
           </div>
           <div class="demo-panel">
             <pre><span class="token-comment"># Markdown report - sireen report &lt;audit-id&gt; --output report.md</span>
 
 # SIREEN Evidence Report
 
-- <span class="token-keyword">Audit ID:</span> <span class="token-string">`audit-5d9dbbc017b3`</span>
-- <span class="token-keyword">Terminal state:</span> <span class="token-tag">CONFIRMED</span>
-- <span class="token-keyword">Reasoning mode:</span> HEURISTIC
+- <span class="token-keyword">Audit ID:</span> <span class="token-string">`audit-de562868d6a3`</span>
+- <span class="token-keyword">Terminal state:</span> <span class="token-tag">DEGRADED</span>
+- <span class="token-keyword">Reasoning mode:</span> HEURISTIC (no API key)
 
 ## Findings
 
 ### Finding #001 - Reentrancy on withdraw [CONFIRMED]
-- Category: reentrancy - Severity estimate: CRITICAL
-- Evidence pack: <span class="token-string">`evd-1c8853573926`</span>
-- Remediation: Use Checks-Effects-Interactions pattern</pre>
+- Category: reentrancy
+- Evidence pack: <span class="token-string">`evd-6c7b4abfdcd9`</span>
+- Remediation: Use Checks-Effects-Interactions pattern
+
+### Finding #002 - Access control on withdraw [NEEDS REVIEW]
+- Category: access_control
+- Evidence pack: <span class="token-string">`evd-3cb5dda7f2e9`</span>
+- Forge ran the PoC but did not reproduce the hypothesis.
+  Treat as a hypothesis for a human to triage, not a confirmed bug.
+
+<span class="token-comment">// DEGRADED is the honest state: one finding was proven by
+// execution, one was not. SIREEN never rounds up to "clean".</span></pre>
           </div>
         </div>
 
         <div style="text-align:center;margin-top:28px;" class="reveal reveal-delay-4">
           <a class="btn btn-secondary" href="guide.html">Read the Full Guide</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Status -->
+    <section class="section" id="status">
+      <div class="shell">
+        <div class="eyebrow reveal">Product Status</div>
+        <h2 class="reveal reveal-delay-1">What works today, and what does not.</h2>
+        <p class="section-lead reveal reveal-delay-2">Verified on SIREEN Core v0.1.1 with Forge 1.8.5. This table reflects executed checks, not intentions.</p>
+
+        <div class="reveal reveal-delay-3" style="overflow-x:auto;">
+          <table>
+            <tr><th>Capability</th><th>Status</th><th>Evidence</th></tr>
+            <tr>
+              <td>Heuristic hypothesis generation (offline)</td>
+              <td style="color:var(--accent-green)">Working</td>
+              <td>2 hypotheses generated on the bundled fixture, no API key required</td>
+            </tr>
+            <tr>
+              <td>PoC generation + Forge compile &amp; execute</td>
+              <td style="color:var(--accent-green)">Working</td>
+              <td>Reentrancy PoC compiled and <code>testExploit()</code> passed under Forge</td>
+            </tr>
+            <tr>
+              <td>Honest verdicts (CONFIRMED / NEEDS REVIEW)</td>
+              <td style="color:var(--accent-green)">Working</td>
+              <td>Access-control PoC ran but did not reproduce → reported as NEEDS REVIEW, not confirmed</td>
+            </tr>
+            <tr>
+              <td>Durable audit history (SQLite)</td>
+              <td style="color:var(--accent-green)">Working</td>
+              <td><code>sireen audits</code>, <code>sireen show</code>, <code>sireen report</code> all functional</td>
+            </tr>
+            <tr>
+              <td>Independent reproducibility</td>
+              <td style="color:var(--accent-green)">Verified</td>
+              <td>Vulnerability re-confirmed in a stock Foundry project with real <code>forge-std</code></td>
+            </tr>
+            <tr>
+              <td>AI-assisted hypothesis exploration</td>
+              <td style="color:var(--accent-amber)">Experimental</td>
+              <td>Wired to OpenRouter; quality not systematically evaluated</td>
+            </tr>
+            <tr>
+              <td>Oracle manipulation / flash loans / governance</td>
+              <td style="color:var(--accent-red)">Not supported</td>
+              <td>Skipped honestly — no PoC is generated for these classes</td>
+            </tr>
+            <tr>
+              <td>DoS and arithmetic vectors</td>
+              <td style="color:var(--accent-amber)">Placeholders</td>
+              <td>Detectors exist but PoCs are stubs and are not confirmed</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="callout callout-info reveal reveal-delay-4" style="margin-top:28px;">
+          <b>Read this before you rely on a result</b>
+          <p>SIREEN proves only the specific behavior its generated test exercises. A <code>CONFIRMED</code> finding is real evidence about that path — not proof that a contract is exploitable in the wild. A <code>clean_with_coverage</code> result means the current heuristics found no attack surface; business-logic, economic, and novel vulnerability classes may still exist. Every audit needs human review.</p>
         </div>
       </div>
     </section>
