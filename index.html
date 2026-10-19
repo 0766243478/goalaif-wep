@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add("js");</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIREEN — Security hypotheses are not proof.</title>
   <meta name="description" content="SIREEN combines human-led security reasoning with AI-assisted exploration and executable testing to help researchers determine what actually holds up under execution.">
   <link rel="canonical" href="https://www.gaolaif.org/">
-  <link rel="icon" href="icon.png">
+  <link rel="icon" href="/icon.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +52,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="assets/sireen.css">
+  <link rel="stylesheet" href="/assets/sireen.css">
   <style>
     /* ── Hero ─────────────────────────────────────────────── */
     .hero {
@@ -231,6 +232,56 @@
       background: var(--bg-tertiary);
     }
 
+    /* ── Plain-language section ───────────────────────────── */
+    .plain-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .plain-grid .card { padding: 28px; }
+    .plain-grid .card h3 {
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      margin: 0 0 10px;
+    }
+    .plain-grid .card p {
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .plain-grid .card em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+    .glossary {
+      margin-top: 28px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      padding: 22px 26px;
+    }
+    .glossary summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-primary);
+      padding: 4px 0;
+    }
+    .glossary summary:hover { color: var(--accent); }
+    .glossary dl { margin-top: 18px; }
+    .glossary dt {
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.92rem;
+      margin-top: 16px;
+    }
+    .glossary dt:first-child { margin-top: 0; }
+    .glossary dd {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin: 4px 0 0;
+    }
+
     /* ── States Grid ──────────────────────────────────────── */
     .states-grid {
       display: grid;
@@ -354,6 +405,10 @@
       .states-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
+    @media (max-width: 700px) {
+      .plain-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 600px) {
       .states-grid { grid-template-columns: repeat(2, 1fr); }
       .compare-table { font-size: 0.78rem; }
@@ -362,41 +417,44 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <!-- Header -->
   <header class="site-header">
     <div class="shell">
       <div class="nav-inner">
         <a class="brand" href="https://www.gaolaif.org/">
-          <img src="icon.png" alt="SIREEN">
+          <img src="/icon.png" alt="">
           <span>SIREEN</span>
         </a>
         <nav class="desktop-nav">
-          <a href="index.html#how-it-works">How It Works</a>
-          <a href="index.html#demo">Demo</a>
-          <a href="docs/index.html">Documentation</a>
-          <a href="sireen/download.html">Download</a>
-          <a href="guide.html">Guide</a>
-          <a href="evaluate.html">Evaluate</a>
-          <a class="btn btn-primary" href="sireen/download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/#demo">Demo</a>
+          <a href="/docs">Documentation</a>
+          <a href="/sireen/download">Download</a>
+          <a href="/guide">Guide</a>
+          <a href="/evaluate">Evaluate</a>
+          <a href="/contact">Contact</a>
+          <a class="btn btn-primary" href="/sireen/download" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         </button>
       </div>
       <nav class="mobile-nav">
-        <a href="index.html#how-it-works">How It Works</a>
-        <a href="index.html#demo">Demo</a>
-        <a href="docs/index.html">Documentation</a>
-        <a href="sireen/download.html">Download</a>
-        <a href="guide.html">Guide</a>
-        <a href="evaluate.html">Evaluate</a>
-        <a href="sireen/download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
+        <a href="/#how-it-works">How It Works</a>
+        <a href="/#demo">Demo</a>
+        <a href="/docs">Documentation</a>
+        <a href="/sireen/download">Download</a>
+        <a href="/guide">Guide</a>
+        <a href="/evaluate">Evaluate</a>
+        <a href="/contact">Contact</a>
+        <a href="/sireen/download" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <!-- Hero -->
     <section class="hero">
       <div class="hero-canvas-wrap">
@@ -406,13 +464,13 @@
       <div class="shell hero-content">
         <div class="eyebrow">Human-AI Security Verification Workspace</div>
         <h1>Security hypotheses <em>are not proof.</em></h1>
-        <p class="hero-subtitle">SIREEN combines human-led security reasoning with AI-assisted exploration and executable testing to help researchers determine what actually holds up under execution.</p>
+        <p class="hero-subtitle">SIREEN is a local desktop tool for checking Solidity smart contracts. You point it at a contract. It suggests ways that contract could be attacked, writes a real test for each idea, runs the test, and shows you exactly what happened — including when the idea turned out to be wrong.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="index.html#demo">
+          <a class="btn btn-primary" href="/#demo">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             Explore the Demo
           </a>
-          <a class="btn btn-secondary" href="docs/index.html">
+          <a class="btn btn-secondary" href="/docs">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
             Read the Documentation
           </a>
@@ -438,7 +496,7 @@
           <div class="workflow-step">
             <div class="step-num">Stage 3</div>
             <b>Generate</b>
-            <p>Create a Foundry proof-of-concept test for the four vectors SIREEN can prove today.</p>
+            <p>Create a Foundry proof-of-concept test for the two vectors SIREEN can both raise and execute today: reentrancy and access control.</p>
             <span class="step-tag human">Automated</span>
             <div class="workflow-connector"><svg viewBox="0 0 8 8"><path d="M1 4h6M5 2l2 2-2 2"/></svg></div>
           </div>
@@ -455,6 +513,52 @@
             <p>Present the evidence, the result, and the remaining uncertainty. A human researcher decides what it means.</p>
             <span class="step-tag human">Human Judgment</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plain-language explainer -->
+    <section class="section" id="what-is-sireen">
+      <div class="shell">
+        <div class="eyebrow reveal">Start here</div>
+        <h2 class="reveal reveal-delay-1">What SIREEN is, without the jargon</h2>
+        <p class="section-lead reveal reveal-delay-2">If you have never done security work before, this section is for you. It explains what the tool does in ordinary words. Every technical term is defined the first time it appears.</p>
+
+        <div class="plain-grid stagger-grid">
+          <div class="card reveal">
+            <h3>What it does</h3>
+            <p>A smart contract is a program that moves money on a blockchain. If it has a flaw, someone can drain it. SIREEN helps you check a contract by turning <em>suspicions</em> into <em>tests that actually run</em> — so you can see what is real instead of guessing.</p>
+          </div>
+          <div class="card reveal">
+            <h3>Who it is for</h3>
+            <p>Solidity developers who want to check their own code, and security researchers who want to test a specific idea quickly. It assumes you are comfortable on a command line. It does <strong>not</strong> assume you are a security expert.</p>
+          </div>
+          <div class="card reveal">
+            <h3>What problem it solves</h3>
+            <p>Reading a contract and thinking "this looks unsafe" is easy. Proving it is slow: you have to write a test, set up a toolchain, and run it. SIREEN does that repetitive part for you, then shows the result honestly — including the failures.</p>
+          </div>
+          <div class="card reveal">
+            <h3>What it is not</h3>
+            <p>It is not a professional audit, and it does not find every bug. It tests a small, clearly defined set of attack types. A clean result means "no attack surface found by today's checks", not "this contract is safe".</p>
+          </div>
+        </div>
+
+        <details class="glossary reveal">
+          <summary>Four words you will see on this site</summary>
+          <dl>
+            <dt>Attack hypothesis</dt>
+            <dd>An idea about how a contract might be exploited. Example: "the withdraw function might let someone withdraw twice before the balance updates". It is a guess until something proves it.</dd>
+            <dt>PoC (proof of concept)</dt>
+            <dd>A small test program written to check one hypothesis. If the test passes, the hypothesis holds under execution. If it fails, the hypothesis did not reproduce — which is also useful information.</dd>
+            <dt>Foundry</dt>
+            <dd>A free, widely used toolkit for building and testing Solidity contracts. SIREEN uses its <code>forge</code> command to compile and run the tests it generates. Without Foundry installed, SIREEN cannot execute anything.</dd>
+            <dt>Evidence</dt>
+            <dd>The saved output of a real run: compiler result, test output, gas used, and the exact assertions that passed or failed. Every finding on this site links to evidence you can inspect or reproduce.</dd>
+          </dl>
+        </details>
+
+        <div class="callout callout-info reveal">
+          <p><strong>Next steps, in order:</strong> read <a href="/#how-it-works">How It Works</a> for the five stages, look at the <a href="/#demo">recorded demo</a> to see real output, check <a href="/#status">Product Status</a> for what works today, then follow the <a href="/evaluate">evaluation guide</a> to run it yourself.</p>
         </div>
       </div>
     </section>
@@ -546,7 +650,7 @@
       <div class="shell">
         <div class="eyebrow reveal">Verified Walkthrough</div>
         <h2 class="reveal reveal-delay-1">See how a finding becomes confirmed evidence.</h2>
-        <p class="section-lead reveal reveal-delay-2">This is a <strong>real recorded run</strong>, not an animation: the panels below were copied from an actual <code>sireen audit</code> against the project's own <code>VulnerableVault.sol</code> fixture (SIREEN Core v0.1.1, Forge 1.8.5, heuristic mode, no API key). The reentrancy finding was independently re-verified with a stock Foundry project using the real <code>forge-std</code> — <code>[PASS] testExploit()</code>. Note the run ends in <code>DEGRADED</code>, not "confirmed": SIREEN reports what execution proved and flags the rest for human triage.</p>
+        <p class="section-lead reveal reveal-delay-2">This is a <strong>real recorded run</strong>, not an animation: the panels below were copied from an actual <code>sireen audit</code> against the project's own <code>VulnerableVault.sol</code> fixture (SIREEN backend v0.1.1, Forge 1.8.5, heuristic mode, no API key). The reentrancy finding was independently re-verified with a stock Foundry project using the real <code>forge-std</code> — <code>[PASS] testExploit()</code>. Note the run ends in <code>DEGRADED</code>, not "confirmed": SIREEN reports what execution proved and flags the rest for human triage.</p>
 
         <div class="reveal reveal-delay-3">
           <div class="demo-tabs">
@@ -655,7 +759,7 @@ Suite result: FAILED. 0 passed; 1 failed; 0 skipped
         </div>
 
         <div style="text-align:center;margin-top:28px;" class="reveal reveal-delay-4">
-          <a class="btn btn-secondary" href="guide.html">Read the Full Guide</a>
+          <a class="btn btn-secondary" href="/guide">Read the Full Guide</a>
         </div>
       </div>
     </section>
@@ -665,7 +769,7 @@ Suite result: FAILED. 0 passed; 1 failed; 0 skipped
       <div class="shell">
         <div class="eyebrow reveal">Product Status</div>
         <h2 class="reveal reveal-delay-1">What works today, and what does not.</h2>
-        <p class="section-lead reveal reveal-delay-2">Verified on SIREEN Core v0.1.1 with Forge 1.8.5. This table reflects executed checks, not intentions.</p>
+        <p class="section-lead reveal reveal-delay-2">Verified on SIREEN backend v0.1.1 with Forge 1.8.5. This table reflects executed checks, not intentions.</p>
 
         <div class="reveal reveal-delay-3" style="overflow-x:auto;">
           <table>
@@ -706,9 +810,14 @@ Suite result: FAILED. 0 passed; 1 failed; 0 skipped
               <td>Skipped honestly — no PoC is generated for these classes</td>
             </tr>
             <tr>
-              <td>DoS and arithmetic vectors</td>
-              <td style="color:var(--accent-amber)">Placeholders</td>
-              <td>Detectors exist but PoCs are stubs and are not confirmed</td>
+              <td>Arithmetic overflow / underflow</td>
+              <td style="color:var(--accent-amber)">Template only</td>
+              <td>A PoC template exists, but no heuristic currently raises this hypothesis and it has not been verified with Forge</td>
+            </tr>
+            <tr>
+              <td>delegatecall / signature replay / weak randomness</td>
+              <td style="color:var(--accent-amber)">Raised, then skipped</td>
+              <td>A hypothesis may be generated, but there is no PoC template, so the test is skipped rather than faked</td>
             </tr>
           </table>
         </div>
@@ -777,7 +886,7 @@ Suite result: FAILED. 0 passed; 1 failed; 0 skipped
             <td>Generates executable PoC</td>
             <td class="cross">No</td>
             <td class="partial">Sometimes</td>
-            <td class="check">Yes (4 vectors)</td>
+            <td class="check">Yes (2 vectors)</td>
           </tr>
           <tr>
             <td>Runs the PoC automatically</td>
@@ -818,8 +927,8 @@ Suite result: FAILED. 0 passed; 1 failed; 0 skipped
         <h2 class="reveal">Start with evidence.</h2>
         <p class="reveal reveal-delay-1">Install SIREEN, audit your first contract, and see what executable verification feels like.</p>
         <div class="reveal reveal-delay-2" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;">
-          <a class="btn btn-primary" href="sireen/download.html">Download SIREEN</a>
-          <a class="btn btn-secondary" href="docs/index.html">Read the Docs</a>
+          <a class="btn btn-primary" href="/sireen/download">Download SIREEN</a>
+          <a class="btn btn-secondary" href="/docs">Read the Docs</a>
         </div>
       </div>
     </section>
@@ -834,30 +943,32 @@ Suite result: FAILED. 0 passed; 1 failed; 0 skipped
           <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
         </div>
         <div class="footer-col">
-          <h4>Product</h4>
-          <a href="index.html">Home</a>
-          <a href="index.html#how-it-works">How It Works</a>
-          <a href="sireen/download.html">Download</a>
+          <h3>Product</h3>
+          <a href="/">Home</a>
+                    <a href="/#what-is-sireen">What is SIREEN</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/sireen/download">Download</a>
         </div>
         <div class="footer-col">
-          <h4>Resources</h4>
-          <a href="docs/index.html">Documentation</a>
-          <a href="docs/faq.html">FAQ</a>
-          <a href="docs/limitations.html">Known Limitations</a>
+          <h3>Resources</h3>
+          <a href="/docs">Documentation</a>
+          <a href="/docs/faq">FAQ</a>
+          <a href="/docs/limitations">Known Limitations</a>
         </div>
         <div class="footer-col">
-          <h4>Project</h4>
+          <h3>Project</h3>
+                    <a href="/contact">Contact &amp; Feedback</a>
           <a href="https://github.com/0766243478" target="_blank" rel="noopener">Owner on GitHub</a>
-          <a href="index.html#differentiation">Scope &amp; Limitations</a>
+          <a href="/#differentiation">Scope &amp; Limitations</a>
         </div>
       </div>
       <div class="footer-bottom">
         <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
-        <span>SIREEN CORE v0.1.1 &mdash; Not production-ready</span>
+        <span>SIREEN BACKEND v0.1.1 &middot; EXTENSION v0.1.4 &mdash; Not production-ready</span>
       </div>
     </div>
   </footer>
 
-  <script src="assets/sireen.js"></script>
+  <script src="/assets/sireen.js"></script>
 </body>
 </html>

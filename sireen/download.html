@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add("js");</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Download SIREEN — CLI &amp; VS Code Extension</title>
   <meta name="description" content="Download SIREEN: a free Forge-backed Solidity security workbench. Install the CLI or VS Code extension, configure your own OpenRouter key, and start auditing smart contracts.">
   <link rel="canonical" href="https://www.gaolaif.org/sireen/download">
-  <link rel="icon" href="../icon.png">
+  <link rel="icon" href="/icon.png">
 
   <meta property="og:title" content="Download SIREEN — CLI &amp; VS Code Extension">
   <meta property="og:description" content="Free download of SIREEN: Forge-backed Solidity security verification for researchers.">
@@ -25,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../assets/sireen.css">
+  <link rel="stylesheet" href="/assets/sireen.css">
   <style>
     .page-header { padding: 80px 0 20px; }
     .page-header h1 { margin: 20px 0 16px; }
@@ -42,6 +43,18 @@
       vertical-align: middle;
     }
     .page-header p { max-width: 640px; font-size: 1.1rem; color: var(--text-secondary); }
+    .version-line { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+    .version-line .version-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      background: var(--bg-secondary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius-sm);
+    }
 
     main p a:not(.btn), main li a, main td a {
       text-decoration: underline;
@@ -121,43 +134,50 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
     <div class="shell">
       <div class="nav-inner">
         <a class="brand" href="https://www.gaolaif.org/">
-          <img src="../icon.png" alt="SIREEN">
+          <img src="/icon.png" alt="">
           <span>SIREEN</span>
         </a>
         <nav class="desktop-nav">
-          <a href="../index.html">Home</a>
-          <a href="../index.html#how-it-works">How It Works</a>
-          <a href="../docs/index.html">Documentation</a>
-          <a href="download.html" class="active">Download</a>
-          <a href="../guide.html">Guide</a>
-          <a class="btn btn-primary" href="download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
+          <a href="/">Home</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/docs">Documentation</a>
+          <a href="/sireen/download" class="active">Download</a>
+          <a href="/guide">Guide</a>
+          <a href="/contact">Contact</a>
+          <a class="btn btn-primary" href="/sireen/download" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         </button>
       </div>
       <nav class="mobile-nav">
-        <a href="../index.html">Home</a>
-        <a href="../index.html#how-it-works">How It Works</a>
-        <a href="../docs/index.html">Documentation</a>
-        <a href="download.html">Download</a>
-        <a href="../guide.html">Guide</a>
-        <a href="download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
+        <a href="/">Home</a>
+        <a href="/#how-it-works">How It Works</a>
+        <a href="/docs">Documentation</a>
+        <a href="/sireen/download">Download</a>
+        <a href="/guide">Guide</a>
+        <a href="/contact">Contact</a>
+        <a href="/sireen/download" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="shell">
       <div class="page-header">
         <div class="eyebrow">Download</div>
-        <h1>Get SIREEN <span class="version-badge current">v0.1.1</span></h1>
-        <p>Two ways to use SIREEN: the command-line interface for scripting and automation, or the VS Code extension for an integrated editing experience. Both use the same backend engine and produce identical results.</p>
+        <h1>Get SIREEN</h1>
+        <p class="version-line">
+          <span class="version-badge current">Backend / CLI v0.1.1</span>
+          <span class="version-badge current">VS Code extension v0.1.4</span>
+        </p>
+        <p>Two ways to use SIREEN: the command-line interface for scripting and automation, or the VS Code extension for an integrated editing experience. Both use the same backend engine and produce identical results. The two artifacts are versioned separately — that is why you see two numbers.</p>
       </div>
 
       <div class="callout callout-warning reveal">
@@ -167,7 +187,7 @@
 
       <div class="content">
         <h2 id="access">Access: what you can and cannot get today</h2>
-        <p>SIREEN is proprietary software. The source is not open source and the code repository is not publicly readable. This table states exactly what is available to you right now. Checked 2026-10-15.</p>
+        <p>SIREEN is proprietary software. The source is not open source and the code repository is not publicly readable. This table states exactly what is available to you right now. Checked 2026-10-19.</p>
         <div class="reveal">
           <table>
             <tr><th>Item</th><th>Available without repository access?</th><th>Details</th></tr>
@@ -208,11 +228,11 @@
             <h2 class="option-title">Option A: SIREEN CLI</h2>
             <span class="tag recommended">Recommended</span>
           </div>
-          <p>Run audits from the terminal. Best for scripting, CI pipelines, and batch analysis of multiple contracts or entire Foundry projects.</p>
+          <p>Run audits from the terminal. Best for scripting, CI pipelines, and batch analysis of individual contracts.</p>
 
           <h3>What it does</h3>
           <ul>
-            <li>Accepts a single <code>.sol</code> file or a full Foundry project directory</li>
+            <li>Accepts <strong>one <code>.sol</code> file per audit</strong> — directories are rejected by the v0.1.1 CLI</li>
             <li>Discovers functions, state variables, and external-call sites</li>
             <li>Generates attack hypotheses (heuristic or AI-assisted)</li>
             <li>Produces Foundry PoC test files for supported vectors</li>
@@ -235,7 +255,7 @@
 
           <div class="callout callout-warning reveal">
             <b>Repository access required</b>
-            <p>The SIREEN source repository is not publicly readable today — <code>https://github.com/0766243478/goalaif</code> currently returns HTTP 404, so <code>git clone</code> will fail until access is granted. Request access from the project owner at <a href="https://github.com/0766243478" target="_blank" rel="noopener">github.com/0766243478</a>, then run the commands below. Checked 2026-10-15.</p>
+            <p>The SIREEN source repository is not publicly readable today — <code>https://github.com/0766243478/goalaif</code> currently returns HTTP 404, so <code>git clone</code> will fail until access is granted. Request access from the project owner at <a href="https://github.com/0766243478" target="_blank" rel="noopener">github.com/0766243478</a>, then run the commands below. Checked 2026-10-19.</p>
           </div>
 
           <h3>Step 1 — Clone and install</h3>
@@ -261,8 +281,9 @@ OPENROUTER_API_KEY=sk-or-v1-YOUR-KEY-HERE</pre>
 
           <h3>Step 3 — Run your first analysis</h3>
           <pre class="reveal">sireen audit ./MyContract.sol --report</pre>
-          <p>Audit a full Foundry project:</p>
-          <pre class="reveal">sireen audit ./my-foundry-project --project --json</pre>
+          <p>Write the Markdown report to a specific path, or emit JSON instead:</p>
+          <pre class="reveal">sireen audit ./MyContract.sol --report ./out/report.md
+sireen audit ./MyContract.sol --json</pre>
 
           <h3>Step 4 — View findings and evidence</h3>
           <pre class="reveal">sireen audit ./MyContract.sol --json            # Full JSON output
@@ -278,7 +299,8 @@ sireen report &lt;audit-id&gt; --output report.md     # Export Markdown</pre>
               <tr><td><code>Python version mismatch</code></td><td>Python &lt; 3.11</td><td>Install Python 3.11 or newer</td></tr>
               <tr><td>All findings are <code>needs_review</code></td><td>Forge not on PATH</td><td>Install Foundry: <code>curl -L https://foundry.paradigm.xyz | bash &amp;&amp; foundryup</code></td></tr>
               <tr><td><code>reasoning_mode: HEURISTIC</code></td><td>No OpenRouter key configured</td><td>Add key to <code>.env.local</code> or run heuristic-only</td></tr>
-              <tr><td>PoC fails to compile</td><td>Missing imports or remappings</td><td>Ensure the target is a valid Foundry project with <code>foundry.toml</code></td></tr>
+              <tr><td><code>SIREEN Core v0.1 accepts one Solidity (.sol) file per audit</code></td><td>You passed a directory</td><td>Pass a single <code>.sol</code> file. There is no <code>--project</code> flag in v0.1.1</td></tr>
+              <tr><td>PoC fails to compile</td><td>Missing imports or remappings</td><td>SIREEN builds its own temporary Foundry project to compile the PoC, so your file does not need a <code>foundry.toml</code>. Check the audit JSON for the compiler error, and confirm <code>forge</code> runs on your machine</td></tr>
               <tr><td><code>UNVERIFIED</code> terminal state</td><td>Coverage insufficient</td><td>Check that the contract contains supported patterns (external calls, state variables)</td></tr>
             </table>
           </div>
@@ -314,7 +336,7 @@ sireen report &lt;audit-id&gt; --output report.md     # Export Markdown</pre>
 
           <h3>Step 2 — Obtain the extension</h3>
           <p><b>Method A — Install the pre-built .vsix:</b></p>
-          <p><a class="btn btn-primary" href="../downloads/sireen-0.1.4.vsix" download>Download sireen-0.1.4.vsix</a></p>
+          <p><a class="btn btn-primary" href="/downloads/sireen-0.1.4.vsix" download>Download sireen-0.1.4.vsix</a></p>
           <p>Then install it:</p>
           <pre class="reveal">code --install-extension sireen-0.1.4.vsix</pre>
           <p>Or via the VS Code UI: Extensions view (<code>Ctrl+Shift+X</code>) &rarr; <code>...</code> menu &rarr; <b>Install from VSIX...</b></p>
@@ -350,7 +372,7 @@ python -m uvicorn main:app --host 127.0.0.1 --port 7432</pre>
         <div class="reveal">
           <table>
             <tr><th>Artifact</th><th>Version</th><th>Source</th><th>Status</th></tr>
-            <tr><td>VS Code Extension (.vsix)</td><td>v0.1.4</td><td><a href="../downloads/sireen-0.1.4.vsix">Hosted on this site</a></td><td>Available now; manual install only (not on Marketplace)</td></tr>
+            <tr><td>VS Code Extension (.vsix)</td><td>v0.1.4</td><td><a href="/downloads/sireen-0.1.4.vsix">Hosted on this site</a></td><td>Available now; manual install only (not on Marketplace)</td></tr>
             <tr><td>SIREEN CLI / Backend</td><td>v0.1.1</td><td>Source repository (access required)</td><td>Installable via <code>pip install -e .</code> once repository access is granted</td></tr>
           </table>
         </div>
@@ -359,7 +381,7 @@ python -m uvicorn main:app --host 127.0.0.1 --port 7432</pre>
           <b>Known limitations</b>
           <ul>
             <li>Forge is required for <code>CONFIRMED</code> findings. Without it, every finding is <code>needs_review</code>.</li>
-            <li>Only reentrancy, access-control, arithmetic, and DoS vectors are supported.</li>
+            <li>Only <strong>reentrancy and access control</strong> are fully supported: a hypothesis is raised <em>and</em> an executable PoC is generated. The <code>arithmetic</code> template exists but no heuristic raises it. There is no DoS detector.</li>
             <li>Heuristic mode works offline. LLM-assisted mode requires an internet connection and an OpenRouter key.</li>
             <li>Business-logic findings can be noisy false positives.</li>
             <li>Severity labels are heuristic estimates, not authoritative CVSS scores.</li>
@@ -377,30 +399,32 @@ python -m uvicorn main:app --host 127.0.0.1 --port 7432</pre>
           <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
         </div>
         <div class="footer-col">
-          <h4>Product</h4>
-          <a href="../index.html">Home</a>
-          <a href="../index.html#how-it-works">How It Works</a>
-          <a href="download.html">Download</a>
+          <h3>Product</h3>
+          <a href="/">Home</a>
+                    <a href="/#what-is-sireen">What is SIREEN</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/sireen/download">Download</a>
         </div>
         <div class="footer-col">
-          <h4>Resources</h4>
-          <a href="../docs/index.html">Documentation</a>
-          <a href="../docs/faq.html">FAQ</a>
-          <a href="../docs/limitations.html">Known Limitations</a>
+          <h3>Resources</h3>
+          <a href="/docs">Documentation</a>
+          <a href="/docs/faq">FAQ</a>
+          <a href="/docs/limitations">Known Limitations</a>
         </div>
         <div class="footer-col">
-          <h4>Project</h4>
+          <h3>Project</h3>
+                    <a href="/contact">Contact &amp; Feedback</a>
           <a href="https://github.com/0766243478" target="_blank" rel="noopener">Owner on GitHub</a>
-          <a href="../index.html#differentiation">Scope &amp; Limitations</a>
+          <a href="/#differentiation">Scope &amp; Limitations</a>
         </div>
       </div>
       <div class="footer-bottom">
         <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
-        <span>SIREEN CORE v0.1.1 &mdash; Not production-ready</span>
+        <span>SIREEN BACKEND v0.1.1 &middot; EXTENSION v0.1.4 &mdash; Not production-ready</span>
       </div>
     </div>
   </footer>
 
-  <script src="../assets/sireen.js"></script>
+  <script src="/assets/sireen.js"></script>
 </body>
 </html>

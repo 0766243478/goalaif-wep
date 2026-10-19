@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add("js");</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FAQ — SIREEN Documentation</title>
@@ -20,14 +21,14 @@
   <meta name="twitter:title" content="FAQ — SIREEN Documentation">
   <meta name="twitter:description" content="Frequently asked questions about SIREEN: installation, findings, PoCs, AI mode, and limitations.">
   <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
-  <link rel="icon" href="../icon.png">
+  <link rel="icon" href="/icon.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../assets/sireen.css">
+  <link rel="stylesheet" href="/assets/sireen.css">
   <style>
     .page-header { padding: 80px 0 20px; }
     .page-header h1 { margin: 20px 0 16px; }
@@ -43,7 +44,7 @@
       border-right: 1px solid var(--border-subtle);
       padding-right: 24px;
     }
-    .sidebar h4 {
+    .sidebar h2 {
       font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.1em;
@@ -51,7 +52,7 @@
       color: var(--text-secondary);
       margin: 24px 0 10px;
     }
-    .sidebar h4:first-child { margin-top: 0; }
+    .sidebar h2:first-child { margin-top: 0; }
     .sidebar a {
       display: block;
       color: var(--text-muted);
@@ -87,38 +88,41 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
     <div class="shell">
       <div class="nav-inner">
         <a class="brand" href="https://www.gaolaif.org/">
-          <img src="../icon.png" alt="SIREEN">
+          <img src="/icon.png" alt="">
           <span>SIREEN</span>
         </a>
         <nav class="desktop-nav">
-          <a href="../index.html">Home</a>
-          <a href="../index.html#how-it-works">How It Works</a>
-          <a href="index.html" class="active">Documentation</a>
-          <a href="../sireen/download.html">Download</a>
-          <a href="../guide.html">Guide</a>
-          <a class="btn btn-primary" href="../sireen/download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
+          <a href="/">Home</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/docs" class="active">Documentation</a>
+          <a href="/sireen/download">Download</a>
+          <a href="/guide">Guide</a>
+          <a href="/contact">Contact</a>
+          <a class="btn btn-primary" href="/sireen/download" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         </button>
       </div>
       <nav class="mobile-nav">
-        <a href="../index.html">Home</a>
-        <a href="../index.html#how-it-works">How It Works</a>
-        <a href="index.html">Documentation</a>
-        <a href="../sireen/download.html">Download</a>
-        <a href="../guide.html">Guide</a>
-        <a href="../sireen/download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
+        <a href="/">Home</a>
+        <a href="/#how-it-works">How It Works</a>
+        <a href="/docs">Documentation</a>
+        <a href="/sireen/download">Download</a>
+        <a href="/guide">Guide</a>
+        <a href="/contact">Contact</a>
+        <a href="/sireen/download" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="shell">
       <div class="page-header">
         <div class="eyebrow">Documentation</div>
@@ -127,15 +131,15 @@
 
       <div class="doc-grid">
         <aside class="sidebar">
-          <h4>Getting Started</h4>
-          <a href="../guide.html">Quick Start</a>
-          <a href="concepts.html">Concepts</a>
-          <a href="cli.html">CLI Reference</a>
-          <a href="ai-mode.html">AI Mode</a>
+          <h2>Getting Started</h2>
+          <a href="/guide">Quick Start</a>
+          <a href="/docs/concepts">Concepts</a>
+          <a href="/docs/cli">CLI Reference</a>
+          <a href="/docs/ai-mode">AI Mode</a>
 
-          <h4>Reference</h4>
-          <a href="faq.html" class="active">FAQ</a>
-          <a href="limitations.html">Known Limitations</a>
+          <h2>Reference</h2>
+          <a href="/docs/faq" class="active">FAQ</a>
+          <a href="/docs/limitations">Known Limitations</a>
         </aside>
 
         <div class="content">
@@ -155,7 +159,7 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-              <p>Python 3.11+ and pip. Foundry (forge) is optional but strongly recommended if you want <code>CONFIRMED</code> findings. See the <a href="../sireen/download.html">download page</a> for full prerequisites.</p>
+              <p>Python 3.11+ and pip. Foundry (forge) is optional but strongly recommended if you want <code>CONFIRMED</code> findings. See the <a href="/sireen/download">download page</a> for full prerequisites.</p>
             </div>
           </div>
           <div class="faq-item reveal">
@@ -287,30 +291,32 @@
           <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
         </div>
         <div class="footer-col">
-          <h4>Product</h4>
-          <a href="../index.html">Home</a>
-          <a href="../index.html#how-it-works">How It Works</a>
-          <a href="../sireen/download.html">Download</a>
+          <h3>Product</h3>
+          <a href="/">Home</a>
+                    <a href="/#what-is-sireen">What is SIREEN</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/sireen/download">Download</a>
         </div>
         <div class="footer-col">
-          <h4>Resources</h4>
-          <a href="index.html">Documentation</a>
-          <a href="faq.html">FAQ</a>
-          <a href="limitations.html">Known Limitations</a>
+          <h3>Resources</h3>
+          <a href="/docs">Documentation</a>
+          <a href="/docs/faq">FAQ</a>
+          <a href="/docs/limitations">Known Limitations</a>
         </div>
         <div class="footer-col">
-          <h4>Project</h4>
+          <h3>Project</h3>
+                    <a href="/contact">Contact &amp; Feedback</a>
           <a href="https://github.com/0766243478" target="_blank" rel="noopener">Owner on GitHub</a>
-          <a href="../index.html#differentiation">Scope &amp; Limitations</a>
+          <a href="/#differentiation">Scope &amp; Limitations</a>
         </div>
       </div>
       <div class="footer-bottom">
         <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
-        <span>SIREEN CORE v0.1.1 &mdash; Not production-ready</span>
+        <span>SIREEN BACKEND v0.1.1 &middot; EXTENSION v0.1.4 &mdash; Not production-ready</span>
       </div>
     </div>
   </footer>
 
-  <script src="../assets/sireen.js"></script>
+  <script src="/assets/sireen.js"></script>
 </body>
 </html>

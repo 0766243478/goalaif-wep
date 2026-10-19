@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add("js");</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Known Limitations — SIREEN Documentation</title>
@@ -20,14 +21,14 @@
   <meta name="twitter:title" content="Known Limitations — SIREEN Documentation">
   <meta name="twitter:description" content="A complete and honest list of SIREEN's current limitations, unsupported features, and known issues.">
   <meta name="twitter:image" content="https://www.gaolaif.org/og-image.png">
-  <link rel="icon" href="../icon.png">
+  <link rel="icon" href="/icon.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../assets/sireen.css">
+  <link rel="stylesheet" href="/assets/sireen.css">
   <style>
     .page-header { padding: 80px 0 20px; }
     .page-header h1 { margin: 20px 0 16px; }
@@ -43,7 +44,7 @@
       border-right: 1px solid var(--border-subtle);
       padding-right: 24px;
     }
-    .sidebar h4 {
+    .sidebar h2 {
       font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.1em;
@@ -51,7 +52,7 @@
       color: var(--text-secondary);
       margin: 24px 0 10px;
     }
-    .sidebar h4:first-child { margin-top: 0; }
+    .sidebar h2:first-child { margin-top: 0; }
     .sidebar a {
       display: block;
       color: var(--text-muted);
@@ -93,38 +94,41 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
     <div class="shell">
       <div class="nav-inner">
         <a class="brand" href="https://www.gaolaif.org/">
-          <img src="../icon.png" alt="SIREEN">
+          <img src="/icon.png" alt="">
           <span>SIREEN</span>
         </a>
         <nav class="desktop-nav">
-          <a href="../index.html">Home</a>
-          <a href="../index.html#how-it-works">How It Works</a>
-          <a href="index.html" class="active">Documentation</a>
-          <a href="../sireen/download.html">Download</a>
-          <a href="../guide.html">Guide</a>
-          <a class="btn btn-primary" href="../sireen/download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
+          <a href="/">Home</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/docs" class="active">Documentation</a>
+          <a href="/sireen/download">Download</a>
+          <a href="/guide">Guide</a>
+          <a href="/contact">Contact</a>
+          <a class="btn btn-primary" href="/sireen/download" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         </button>
       </div>
       <nav class="mobile-nav">
-        <a href="../index.html">Home</a>
-        <a href="../index.html#how-it-works">How It Works</a>
-        <a href="index.html">Documentation</a>
-        <a href="../sireen/download.html">Download</a>
-        <a href="../guide.html">Guide</a>
-        <a href="../sireen/download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
+        <a href="/">Home</a>
+        <a href="/#how-it-works">How It Works</a>
+        <a href="/docs">Documentation</a>
+        <a href="/sireen/download">Download</a>
+        <a href="/guide">Guide</a>
+        <a href="/contact">Contact</a>
+        <a href="/sireen/download" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="shell">
       <div class="page-header">
         <div class="eyebrow">Documentation</div>
@@ -134,15 +138,15 @@
 
       <div class="doc-grid">
         <aside class="sidebar">
-          <h4>Getting Started</h4>
-          <a href="../guide.html">Quick Start</a>
-          <a href="concepts.html">Concepts</a>
-          <a href="cli.html">CLI Reference</a>
-          <a href="ai-mode.html">AI Mode</a>
+          <h2>Getting Started</h2>
+          <a href="/guide">Quick Start</a>
+          <a href="/docs/concepts">Concepts</a>
+          <a href="/docs/cli">CLI Reference</a>
+          <a href="/docs/ai-mode">AI Mode</a>
 
-          <h4>Reference</h4>
-          <a href="faq.html">FAQ</a>
-          <a href="limitations.html" class="active">Known Limitations</a>
+          <h2>Reference</h2>
+          <a href="/docs/faq">FAQ</a>
+          <a href="/docs/limitations" class="active">Known Limitations</a>
         </aside>
 
         <div class="content">
@@ -155,11 +159,12 @@
             <b>Only specific attack vectors are supported</b>
             <p>SIREEN's coverage is narrow and deliberately so. There are three distinct levels, and mixing them up is easy:</p>
             <ul>
-              <li><b style="color:var(--text-primary)">Detected by heuristics and fully proven with a generated PoC:</b> reentrancy, missing access control, denial of service (unbounded loop), and business-logic / accounting inconsistency.</li>
-              <li><b style="color:var(--text-primary)">PoC templates exist but no heuristic currently raises these hypotheses:</b> arithmetic overflow/underflow, flash loans, oracle manipulation. They can only be reached through an AI-assisted hypothesis, and that path has not been evaluated.</li>
+              <li><b style="color:var(--text-primary)">Detected by heuristics and fully proven with a generated PoC:</b> reentrancy and missing access control. These are the only two vectors that are both raised and executed today.</li>
+              <li><b style="color:var(--text-primary)">PoC template exists, but no heuristic raises the hypothesis:</b> arithmetic overflow / underflow. It has not been verified with Forge.</li>
+              <li><b style="color:var(--text-primary)">No template and no heuristic at all:</b> flash loans, oracle manipulation, denial of service, business-logic / accounting inconsistency, governance attacks, MEV. SIREEN does not look for these.</li>
               <li><b style="color:var(--text-primary)">Hypotheses may be raised but are then explicitly skipped:</b> delegatecall, signature replay, weak randomness. No PoC template exists, so SIREEN skips the test rather than reporting a fake pass.</li>
             </ul>
-            <p>Governance attacks, MEV, and sandwich attacks are not supported at all — SIREEN does not look for them. Verified against the v0.1.1 source on 2026-10-15.</p>
+            <p>Governance attacks, MEV, and sandwich attacks are not supported at all — SIREEN does not look for them. Verified against the v0.1.1 backend source on 2026-10-19.</p>
           </div>
 
           <h2>AI-Assisted Mode</h2>
@@ -202,9 +207,10 @@
               <tr><th>Capability</th><th>Status</th><th>Notes</th></tr>
               <tr><td>Reentrancy PoC generation</td><td style="color:var(--accent-green)">Working</td><td>Verified with Foundry</td></tr>
               <tr><td>Access control PoC generation</td><td style="color:var(--accent-green)">Working</td><td>Verified with Foundry</td></tr>
-              <tr><td>DoS PoC generation</td><td style="color:var(--accent-green)">Working</td><td>Verified with Foundry</td></tr>
-              <tr><td>Business-logic / accounting PoC</td><td style="color:var(--accent-amber)">Working, high false-positive rate</td><td>Manual triage required</td></tr>
-              <tr><td>Arithmetic / flash loan / oracle PoC</td><td style="color:var(--accent-amber)">Template only</td><td>No heuristic raises these vectors; reachable only via AI mode</td></tr>
+              <tr><td>DoS PoC generation</td><td style="color:var(--accent-red)">Not implemented</td><td>There is no DoS detector or PoC template in v0.1.1. Earlier versions of this page claimed otherwise; that claim was wrong and has been corrected.</td></tr>
+              <tr><td>Business-logic / accounting PoC</td><td style="color:var(--accent-red)">Not implemented</td><td>No such vector exists in v0.1.1. An earlier version of this table claimed it worked with a high false-positive rate; that claim was wrong and has been corrected.</td></tr>
+              <tr><td>Arithmetic PoC</td><td style="color:var(--accent-amber)">Template only</td><td>A PoC template exists, but no heuristic raises this vector and it has not been verified with Forge</td></tr>
+              <tr><td>Flash loan / oracle PoC</td><td style="color:var(--accent-red)">No template</td><td>No template and no heuristic; the test is skipped rather than faked</td></tr>
               <tr><td>Delegatecall / signature replay / weak randomness</td><td style="color:var(--accent-red)">Skipped</td><td>Hypothesis may be raised, then test is skipped — never a fake pass</td></tr>
               <tr><td>Forge execution</td><td style="color:var(--accent-green)">Working</td><td>Requires local Foundry install</td></tr>
               <tr><td>Heuristic analysis</td><td style="color:var(--accent-green)">Working</td><td>Fully offline</td></tr>
@@ -227,30 +233,32 @@
           <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
         </div>
         <div class="footer-col">
-          <h4>Product</h4>
-          <a href="../index.html">Home</a>
-          <a href="../index.html#how-it-works">How It Works</a>
-          <a href="../sireen/download.html">Download</a>
+          <h3>Product</h3>
+          <a href="/">Home</a>
+                    <a href="/#what-is-sireen">What is SIREEN</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/sireen/download">Download</a>
         </div>
         <div class="footer-col">
-          <h4>Resources</h4>
-          <a href="index.html">Documentation</a>
-          <a href="faq.html">FAQ</a>
-          <a href="limitations.html">Known Limitations</a>
+          <h3>Resources</h3>
+          <a href="/docs">Documentation</a>
+          <a href="/docs/faq">FAQ</a>
+          <a href="/docs/limitations">Known Limitations</a>
         </div>
         <div class="footer-col">
-          <h4>Project</h4>
+          <h3>Project</h3>
+                    <a href="/contact">Contact &amp; Feedback</a>
           <a href="https://github.com/0766243478" target="_blank" rel="noopener">Owner on GitHub</a>
-          <a href="../index.html#differentiation">Scope &amp; Limitations</a>
+          <a href="/#differentiation">Scope &amp; Limitations</a>
         </div>
       </div>
       <div class="footer-bottom">
         <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
-        <span>SIREEN CORE v0.1.1 &mdash; Not production-ready</span>
+        <span>SIREEN BACKEND v0.1.1 &middot; EXTENSION v0.1.4 &mdash; Not production-ready</span>
       </div>
     </div>
   </footer>
 
-  <script src="../assets/sireen.js"></script>
+  <script src="/assets/sireen.js"></script>
 </body>
 </html>

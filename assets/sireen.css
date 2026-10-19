@@ -15,7 +15,7 @@
   /* Text — higher contrast for comfort */
   --text-primary: #f2f2f7;
   --text-secondary: #a5a5b8;
-  --text-muted: #7a7a90;
+  --text-muted: #9393aa; /* 5.9:1 on card background — passes WCAG AA */
   --text-inverse: #0c0c16;
 
   /* Accents — electric, vibrant */
@@ -202,10 +202,24 @@ p {
   text-decoration: none;
 }
 
-.btn-primary {
+/* Higher specificity so nav link colour rules cannot override the
+   primary button's own foreground colour. */
+.btn.btn-primary,
+a.btn.btn-primary,
+.desktop-nav a.btn.btn-primary,
+.mobile-nav a.btn.btn-primary {
   background: var(--text-primary);
   color: var(--text-inverse);
   border-color: var(--text-primary);
+}
+
+.btn.btn-primary:hover,
+a.btn.btn-primary:hover,
+.desktop-nav a.btn.btn-primary:hover,
+.mobile-nav a.btn.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text-inverse);
 }
 
 .btn-primary:hover {
@@ -471,7 +485,7 @@ pre code {
   line-height: 1.6;
 }
 
-.footer-col h4 {
+.footer-col h3 {
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -507,14 +521,23 @@ pre code {
 }
 
 /* ── Reveal Animations ────────────────────────────────────── */
+/* Content is visible by default. Only hide it once JavaScript confirms it
+   can animate it back in — otherwise a blocked or failed script would
+   leave whole sections permanently invisible. */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.js .reveal {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.reveal.visible {
+.js .reveal.visible,
+.js .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -742,6 +765,55 @@ td code { font-size: 0.8rem; }
   color: var(--text-primary);
 }
 
+/* ── Keyboard focus ───────────────────────────────────────── */
+/* Never remove the outline without providing a replacement. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  background: var(--accent);
+  color: var(--text-inverse);
+  padding: 12px 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+}
+
+/* ── Overflow safety ──────────────────────────────────────── */
+/* Grid and flex children default to an automatic minimum size equal to
+   their min-content width. Long unbreakable lines inside <pre> or <code>
+   then widened the whole column and pushed the page sideways on mobile.
+   Setting min-width to 0 lets the scroll containers do their job. */
+.doc-grid > *,
+.card-grid > *,
+.content,
+main > * {
+  min-width: 0;
+}
+
+pre, table, .code-block {
+  max-width: 100%;
+}
+
+td, th {
+  overflow-wrap: anywhere;
+}
+
 /* ── Reduced Motion ───────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -749,7 +821,8 @@ td code { font-size: 0.8rem; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .reveal {
+  .reveal,
+  .js .reveal {
     opacity: 1;
     transform: none;
   }

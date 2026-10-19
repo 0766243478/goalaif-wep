@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add("js");</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIREEN Evaluation Guide — For Security Researchers</title>
   <meta name="description" content="A short, honest evaluation path for Solidity security researchers: prerequisites, installation, a reproducible example, expected output, and how to report what you find.">
   <link rel="canonical" href="https://www.gaolaif.org/evaluate">
-  <link rel="icon" href="icon.png">
+  <link rel="icon" href="/icon.png">
 
   <!-- Open Graph -->
   <meta property="og:title" content="SIREEN Evaluation Guide — For Security Researchers">
@@ -27,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/sireen.css">
+  <link rel="stylesheet" href="/assets/sireen.css">
   <style>
     .page-header { padding: 80px 0 20px; }
     .page-header h1 { margin: 20px 0 16px; }
@@ -55,7 +56,7 @@
       padding: 20px 24px;
       margin: 16px 0;
     }
-    .expect h4 {
+    .expect h3 {
       color: var(--accent);
       font-size: 0.78rem;
       letter-spacing: 0.08em;
@@ -70,37 +71,40 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="site-header">
     <div class="shell">
       <div class="nav-inner">
-        <a class="brand" href="index.html">
-          <img src="icon.png" alt="SIREEN">
+        <a class="brand" href="/">
+          <img src="/icon.png" alt="">
           <span>SIREEN</span>
         </a>
         <nav class="desktop-nav">
-          <a href="index.html">Home</a>
-          <a href="index.html#how-it-works">How It Works</a>
-          <a href="docs/index.html">Documentation</a>
-          <a href="evaluate.html" class="active">Evaluate</a>
-          <a href="sireen/download.html">Download</a>
-          <a class="btn btn-primary" href="sireen/download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
+          <a href="/">Home</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/docs">Documentation</a>
+          <a href="/evaluate" class="active">Evaluate</a>
+          <a href="/sireen/download">Download</a>
+          <a href="/contact">Contact</a>
+          <a class="btn btn-primary" href="/sireen/download" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         </button>
       </div>
       <nav class="mobile-nav">
-        <a href="index.html">Home</a>
-        <a href="index.html#how-it-works">How It Works</a>
-        <a href="docs/index.html">Documentation</a>
-        <a href="evaluate.html">Evaluate</a>
-        <a href="sireen/download.html">Download</a>
-        <a href="sireen/download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
+        <a href="/">Home</a>
+        <a href="/#how-it-works">How It Works</a>
+        <a href="/docs">Documentation</a>
+        <a href="/evaluate">Evaluate</a>
+        <a href="/sireen/download">Download</a>
+        <a href="/contact">Contact</a>
+        <a href="/sireen/download" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="shell">
       <div class="page-header">
         <div class="eyebrow">Researcher Evaluation</div>
@@ -110,7 +114,7 @@
 
       <div class="callout callout-warning reveal" style="margin:28px 0 0;">
         <b>Set your expectations first</b>
-        <p>SIREEN Core v0.1.1 is <strong>not production-ready</strong>. It supports one narrow, well-defined case: reentrancy and access-control hypotheses on a single Solidity file, proven or disproven by executing a generated Foundry test. It does not find all vulnerabilities, and a clean result is not a security guarantee.</p>
+        <p>SIREEN backend v0.1.1 is <strong>not production-ready</strong>. It supports one narrow, well-defined case: reentrancy and access-control hypotheses on a single Solidity file, proven or disproven by executing a generated Foundry test. It does not find all vulnerabilities, and a clean result is not a security guarantee.</p>
       </div>
 
       <div class="doc-grid">
@@ -136,7 +140,7 @@ foundryup</pre>
           <div class="step reveal" id="install">
             <span class="step-num">2</span>
             <h2>Install, or inspect first</h2>
-            <p>SIREEN is proprietary software, and the source repository is private. If you would rather not install anything, read <a href="docs/limitations.html">Known Limitations</a> and the <a href="docs/concepts.html">Concepts</a> pages first — they describe the verification contract in detail.</p>
+            <p>SIREEN is proprietary software, and the source repository is private. If you would rather not install anything, read <a href="/docs/limitations">Known Limitations</a> and the <a href="/docs/concepts">Concepts</a> pages first — they describe the verification contract in detail.</p>
             <p>If you do install, note that heuristic mode makes no network calls at all. The only outbound request SIREEN ever makes is to OpenRouter, and only when you configure a key.</p>
             <pre class="reveal">cd gaolaif/backend
 python3 -m pip install -r requirements.txt
@@ -157,7 +161,7 @@ sireen --help</pre>
             <pre class="reveal">sireen audit test_contracts/VulnerableVault.sol</pre>
 
             <div class="expect">
-              <h4>What you should see</h4>
+              <h3>What you should see</h3>
               <ul>
                 <li><code>DISCOVERY OK</code></li>
                 <li><code>HYPOTHESIS 2 generated</code> — reentrancy and access control</li>
@@ -227,7 +231,7 @@ contract Attacker {
             <pre class="reveal">forge test --match-path "test/ReentrancyPoC.t.sol" -vv</pre>
 
             <div class="expect">
-              <h4>Verified output (Forge 1.8.5, real forge-std)</h4>
+              <h3>Verified output (Forge 1.8.5, real forge-std)</h3>
               <ul>
                 <li><code>[PASS] testExploit() (gas: 503953)</code></li>
                 <li><code>Suite result: ok. 1 passed; 0 failed; 0 skipped</code></li>
@@ -242,11 +246,12 @@ contract Attacker {
             <ul>
               <li>A <code>CONFIRMED</code> finding proves <strong>the specific behavior the generated test exercised</strong> — not that the contract is exploitable end-to-end, and not that the bug is reachable in production.</li>
               <li>Only reentrancy and access-control vectors are genuinely supported. Oracle manipulation, flash loans, and governance attacks are skipped, not detected.</li>
-              <li>DoS and arithmetic detectors are placeholders; their PoCs are stubs and are never confirmed.</li>
+              <li>There is <strong>no DoS detector at all</strong> in v0.1.1. An arithmetic PoC template exists, but no heuristic raises that hypothesis, so it is never exercised in heuristic mode.</li>
+              <li>delegatecall, signature replay, and weak randomness hypotheses can be raised, but they have no PoC template, so the test is skipped instead of reported as a pass.</li>
               <li>AI-assisted mode is wired but its hypothesis quality has not been systematically evaluated.</li>
               <li>A <code>clean_with_coverage</code> result means the current heuristics found no attack surface. It is <strong>not</strong> a statement that the contract is secure.</li>
             </ul>
-            <p>Full detail: <a href="docs/limitations.html">Known Limitations</a>.</p>
+            <p>Full detail: <a href="/docs/limitations">Known Limitations</a>.</p>
           </div>
 
           <div class="step reveal" id="report">
@@ -273,7 +278,7 @@ sireen report &lt;audit-id&gt; --output report.md</pre>
           <div class="step reveal" id="files">
             <span class="step-num">7</span>
             <h2>Verify distributed files</h2>
-            <p>If you download the VS Code extension package, check its checksum against the value published on the <a href="sireen/download.html">download page</a> before installing.</p>
+            <p>If you download the VS Code extension package, check its checksum against the value published on the <a href="/sireen/download">download page</a> before installing.</p>
             <pre class="reveal">sha256sum sireen-0.1.4.vsix</pre>
             <p>On macOS:</p>
             <pre class="reveal">shasum -a 256 sireen-0.1.4.vsix</pre>
@@ -292,30 +297,32 @@ sireen report &lt;audit-id&gt; --output report.md</pre>
           <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
         </div>
         <div class="footer-col">
-          <h4>Product</h4>
-          <a href="index.html">Home</a>
-          <a href="index.html#how-it-works">How It Works</a>
-          <a href="sireen/download.html">Download</a>
+          <h3>Product</h3>
+          <a href="/">Home</a>
+                    <a href="/#what-is-sireen">What is SIREEN</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/sireen/download">Download</a>
         </div>
         <div class="footer-col">
-          <h4>Resources</h4>
-          <a href="docs/index.html">Documentation</a>
-          <a href="evaluate.html">Evaluation Guide</a>
-          <a href="docs/limitations.html">Known Limitations</a>
+          <h3>Resources</h3>
+          <a href="/docs">Documentation</a>
+          <a href="/evaluate">Evaluation Guide</a>
+          <a href="/docs/limitations">Known Limitations</a>
         </div>
         <div class="footer-col">
-          <h4>Project</h4>
+          <h3>Project</h3>
+                    <a href="/contact">Contact &amp; Feedback</a>
           <a href="https://github.com/0766243478" target="_blank" rel="noopener">Owner on GitHub</a>
-          <a href="index.html#status">Product Status</a>
+          <a href="/#status">Product Status</a>
         </div>
       </div>
       <div class="footer-bottom">
         <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
-        <span>SIREEN CORE v0.1.1 &mdash; Not production-ready</span>
+        <span>SIREEN BACKEND v0.1.1 &middot; EXTENSION v0.1.4 &mdash; Not production-ready</span>
       </div>
     </div>
   </footer>
 
-  <script src="assets/sireen.js"></script>
+  <script src="/assets/sireen.js"></script>
 </body>
 </html>

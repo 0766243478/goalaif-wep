@@ -10,7 +10,9 @@
     { "source": "/docs/cli", "destination": "/docs/cli.html" },
     { "source": "/docs/ai-mode", "destination": "/docs/ai-mode.html" },
     { "source": "/docs/faq", "destination": "/docs/faq.html" },
-    { "source": "/docs/limitations", "destination": "/docs/limitations.html" }
+    { "source": "/docs/limitations", "destination": "/docs/limitations.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/evaluate", "destination": "/evaluate.html" }
   ],
   "headers": [
     {

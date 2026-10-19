@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>document.documentElement.classList.add("js");</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIREEN Guide — First Audit, Findings &amp; Reporting</title>
   <meta name="description" content="Step-by-step guide to running your first SIREEN audit on a Solidity contract. Learn how to install, configure, interpret findings, and report false positives.">
   <link rel="canonical" href="https://www.gaolaif.org/guide">
-  <link rel="icon" href="icon.png">
+  <link rel="icon" href="/icon.png">
 
   <!-- Open Graph -->
   <meta property="og:title" content="SIREEN Guide — First Audit, Findings &amp; Reporting">
@@ -27,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/sireen.css">
+  <link rel="stylesheet" href="/assets/sireen.css">
   <style>
     .page-header { padding: 80px 0 20px; }
     .page-header h1 { margin: 20px 0 16px; }
@@ -106,38 +107,41 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
     <div class="shell">
       <div class="nav-inner">
         <a class="brand" href="https://www.gaolaif.org/">
-          <img src="icon.png" alt="SIREEN">
+          <img src="/icon.png" alt="">
           <span>SIREEN</span>
         </a>
         <nav class="desktop-nav">
-          <a href="index.html">Home</a>
-          <a href="index.html#how-it-works">How It Works</a>
-          <a href="docs/index.html">Documentation</a>
-          <a href="sireen/download.html">Download</a>
-          <a href="guide.html" class="active">Guide</a>
-          <a class="btn btn-primary" href="sireen/download.html" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
+          <a href="/">Home</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/docs">Documentation</a>
+          <a href="/sireen/download">Download</a>
+          <a href="/guide" class="active">Guide</a>
+          <a href="/contact">Contact</a>
+          <a class="btn btn-primary" href="/sireen/download" style="padding:8px 18px;font-size:0.8rem;">Get Started</a>
         </nav>
         <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         </button>
       </div>
       <nav class="mobile-nav">
-        <a href="index.html">Home</a>
-        <a href="index.html#how-it-works">How It Works</a>
-        <a href="docs/index.html">Documentation</a>
-        <a href="sireen/download.html">Download</a>
-        <a href="guide.html">Guide</a>
-        <a href="sireen/download.html" style="color:var(--accent);font-weight:600;">Get Started</a>
+        <a href="/">Home</a>
+        <a href="/#how-it-works">How It Works</a>
+        <a href="/docs">Documentation</a>
+        <a href="/sireen/download">Download</a>
+        <a href="/guide">Guide</a>
+        <a href="/contact">Contact</a>
+        <a href="/sireen/download" style="color:var(--accent);font-weight:600;">Get Started</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="shell">
       <div class="page-header">
         <div class="eyebrow">Guide</div>
@@ -162,7 +166,7 @@
         <p>You need Python 3.11+ and pip. Foundry is optional but strongly recommended.</p>
         <div class="callout callout-warning reveal">
           <b>Repository access required</b>
-          <p>The SIREEN source repository is not publicly readable today, so <code>git clone</code> below will fail until access is granted. Request access from the project owner at <a href="https://github.com/0766243478" target="_blank" rel="noopener">github.com/0766243478</a>. See the <a href="sireen/download.html">download page</a> for details. Checked 2026-10-15.</p>
+          <p>The SIREEN source repository is not publicly readable today, so <code>git clone</code> below will fail until access is granted. Request access from the project owner at <a href="https://github.com/0766243478" target="_blank" rel="noopener">github.com/0766243478</a>. See the <a href="/sireen/download">download page</a> for details. Checked 2026-10-19.</p>
         </div>
         <pre class="reveal">git clone https://github.com/0766243478/goalaif.git
 cd goalaif/gaolaif/backend
@@ -204,7 +208,7 @@ python -m pip install -e .</pre>
         <p>Without Forge, the audit completes in a few seconds. With Forge, it may take 10–30 seconds depending on compilation time.</p>
         <div class="callout callout-tip reveal">
           <b>Tip</b>
-          <p>Use <code>--json</code> for machine-readable output, or <code>--project</code> to audit an entire Foundry project directory.</p>
+          <p>Use <code>--json</code> for machine-readable output, or <code>--report</code> to also write a Markdown file. One audit covers one <code>.sol</code> file — directories are rejected in v0.1.1.</p>
         </div>
 
         <h2 id="read">4. Read the output</h2>
@@ -311,9 +315,6 @@ sireen audit ./Contract.sol
 sireen audit ./Contract.sol --json
 sireen audit ./Contract.sol --report
 
-# Audit a project
-sireen audit ./my-foundry-project --project
-
 # Inspect results
 sireen audits
 sireen show &lt;audit-id&gt;
@@ -324,8 +325,8 @@ python -m uvicorn main:app --host 127.0.0.1 --port 7432</pre>
         </div>
 
         <div style="margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;" class="reveal">
-          <a class="btn btn-primary" href="sireen/download.html">Go to Download page</a>
-          <a class="btn btn-secondary" href="index.html">Back to Home</a>
+          <a class="btn btn-primary" href="/sireen/download">Go to Download page</a>
+          <a class="btn btn-secondary" href="/">Back to Home</a>
         </div>
       </div>
     </div>
@@ -339,30 +340,32 @@ python -m uvicorn main:app --host 127.0.0.1 --port 7432</pre>
           <p>Human-AI Security Verification Workspace. Forge-backed, local-first, free for security researchers.</p>
         </div>
         <div class="footer-col">
-          <h4>Product</h4>
-          <a href="index.html">Home</a>
-          <a href="index.html#how-it-works">How It Works</a>
-          <a href="sireen/download.html">Download</a>
+          <h3>Product</h3>
+          <a href="/">Home</a>
+                    <a href="/#what-is-sireen">What is SIREEN</a>
+          <a href="/#how-it-works">How It Works</a>
+          <a href="/sireen/download">Download</a>
         </div>
         <div class="footer-col">
-          <h4>Resources</h4>
-          <a href="docs/index.html">Documentation</a>
-          <a href="docs/faq.html">FAQ</a>
-          <a href="docs/limitations.html">Known Limitations</a>
+          <h3>Resources</h3>
+          <a href="/docs">Documentation</a>
+          <a href="/docs/faq">FAQ</a>
+          <a href="/docs/limitations">Known Limitations</a>
         </div>
         <div class="footer-col">
-          <h4>Project</h4>
+          <h3>Project</h3>
+                    <a href="/contact">Contact &amp; Feedback</a>
           <a href="https://github.com/0766243478" target="_blank" rel="noopener">Owner on GitHub</a>
-          <a href="index.html#differentiation">Scope &amp; Limitations</a>
+          <a href="/#differentiation">Scope &amp; Limitations</a>
         </div>
       </div>
       <div class="footer-bottom">
         <span>LOCAL-FIRST &middot; FORGE-BACKED &middot; FREE FOR RESEARCHERS</span>
-        <span>SIREEN CORE v0.1.1 &mdash; Not production-ready</span>
+        <span>SIREEN BACKEND v0.1.1 &middot; EXTENSION v0.1.4 &mdash; Not production-ready</span>
       </div>
     </div>
   </footer>
 
-  <script src="assets/sireen.js"></script>
+  <script src="/assets/sireen.js"></script>
 </body>
 </html>
